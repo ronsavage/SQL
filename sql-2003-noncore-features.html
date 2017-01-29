@@ -1,0 +1,292 @@
+<html>
+<head>
+<title>
+SQL 2003 Feature Taxonomy for Features Outside Core SQL
+</title>
+</head>
+<body>
+<h1>
+SQL 2003 (Annex F, Table 35) Feature Taxonomy for Features Outside Core SQL
+</h1>
+
+Derived from Final Committee Draft (FCD) of ISO/IEC 9075-2:2003.
+<p>
+
+<table border=1>
+<tr><td> Number </td><td> Feature ID </td><td> Feature Name </td></tr>
+
+<tr><td> 1 </td><td> B021 </td><td> Direct SQL </td></tr>
+<tr><td> 2 </td><td> B031 </td><td> Basic dynamic SQL </td></tr>
+<tr><td> 3 </td><td> B032 </td><td> Extended dynamic SQL </td></tr>
+<tr><td> 4 </td><td> B032-01 </td><td> &lt;describe input&gt; statement </td></tr>
+
+<tr><td> 5 </td><td> B033 </td><td> Untyped SQL-invoked function arguments </td></tr>
+<tr><td> 6 </td><td> B034 </td><td> Dynamic specification of cursor attributes </td></tr>
+<tr><td> 7 </td><td> B041 </td><td> Extensions to embedded SQL exception declarations </td></tr>
+<tr><td> 8 </td><td> B051 </td><td> Enhanced execution rights </td></tr>
+<tr><td> 9 </td><td> F032 </td><td> CASCADE drop behavior </td></tr>
+<tr><td> 10 </td><td> F033 </td><td> ALTER TABLE statement: DROP COLUMN clause </td></tr>
+<tr><td> 11 </td><td> F034 </td><td> Extended REVOKE statement </td></tr>
+<tr><td> 12 </td><td> F034-01 </td><td> REVOKE statement performed by other than the owner of a schema object </td></tr>
+<tr><td> 13 </td><td> F034-02 </td><td> REVOKE statement: GRANT OPTION FOR clause </td></tr>
+<tr><td> 14 </td><td> F034-03 </td><td> REVOKE statement to revoke a privilege that the grantee has WITH GRANT OPTION </td></tr>
+<tr><td> 15 </td><td> F052 </td><td> Intervals and datetime arithmetic </td></tr>
+<tr><td> 16 </td><td> F053 </td><td> OVERLAPS predicate </td></tr>
+<tr><td> 17 </td><td> F111 </td><td> Isolation levels other than SERIALIZABLE </td></tr>
+<tr><td> 18 </td><td> F111-01 </td><td> READ UNCOMMITTED isolation level </td></tr>
+<tr><td> 19 </td><td> F111-02 </td><td> READ COMMITTED isolation level </td></tr>
+<tr><td> 20 </td><td> F111-03 </td><td> REPEATABLE READ isolation level </td></tr>
+<tr><td> 21 </td><td> F121 </td><td> Basic diagnostics management </td></tr>
+<tr><td> 22 </td><td> F121-01 </td><td> GET DIAGNOSTICS statement </td></tr>
+<tr><td> 23 </td><td> F121-02 </td><td> SET TRANSACTION statement: DIAGNOSTICS SIZE clause </td></tr>
+<tr><td> 24 </td><td> F171 </td><td> Multiple schemas per user </td></tr>
+<tr><td> 25 </td><td> F191 </td><td> Referential delete actions </td></tr>
+<tr><td> 26 </td><td> F222 </td><td> INSERT statement: DEFAULT VALUES clause </td></tr>
+<tr><td> 27 </td><td> F231 </td><td> Privilege tables </td></tr>
+<tr><td> 28 </td><td> F231-01 </td><td> TABLE_PRIVILEGES view </td></tr>
+<tr><td> 29 </td><td> F231-02 </td><td> COLUMN_PRIVILEGES view </td></tr>
+<tr><td> 30 </td><td> F231-03 </td><td> USAGE_PRIVILEGES view </td></tr>
+<tr><td> 31 </td><td> F251 </td><td> Domain support </td></tr>
+<tr><td> 32 </td><td> F262 </td><td> Extended CASE expression </td></tr>
+<tr><td> 33 </td><td> F271 </td><td> Compound character literals </td></tr>
+<tr><td> 34 </td><td> F281 </td><td> LIKE enhancements </td></tr>
+<tr><td> 35 </td><td> F291 </td><td> UNIQUE predicate </td></tr>
+<tr><td> 36 </td><td> F301 </td><td> CORRESPONDING in query expressions </td></tr>
+
+<tr><td> 37 </td><td> F302 </td><td> INTERSECT table operator </td></tr>
+<tr><td> 38 </td><td> F302-01 </td><td> INTERSECT DISTINCT table operator </td></tr>
+<tr><td> 39 </td><td> F302-02 </td><td> INTERSECT ALL table operator </td></tr>
+<tr><td> 40 </td><td> F304 </td><td> EXCEPT ALL table operator </td></tr>
+<tr><td> 41 </td><td> F312 </td><td> MERGE statement </td></tr>
+<tr><td> 42 </td><td> F321 </td><td> User authorization </td></tr>
+<tr><td> 43 </td><td> F341 </td><td> Usage tables </td></tr>
+<tr><td> 44 </td><td> F361 </td><td> Subprogram support </td></tr>
+<tr><td> 45 </td><td> F381 </td><td> Extended schema manipulation </td></tr>
+<tr><td> 46 </td><td> F381-01 </td><td> ALTER TABLE statement: ALTER COLUMN clause </td></tr>
+<tr><td> 47 </td><td> F381-02 </td><td> ALTER TABLE statement: ADD CONSTRAINT clause </td></tr>
+<tr><td> 48 </td><td> F381-03 </td><td> ALTER TABLE statement: DROP CONSTRAINT clause </td></tr>
+<tr><td> 49 </td><td> F391 </td><td> Long identifiers </td></tr>
+<tr><td> 50 </td><td> F392 </td><td> Unicode escapes in identifiers </td></tr>
+<tr><td> 51 </td><td> F393 </td><td> Unicode escapes in literals </td></tr>
+<tr><td> 52 </td><td> F401 </td><td> Extended joined table </td></tr>
+<tr><td> 53 </td><td> F401-01 </td><td> NATURAL JOIN </td></tr>
+<tr><td> 54 </td><td> F401-02 </td><td> FULL OUTER JOIN </td></tr>
+<tr><td> 55 </td><td> F401-03 </td><td> UNION JOIN </td></tr>
+<tr><td> 56 </td><td> F401-04 </td><td> CROSS JOIN </td></tr>
+<tr><td> 57 </td><td> F402 </td><td> Named column joins for LOBs, arrays, and multisets </td></tr>
+<tr><td> 58 </td><td> F411 </td><td> Time zone specification </td></tr>
+<tr><td> 59 </td><td> F421 </td><td> National character </td></tr>
+<tr><td> 60 </td><td> F431 </td><td> Read-only scrollable cursors </td></tr>
+<tr><td> 61 </td><td> F431-01 </td><td> FETCH with explicit NEXT </td></tr>
+<tr><td> 62 </td><td> F431-02 </td><td> FETCH FIRST </td></tr>
+<tr><td> 63 </td><td> F431-03 </td><td> FETCH LAST </td></tr>
+<tr><td> 64 </td><td> F431-04 </td><td> FETCH PRIOR </td></tr>
+<tr><td> 65 </td><td> F431-05 </td><td> FETCH ABSOLUTE </td></tr>
+<tr><td> 66 </td><td> F431-06 </td><td> FETCH RELATIVE </td></tr>
+<tr><td> 67 </td><td> F441 </td><td> Extended set function support </td></tr>
+<tr><td> 68 </td><td> F442 </td><td> Mixed column references in set functions </td></tr>
+<tr><td> 69 </td><td> F451 </td><td> Character set definition </td></tr>
+
+<tr><td> 70 </td><td> F461 </td><td> Named character sets </td></tr>
+<tr><td> 71 </td><td> F491 </td><td> Constraint management </td></tr>
+<tr><td> 72 </td><td> F502 </td><td> Enhanced documentation tables </td></tr>
+<tr><td> 73 </td><td> F502-01 </td><td> SQL_SIZING_PROFILES view </td></tr>
+<tr><td> 74 </td><td> F502-02 </td><td> SQL_IMPLEMENTATION_INFO view </td></tr>
+<tr><td> 75 </td><td> F502-03 </td><td> SQL_PACKAGES view </td></tr>
+<tr><td> 76 </td><td> F521 </td><td> Assertions </td></tr>
+<tr><td> 77 </td><td> F531 </td><td> Temporary tables </td></tr>
+<tr><td> 78 </td><td> F555 </td><td> Enhanced seconds precision </td></tr>
+<tr><td> 79 </td><td> F561 </td><td> Full value expressions </td></tr>
+<tr><td> 80 </td><td> F571 </td><td> Truth value tests </td></tr>
+<tr><td> 81 </td><td> F591 </td><td> Derived tables </td></tr>
+<tr><td> 82 </td><td> F611 </td><td> Indicator data types </td></tr>
+<tr><td> 83 </td><td> F641 </td><td> Row and table constructors </td></tr>
+<tr><td> 84 </td><td> F651 </td><td> Catalog name qualifiers </td></tr>
+<tr><td> 85 </td><td> F661 </td><td> Simple tables </td></tr>
+<tr><td> 86 </td><td> F671 </td><td> Subqueries in CHECK </td></tr>
+<tr><td> 87 </td><td> F672 </td><td> Retrospective check constraints </td></tr>
+<tr><td> 88 </td><td> F691 </td><td> Collation and translation </td></tr>
+<tr><td> 89 </td><td> F692 </td><td> Enhanced collation support </td></tr>
+<tr><td> 90 </td><td> F693 </td><td> SQL-session and client module collations </td></tr>
+<tr><td> 91 </td><td> F701 </td><td> Referential update actions </td></tr>
+<tr><td> 92 </td><td> F711 </td><td> ALTER domain </td></tr>
+<tr><td> 93 </td><td> F721 </td><td> Deferrable constraints </td></tr>
+<tr><td> 94 </td><td> F731 </td><td> INSERT column privileges </td></tr>
+<tr><td> 95 </td><td> F741 </td><td> Referential MATCH types </td></tr>
+<tr><td> 96 </td><td> F751 </td><td> View CHECK enhancements </td></tr>
+<tr><td> 97 </td><td> F761 </td><td> Session management </td></tr>
+<tr><td> 98 </td><td> F771 </td><td> Connection management </td></tr>
+<tr><td> 99 </td><td> F781 </td><td> Self-referencing operations </td></tr>
+<tr><td> 100 </td><td> F791 </td><td> Insensitive cursors </td></tr>
+<tr><td> 101 </td><td> F801 </td><td> Full set function </td></tr>
+
+
+<tr><td> 102 </td><td> F813 </td><td> Extended flagging - Part 1, Subclause 8.1.4, "SQL flagger": With 'level of flagging' specified to be Core SQL Flagging and 'extent of checking' specified to be Catalog Lookup </td></tr>
+<tr><td> 103 </td><td> F821 </td><td> Local table references </td></tr>
+<tr><td> 104 </td><td> F831 </td><td> Full cursor update </td></tr>
+<tr><td> 105 </td><td> F831-01 </td><td> Updateable scrollable cursors </td></tr>
+<tr><td> 106 </td><td> F831-02 </td><td> Updateable ordered cursors </td></tr>
+<tr><td> 107 </td><td> S023 </td><td> Basic structured types </td></tr>
+<tr><td> 108 </td><td> S024 </td><td> Enhanced structured types </td></tr>
+<tr><td> 109 </td><td> S025 </td><td> Final structured types </td></tr>
+<tr><td> 110 </td><td> S026 </td><td> Self-referencing structured types </td></tr>
+<tr><td> 111 </td><td> S027 </td><td> Create method by specific method name </td></tr>
+<tr><td> 112 </td><td> S028 </td><td> Permutable UDT options list </td></tr>
+<tr><td> 113 </td><td> S041 </td><td> Basic reference types </td></tr>
+<tr><td> 114 </td><td> S043 </td><td> Enhanced reference types </td></tr>
+<tr><td> 115 </td><td> S051 </td><td> Create table of type </td></tr>
+<tr><td> 116 </td><td> S071 </td><td> SQL paths in function and type name resolution </td></tr>
+<tr><td> 117 </td><td> S081 </td><td> Subtables </td></tr>
+<tr><td> 118 </td><td> S091 </td><td> Basic array support </td></tr>
+<tr><td> 119 </td><td> S091-01 </td><td> Arrays of built-in data types </td></tr>
+<tr><td> 120 </td><td> S091-02 </td><td> Arrays of distinct types </td></tr>
+<tr><td> 121 </td><td> S091-03 </td><td> Array expressions </td></tr>
+<tr><td> 122 </td><td> S092 </td><td> Arrays of user-defined types </td></tr>
+<tr><td> 123 </td><td> S094 </td><td> Arrays of reference types </td></tr>
+<tr><td> 124 </td><td> S095 </td><td> Array constructors by query </td></tr>
+<tr><td> 125 </td><td> S096 </td><td> Optional array bounds </td></tr>
+<tr><td> 126 </td><td> S097 </td><td> Array element assignment </td></tr>
+<tr><td> 127 </td><td> S111 </td><td> ONLY in query expressions </td></tr>
+<tr><td> 128 </td><td> S151 </td><td> Type predicate </td></tr>
+<tr><td> 129 </td><td> S161 </td><td> Subtype treatment </td></tr>
+<tr><td> 130 </td><td> S162 </td><td> Subtype treatment for references </td></tr>
+<tr><td> 131 </td><td> S201 </td><td> SQL-invoked routines on arrays </td></tr>
+<tr><td> 132 </td><td> S201-01 </td><td> Array parameters </td></tr>
+<tr><td> 133 </td><td> S201-02 </td><td> Array as result type of functions </td></tr>
+
+<tr><td> 134 </td><td> S202 </td><td> SQL-invoked routines on multisets </td></tr>
+<tr><td> 135 </td><td> S211 </td><td> User-defined cast functions </td></tr>
+<tr><td> 136 </td><td> S231 </td><td> Structured type locators </td></tr>
+<tr><td> 137 </td><td> S232 </td><td> Array locators </td></tr>
+<tr><td> 138 </td><td> S233 </td><td> Multiset locators </td></tr>
+<tr><td> 139 </td><td> S241 </td><td> Transform functions </td></tr>
+<tr><td> 140 </td><td> S242 </td><td> Alter transform statement </td></tr>
+<tr><td> 141 </td><td> S251 </td><td> User-defined orderings </td></tr>
+<tr><td> 142 </td><td> S261 </td><td> Specific type method </td></tr>
+<tr><td> 143 </td><td> S271 </td><td> Basic multiset support </td></tr>
+<tr><td> 144 </td><td> S272 </td><td> Multisets of user-defined types </td></tr>
+<tr><td> 145 </td><td> S274 </td><td> Multisets of reference types </td></tr>
+<tr><td> 146 </td><td> S275 </td><td> Advanced multiset support </td></tr>
+<tr><td> 147 </td><td> S281 </td><td> Nested collection types </td></tr>
+<tr><td> 148 </td><td> T011 </td><td> Timestamp in Information Schema </td></tr>
+<tr><td> 149 </td><td> T031 </td><td> BOOLEAN data type </td></tr>
+<tr><td> 150 </td><td> T041 </td><td> Basic LOB data type support </td></tr>
+<tr><td> 151 </td><td> T041-01 </td><td> BLOB data type </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The &lt;reserved word&gt;s BINARY, BLOB, LARGE, and OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.3, "&lt;literal&gt;": &lt;binary string literal&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The BINARY LARGE OBJECT data type </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.28, "&lt;string value expression&gt;": For values of type BINARY LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.6, "Data type correspondences": Type correspondences for BINARY LARGE OBJECT for all supported languages </td></tr>
+<tr><td> 152 </td><td> T041-02 </td><td> CLOB data type </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The &lt;reserved word&gt;s CHARACTER, CLOB, LARGE, and OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The CHARACTER LARGE OBJECT data type </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.28, "&lt;string value expression&gt;": For values of type CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.6, "Data type correspondences": Type correspondences for CHARACTER LARGE OBJECT for all supported languages </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - The automatic casting among the character types supported by subfeature E021-11 is extended to support the CHARACTER LARGE OBJECT type </td></tr>
+
+<tr><td> 153 </td><td> T041-03 </td><td> POSITION, LENGTH, LOWER, TRIM, UPPER, and SUBSTRING functions for LOB data types </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.27, "&lt;numeric value function&gt;": The &lt;position expression&gt; for expressions of type BINARY LARGE OBJECT and CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.27, "&lt;numeric value function&gt;": The &lt;char length function&gt; for expressions of type CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.27, "&lt;numeric value function&gt;": The &lt;octet length function&gt; for expressions of type BINARY LARGE OBJECT and CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;fold&gt; function for expressions of type CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;trim function&gt; for expressions of type CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;blob trim function&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;character substring function&gt; for expressions of type CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;blob substring function&gt; </td></tr>
+<tr><td> 154 </td><td> T041-04 </td><td> Concatenation of LOB data types </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.28, "&lt;string value expression&gt;": The &lt;concatenation&gt; expression for expressions of type CHARACTER LARGE OBJECT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.28, "&lt;string value expression&gt;": The &lt;blob concatenation&gt; expression </td></tr>
+<tr><td> 155 </td><td> T041-05 </td><td> LOB locator: non-holdable </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.3, "&lt;externally-invoked procedure&gt;": &lt;locator indication&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 14.14, "&lt;free locator statement&gt;" </td></tr>
+<tr><td> 156 </td><td> T042 </td><td> Extended LOB data type support </td></tr>
+<tr><td> 157 </td><td> T051 </td><td> Row types </td></tr>
+<tr><td> 158 </td><td> T052 </td><td> MAX and MIN for row types </td></tr>
+<tr><td> 159 </td><td> T053 </td><td> Explicit aliases for &lt;all fields reference&gt; </td></tr>
+<tr><td> 160 </td><td> T061 </td><td> UCS support </td></tr>
+<tr><td> 161 </td><td> T071 </td><td> BIGINT data type </td></tr>
+<tr><td> 162 </td><td> T111 </td><td> Updatable joins, unions, and columns </td></tr>
+<tr><td> 163 </td><td> T121 </td><td> WITH (excluding RECURSIVE) in query expression </td></tr>
+<tr><td> 164 </td><td> T131 </td><td> Recursive query </td></tr>
+<tr><td> 165 </td><td> T141 </td><td> SIMILAR predicate </td></tr>
+<tr><td> 166 </td><td> T151 </td><td> DISTINCT predicate </td></tr>
+<tr><td> 167 </td><td> T171 </td><td> LIKE clause in table definition </td></tr>
+<tr><td> 168 </td><td> T172 </td><td> AS subquery clause in table definition </td></tr>
+<tr><td> 169 </td><td> T173 </td><td> Extended LIKE clause in table definition </td></tr>
+<tr><td> 170 </td><td> T174 </td><td> Identity columns </td></tr>
+<tr><td> 171 </td><td> T175 </td><td> Generated columns </td></tr>
+<tr><td> 172 </td><td> T176 </td><td> Sequence generator support </td></tr>
+
+<tr><td> 173 </td><td> T191 </td><td> Referential action RESTRICT </td></tr>
+<tr><td> 174 </td><td> T201 </td><td> Comparable data types for referential constraints </td></tr>
+<tr><td> 175 </td><td> T211 </td><td> Basic trigger capability </td></tr>
+<tr><td> 176 </td><td> T211-01 </td><td> Triggers activated on UPDATE, INSERT, or DELETE of one base table. </td></tr>
+<tr><td> 177 </td><td> T211-02 </td><td> BEFORE triggers </td></tr>
+<tr><td> 178 </td><td> T211-03 </td><td> AFTER triggers </td></tr>
+<tr><td> 179 </td><td> T211-04 </td><td> FOR EACH ROW triggers </td></tr>
+<tr><td> 180 </td><td> T211-05 </td><td> Ability to specify a search condition that must be True before the trigger is invoked. </td></tr>
+<tr><td> 181 </td><td> T211-06 </td><td> Support for run-time rules for the interaction of triggers and constraints. </td></tr>
+<tr><td> 182 </td><td> T211-07 </td><td> TRIGGER privilege </td></tr>
+<tr><td> 183 </td><td> T211-08 </td><td> Multiple triggers for the same the event are executed in the order in which they were created in the catalog. </td></tr>
+<tr><td> 184 </td><td> T212 </td><td> Enhanced trigger capability </td></tr>
+<tr><td> 185 </td><td> T231 </td><td> Sensitive cursors </td></tr>
+<tr><td> 186 </td><td> T241 </td><td> START TRANSACTION statement </td></tr>
+<tr><td> 187 </td><td> T242 </td><td> Optional transaction modes in START TRANSACTION </td></tr>
+<tr><td> 188 </td><td> T251 </td><td> SET TRANSACTION statement: LOCAL option </td></tr>
+<tr><td> 189 </td><td> T261 </td><td> Chained transactions </td></tr>
+<tr><td> 190 </td><td> T271 </td><td> Savepoints </td></tr>
+<tr><td> 191 </td><td> T272 </td><td> Enhanced savepoint management </td></tr>
+<tr><td> 192 </td><td> T281 </td><td> SELECT privilege with column granularity </td></tr>
+<tr><td> 193 </td><td> T301 </td><td> Functional dependencies </td></tr>
+<tr><td> 194 </td><td> T312 </td><td> OVERLAY function </td></tr>
+<tr><td> 195 </td><td> T322 </td><td> Overloading of SQL-invoked functions and procedures </td></tr>
+<tr><td> 196 </td><td> T323 </td><td> Explicit security for external routines </td></tr>
+<tr><td> 197 </td><td> T324 </td><td> Explicit security for SQL routines </td></tr>
+<tr><td> 198 </td><td> T325 </td><td> Qualified SQL parameter references </td></tr>
+<tr><td> 199 </td><td> T326 </td><td> Table functions </td></tr>
+<tr><td> 200 </td><td> T331 </td><td> Basic roles </td></tr>
+<tr><td> 201 </td><td> T332 </td><td> Extended roles </td></tr>
+<tr><td> 202 </td><td> T351 </td><td> Bracketed SQL comments (/*...*/ comments) </td></tr>
+<tr><td> 203 </td><td> T431 </td><td> Extended grouping capabilities </td></tr>
+<tr><td> 204 </td><td> T432 </td><td> Nested and concatenated GROUPING SETS </td></tr>
+
+<tr><td> 205 </td><td> T433 </td><td> Multiargument GROUPING function </td></tr>
+<tr><td> 206 </td><td> T434 </td><td> GROUP BY DISTINCT </td></tr>
+<tr><td> 207 </td><td> T441 </td><td> ABS and MOD functions </td></tr>
+<tr><td> 208 </td><td> T461 </td><td> Symmetric &lt;between predicate&gt; </td></tr>
+<tr><td> 209 </td><td> T471 </td><td> Result sets return value </td></tr>
+<tr><td> 210 </td><td> T491 </td><td> LATERAL derived table </td></tr>
+<tr><td> 211 </td><td> T501 </td><td> Enhanced EXISTS predicate </td></tr>
+<tr><td> 212 </td><td> T511 </td><td> Transaction counts </td></tr>
+
+<tr><td> 213 </td><td> T551 </td><td> Optional key words for default syntax </td></tr>
+<tr><td> 214 </td><td> T561 </td><td> Holdable locators </td></tr>
+<tr><td> 215 </td><td> T571 </td><td> Array-returning external SQL-invoked functions </td></tr>
+<tr><td> 216 </td><td> T572 </td><td> Multiset-returning external SQL-invoked functions </td></tr>
+<tr><td> 217 </td><td> T581 </td><td> Regular expression substring function </td></tr>
+<tr><td> 218 </td><td> T591 </td><td> UNIQUE constraints of possibly null columns </td></tr>
+<tr><td> 219 </td><td> T601 </td><td> Local cursor references </td></tr>
+<tr><td> 220 </td><td> T611 </td><td> Elementary OLAP operations </td></tr>
+<tr><td> 221 </td><td> T612 </td><td> Advanced OLAP operations </td></tr>
+<tr><td> 222 </td><td> T613 </td><td> Sampling </td></tr>
+<tr><td> 223 </td><td> T621 </td><td> Enhanced numeric functions </td></tr>
+<tr><td> 224 </td><td> T631 </td><td> IN predicate with one list element </td></tr>
+<tr><td> 225 </td><td> T641 </td><td> Multiple column assignment </td></tr>
+<tr><td> 226 </td><td> T651 </td><td> SQL-schema statements in SQL routines </td></tr>
+<tr><td> 227 </td><td> T652 </td><td> SQL-dynamic statements in SQL routines </td></tr>
+
+</table>
+
+<hr>
+<p>
+Please send feedback to Jonathan Leffler, variously:
+<a href="mailto:jleffler@us.ibm.com"> jleffler@us.ibm.com </a> or
+<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.
+</p>
+
+<p><font color=green><i><small>
+@(#)$Id: sql-2003-noncore-features.html,v 1.2 2005/07/18 22:51:30 jleffler Exp $
+</small></i></font></p>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+BNF Grammar for ISO/IEC 9075-1:2003 SQL/Foundation - Database Language SQL (SQL-2003)
+=====================================================================================
+
+@(#)$Id: sql-2003-1.bnf,v 1.3 2009/06/24 17:15:49 jleffler Exp $
+
+--p
+Information taken from the Final Committee Draft (FCD) of ISO/IEC 9075-1:2003.
+--/p
+
+
+--p
+The plain text version of this grammar is
+--## <a href='sql-2003-1.bnf'> sql-2003-1.bnf </a>.
+--/p
+
+--hr
+--h2 Identifying the version of SQL in use
+--/h2
+
+--p
+This material (starting with <SQL object identifier>) is defined in
+section 6.3 "Object Identifier for Database Language SQL" of ISO/IEC
+9075-1:1999 (SQL Framework).
+It is used to express the capabilities of an implementation.
+The package names are identifiers such as 'PKG001', equivalent to
+'Enhanced datetime facilities', as defined in the informative Annex B to
+SQL Framework.
+Each such package identifies a number of features that are provided when
+the SQL object identifier claims to provide the package.
+--/p
+
+--hr
+--h2 6.3 Object identifier for Database Language SQL
+--/h2
+
+<SQL object identifier> ::= <SQL provenance> <SQL variant>
+
+<SQL provenance> ::= <arc1> <arc2> <arc3>
+
+<arc1> ::= iso | 1 | iso <left paren> 1 <right paren>
+
+<arc2> ::= standard | 0 | standard <left paren> 0 <right paren>
+
+<arc3> ::= 9075
+
+<SQL variant> ::= <SQL edition> <SQL conformance>
+
+<SQL edition> ::= <1987> | <1989> | <1992> | <1999> | <200n>
+
+<1987> ::= 0 | edition1987 <left paren> 0 <right paren>
+
+<1989> ::= <1989 base> <1989 package>
+
+<1989 base> ::= 1 | edition1989 <left paren> 1 <right paren>
+
+<1989 package> ::= <integrity no> | <integrity yes>
+
+<integrity no> ::= 0 | IntegrityNo <left paren> 0 <right paren>
+
+<integrity yes> ::= 1 | IntegrityYes <left paren> 1 <right paren>
+
+<1992> ::= 2 | edition1992 <left paren> 2 <right paren>
+
+<SQL conformance> ::= <level> <bindings> <parts> <packages>
+
+<level> ::= <low> | <intermediate> | <high>
+
+<low> ::= 0 | Low <left paren> 0 <right paren>
+
+<intermediate> ::= 1 | Intermediate <left paren> 1 <right paren>
+
+<high> ::= 2 | High <left paren> 2 <right paren>
+
+<1999> ::= 3| edition1999 <left paren> 3 <right paren>
+
+<2003> ::= 4| edition2003 <left paren> 4 <right paren>
+
+<bindings> ::= <module> <embedded> <direct> <invoked routine languages>
+
+<module> ::= <module no> | <module languages>...
+
+<module languages> ::=
+		<module Ada>
+	|	<module C>
+	|	<module COBOL>
+	|	<module Fortran>
+	|	<module MUMPS>
+	|	<module Pascal>
+	|	<module PL/I>
+
+<module Ada> ::=
+		1 | moduleAda <left paren> 1 <right paren>
+
+<module C> ::=
+		2 | moduleC <left paren> 2 <right paren>
+
+<module COBOL> ::=
+		3 | moduleCOBOL <left paren> 3 <right paren>
+
+<module Fortran> ::=
+		4 | moduleFortran <left paren> 4 <right paren>
+
+<module MUMPS> ::=
+		5 | moduleMUMPS <left paren> 5 <right paren>
+
+<module Pascal> ::=
+		6 | modulePascal <left paren> 6 <right paren>
+
+<module PL/I> ::=
+		7 | modulePLI <left paren> 7 <right paren>
+
+<embedded> ::= <embedded no> | <embedded languages>...
+
+<embedded languages> ::=
+		<embedded Ada>
+	|	<embedded C>
+	|	<embedded COBOL>
+	|	<embedded Fortran>
+	|	<embedded MUMPS>
+	|	<embedded Pascal>
+	|	<embedded PL/I>
+
+<embedded Ada> ::=
+		1 | embeddedAda <left paren> 1 <right paren>
+
+<embedded C> ::=
+		2 | embeddedC <left paren> 2 <right paren>
+
+<embedded COBOL> ::=
+		3 | embeddedCOBOL <left paren> 3 <right paren>
+
+<embedded Fortran> ::=
+		4 | embeddedFortran <left paren> 4 <right paren>
+
+<embedded MUMPS> ::=
+		5 | embeddedMUMPS <left paren> 5 <right paren>
+
+<embedded Pascal> ::=
+		6 | embeddedPascal <left paren> 6 <right paren>
+
+<embedded PL/I> ::=
+		7 | embeddedPLI <left paren> 7 <right paren>
+
+<direct> ::= <direct yes> | <direct no>
+
+<direct yes> ::=
+		1 | directyes <left paren> 1 <right paren>
+
+<direct no> ::=
+		0 | directno <left paren> 0 <right paren>
+
+<invoked routine languages> ::=
+		<invoked Ada>
+	|	<invoked C>
+	|	<invoked COBOL>
+	|	<invoked Fortran>
+	|	<invoked MUMPS>
+	|	<invoked Pascal>
+	|	<invoked PL/I>
+
+<invoked Ada> ::=
+		1 | invokedAda <left paren> 1 <right paren>
+
+<invoked C> ::=
+		2 | invokedC <left paren> 2 <right paren>
+
+<invoked COBOL> ::=
+		3 | invokedCOBOL <left paren> 3 <right paren>
+
+<invoked Fortran> ::=
+		4 | invokedFortran <left paren> 4 <right paren>
+
+<invoked MUMPS> ::=
+		5 | invokedMUMPS <left paren> 5 <right paren>
+
+<invoked Pascal> ::=
+		6 | invokedPascal <left paren> 6 <right paren>
+
+<invoked PL/I> ::=
+		7 | invokedPLI <left paren> 7 <right paren>
+
+<parts> ::=
+		<Part 3> <Part 4> <Part 7> <Part 9> <Part 10> <Part 11>
+
+<Part n> ::= <Part n no> | <Part n yes>
+
+<Part n no> ::= 0 | Part-nNo <left paren> 0 <right paren>
+
+<Part n yes> ::= !! as specified in ISO/IEC 9075-n
+
+<packages> ::= <Package PKGi>...
+
+<Package PKGi> ::=
+		<Package PKGiYes>
+	|	<Package PKGiNo>
+
+
+--hr
+--h2 Annex B (informative) SQL Packages:
+--/h2
+
+--## <table border=1> 
+--## <tr><td> 1 </td><td> PKG001 </td><td> Enhanced datetime facilities </td></tr>
+--## <tr><td> 2 </td><td> PKG002 </td><td> Enhanced integrity management </td></tr>
+--## <tr><td> 3 </td><td> PKG004 </td><td> PSM </td></tr>
+--## <tr><td> 4 </td><td> PKG005 </td><td> CLI </td></tr>
+--## <tr><td> 5 </td><td> PKG006 </td><td> Basic object support </td></tr>
+--## <tr><td> 6 </td><td> PKG007 </td><td> Enhanced object support </td></tr>
+--## <tr><td> 7 </td><td> PKG008 </td><td> Active database </td></tr>
+--## <tr><td> 8 </td><td> PKG009 </td><td> SQL/MM support </td></tr>
+--## <tr><td> 9 </td><td> PKG010 </td><td> OLAP </td></tr>
+--## </table>
+
+--hr
+--h2 B.1 Enhanced datetime facilities
+--/h2
+
+--p
+The package called "Enhanced datetime facilities" comprises the following features of the SQL
+language as specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature F052 </td> <td> Intervals and datetime arithmetic </td> </tr>
+--## <tr> <td> Feature F411 </td> <td> Time zone specification </td> </tr>
+--## <tr> <td> Feature F555 </td> <td> Enhanced seconds precision </td> </tr>
+--## </table>
+
+--hr
+--h2
+B.2 Enhanced integrity management
+--/h2
+
+--p
+The package called "Enhanced integrity management" comprises the following features of the SQL
+language as specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature F191 </td> <td> Referential delete actions </td> </tr>
+--## <tr> <td> Feature F521 </td> <td> Assertions </td> </tr>
+--## <tr> <td> Feature F701 </td> <td> Referential update actions </td> </tr>
+--## <tr> <td> Feature F491 </td> <td> Constraint management </td> </tr>
+--## <tr> <td> Feature F671 </td> <td> Subqueries in CHECK constraints </td> </tr>
+--## <tr> <td> Feature T201 </td> <td> Comparable data types for referential constraints </td> </tr>
+--## <tr> <td> Feature T211 </td> <td> Basic trigger capability </td> </tr>
+--## <tr> <td> Feature T212 </td> <td> Enhanced trigger capability </td> </tr>
+--## <tr> <td> Feature T191 </td> <td> Referential action RESTRICT </td> </tr>
+--## </table>
+
+--hr
+--h2 B.3 PSM
+--/h2
+
+--p
+The package called "PSM" comprises the following features of the SQL language as specified in the
+SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature T322 </td> <td> Overloading of SQL-invoked functions and SQL-invoked procedures </td> </tr>
+--## <tr> <td> Feature P001 </td> <td> Stored modules </td> </tr>
+--## <tr> <td> Feature P002 </td> <td> Computational completeness </td> </tr>
+--## <tr> <td> Feature P003 </td> <td> Information Schema views </td> </tr>
+--## </table>
+
+--hr
+--h2 B.4 CLI
+--/h2
+
+--p
+The package called "CLI" comprises the following features of the SQL language as specified in the
+SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature C011 </td> <td> SQL/CLI </td> </tr>
+--## <tr> <td> Feature C021 </td> <td> Automatic population of Implementation Parameter Descriptor </td> </tr>
+--## <tr> <td> Feature C041 </td> <td> Information Schema data controlled by current privileges </td> </tr>
+--## <tr> <td> Feature C051 </td> <td> GetData extensions </td> </tr>
+--## <tr> <td> Feature C061 </td> <td> GetParamData extensions </td> </tr>
+--## <tr> <td> Feature C071 </td> <td> Scroll Concurrency </td> </tr>
+--## <tr> <td> Feature C081 </td> <td> Read-only data source </td> </tr>
+--## </table>
+
+--hr
+--h2 B.5 Basic object support
+--/h2
+
+--p
+The package called "basic object support" comprises the following features of the SQL language as
+specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature S023 </td> <td> Basic structured types </td> </tr>
+--## <tr> <td> Feature S041 </td> <td> Basic reference types </td> </tr>
+--## <tr> <td> Feature S051 </td> <td> Create table of type </td> </tr>
+--## <tr> <td> Feature S151 </td> <td> Type predicate </td> </tr>
+--## <tr> <td> Feature T041 </td> <td> Basic LOB data type support </td> </tr>
+--## </table>
+
+--hr
+--h2 B.6 Enhanced object support
+--/h2
+
+--p
+The package called "enhanced object support" comprises all of the features of the package called
+(Basic object support), plus the following features of the SQL language as specified in the SQL
+Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature S024 </td> <td> Enhanced structured types </td> </tr>
+--## <tr> <td> Feature S043 </td> <td> Enhanced reference types </td> </tr>
+--## <tr> <td> Feature S071 </td> <td> SQL-paths in function and type name resolution </td> </tr>
+--## <tr> <td> Feature S081 </td> <td> Subtables </td> </tr>
+--## <tr> <td> Feature S111 </td> <td> ONLY in query expressions </td> </tr>
+--## <tr> <td> Feature S161 </td> <td> Subtype treatment </td> </tr>
+--## <tr> <td> Feature S211 </td> <td> User-defined cast functions </td> </tr>
+--## <tr> <td> Feature S231 </td> <td> Structured type locators </td> </tr>
+--## <tr> <td> Feature S241 </td> <td> Transform functions </td> </tr>
+--## </table>
+
+--hr
+--h2 B.7 Active database
+--/h2
+
+--p
+The package called "Active database" comprises the following features of the SQL language as
+specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature T211 </td> <td> Basic trigger capability </td> </tr>
+--## </table>
+
+--hr
+--h2 B.8 OLAP
+--/h2
+
+--p
+The package called "OLAP" comprises the following features of the SQL language as specified in the
+SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+--/p
+
+--p
+--## <table border=1>
+--## <tr> <td> Feature T431 </td> <td> Extended grouping capabilities </td> </tr>
+--## <tr> <td> Feature T611 </td> <td> Elementary OLAP operators </td> </tr>
+--## </table>
+
+--hr
+--h2 END OF SQL-2003-1 GRAMMAR
+--/h2
+
+--hr
+

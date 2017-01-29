@@ -1,0 +1,261 @@
+<html>
+<head>
+<title> SQL 2003 Feature Taxonomy and Definition for Core SQL </title>
+</head>
+<body>
+
+<h1> SQL 2003 (Annex F, Table 34) Feature Taxonomy and Definition for Core SQL </h1>
+
+Derived from Final Committee Draft (FCD) of ISO/IEC 9075-2:2003.
+<p>
+
+<table border=1>
+<tr><th> Number </th><th> Feature ID </th><th> Feature Name </th><th> Feature Description </th></tr>
+
+<tr><td> 1 </td><td> B011 </td><td> Embedded Ada<sup>1</sup> </td><td> - Subclause 20.3, "&lt;embedded SQL Ada program&gt;" </td></tr>
+<tr><td> 2 </td><td> B012 </td><td> Embedded C<sup>1</sup> </td><td> - Subclause 20.4, "&lt;embedded SQL C program&gt;" </td></tr>
+<tr><td> 3 </td><td> B013 </td><td> Embedded COBOL<sup>1</sup> </td><td> - Subclause 20.5, "&lt;embedded SQL COBOL program&gt;" </td></tr>
+<tr><td> 4 </td><td> B014 </td><td> Embedded Fortran<sup>1</sup> </td><td> - Subclause 20.6, "&lt;embedded SQL Fortran program&gt;" </td></tr>
+<tr><td> 5 </td><td> B015 </td><td> Embedded MUMPS<sup>1</sup> </td><td> - Subclause 20.7, "&lt;embedded SQL MUMPS program&gt;" </td></tr>
+<tr><td> 6 </td><td> B016 </td><td> Embedded Pascal<sup>1</sup> </td><td> - Subclause 20.8, "&lt;embedded SQL Pascal program&gt;" </td></tr>
+<tr><td> 7 </td><td> B017 </td><td> Embedded PL/I<sup>1</sup> </td><td> - Subclause 20.9, "&lt;embedded SQL PL/I program&gt;" </td></tr>
+
+<tr><td colspan=4> <sup>1</sup> A conforming SQL-implementation is required (by Clause 8, "Conformance", in ISO/IEC 9075-1) to support at least one embedded language or to support the SQL-client module binding for at least one host language. </td></tr>
+
+<tr><td> 8 </td><td> E011 </td><td> Numeric data types </td><td> - Subclause 6.1, "&lt;data type&gt;", &lt;numeric type&gt;, including numeric expressions, numeric literals, numeric comparisons, and numeric assignments </td></tr>
+<tr><td> 9 </td><td> E011-01 </td><td> INTEGER and SMALLINT data types (including all spellings) </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The &lt;reserved word&gt;s INT, INTEGER, and SMALLINT </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.3, "&lt;literal&gt;": [&lt;sign&gt;] &lt;unsigned integer&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The INTEGER and SMALLINT &lt;exact numeric type&gt;s </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.6, "Data type correspondences": Type correspondences for INTEGER and SMALLINT for all supported languages </td></tr>
+<tr><td> 10 </td><td> E011-02 </td><td> REAL, DOUBLE PRECISON, and FLOAT data types </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The &lt;reserved word&gt;s REAL, DOUBLE, FLOAT, and PRECISION </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.3, "&lt;literal&gt;": [&lt;sign&gt;] &lt;approximate numeric literal&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": &lt;approximate numeric type&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.6, "Data type correspondences": Type correspondences for REAL, DOUBLE PRECISION, and FLOAT for all supported languages </td></tr>
+
+<tr><td> 11 </td><td> E011-03 </td><td> DECIMAL and NUMERIC data types </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The &lt;reserved word&gt;s DEC, DECIMAL, and NUMERIC </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.3, "&lt;literal&gt;": [&lt;sign&gt;] &lt;exact numeric literal&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The DECIMAL and NUMERIC &lt;exact numeric type&gt;s </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.6, "Data type correspondences": Type correspondences for DECIMAL and NUMERIC for all supported languages </td></tr>
+<tr><td> 12 </td><td> E011-04 </td><td> Arithmetic operators </td><td> - Subclause 6.26, "&lt;numeric value expression&gt;": When the &lt;numeric primary&gt; is a &lt;value expression primary&gt; </td></tr>
+<tr><td> 13 </td><td> E011-05 </td><td> Numeric comparison </td><td> - Subclause 8.2, "&lt;comparison predicate&gt;": For the numeric data types, without support for &lt;table subquery&gt; and without support for Feature F131, "Grouped operations" </td></tr>
+<tr><td> 14 </td><td> E011-06 </td><td> Implicit casting among the numeric data types </td><td> - Subclause 8.2, "&lt;comparison predicate&gt;": Values of any of the numeric data types can be compared to each other; such values are compared with respect to their algebraic values </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 9.1, "Retrieval assignment", and Subclause 9.2, "Store assignment": Values of one numeric type can be assigned to another numeric type, subject to rounding, truncation, and out of range conditions </td></tr>
+<tr><td> 15 </td><td> E021 </td><td> Character data types </td><td> - Subclause 6.1, "&lt;data type&gt;": &lt;character string type&gt;, including character expressions, character literals, character comparisons, character assignments, and other operations on character data </td></tr>
+<tr><td> 16 </td><td> E021-01 </td><td> CHARACTER data type (including all its spellings) </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The &lt;reserved word&gt;s CHAR and CHARACTER </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The CHARACTER &lt;character string type&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.28, "&lt;string value expression&gt;": For values of type CHARACTER </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.6, "Data type correspondences": Type correspondences for CHARACTER for all supported languages </td></tr>
+
+<tr><td> 17 </td><td> E021-02 </td><td> CHARACTER VARYING data type (including all its spellings) </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The &lt;reserved word&gt;s VARCHAR and VARYING </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The CHARACTER VARYING &lt;character string type&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.28, "&lt;string value expression&gt;": For values of type CHARACTER VARYING </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 13.6, "Data type correspondences": Type correspondences for CHARACTER VARYING for all supported languages </td></tr>
+<tr><td> 18 </td><td> E021-03 </td><td> Character literals </td><td> - Subclause 5.3, "&lt;literal&gt;": &lt;quote&gt; [ &lt;character representation&gt;... ] &lt;quote&gt; </td></tr>
+<tr><td> 19 </td><td> E021-04 </td><td> CHARACTER_LENGTH function </td><td> - Subclause 6.27, "&lt;numeric value function&gt;": The &lt;char length expression&gt; </td></tr>
+<tr><td> 20 </td><td> E021-05 </td><td> OCTET_LENGTH function </td><td> - Subclause 6.27, "&lt;numeric value function&gt;": The &lt;octet length expression&gt; </td></tr>
+<tr><td> 21 </td><td> E021-06 </td><td> SUBSTRING function </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;character substring function&gt; </td></tr>
+<tr><td> 22 </td><td> E021-07 </td><td> Character concatenation </td><td> - Subclause 6.28, "&lt;string value expression&gt;": The &lt;concatenation&gt; expression </td></tr>
+<tr><td> 23 </td><td> E021-08 </td><td> UPPER and LOWER functions </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;fold&gt; function </td></tr>
+<tr><td> 24 </td><td> E021-09 </td><td> TRIM function </td><td> - Subclause 6.29, "&lt;string value function&gt;": The &lt;trim function&gt; </td></tr>
+<tr><td> 25 </td><td> E021-10 </td><td> Implicit casting among the character data types </td><td> - Subclause 8.2, "&lt;comparison predicate&gt;": Values of either the CHARACTER or CHARACTER VARYING data types can be compared to each other </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 9.1, "Retrieval assignment", and Subclause 9.2, "Store assignment": Values of either the CHARACTER or CHARACTER VARYING data type can be assigned to the other type, subject to truncation conditions </td></tr>
+<tr><td> 26 </td><td> E021-11 </td><td> POSITION function </td><td> - Subclause 6.27, "&lt;numeric value function&gt;": The &lt;position expression&gt; </td></tr>
+<tr><td> 27 </td><td> E021-12 </td><td> Character comparison </td><td> - Subclause 8.2, "&lt;comparison predicate&gt;": For the CHARACTER and CHARACTER VARYING data types, without support for &lt;table subquery&gt; and without support for Feature F131, "Grouped operations" </td></tr>
+<tr><td> 28 </td><td> E031 </td><td> Identifiers </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": &lt;regular identifier&gt; and &lt;delimited identifier&gt; </td></tr>
+
+<tr><td> 29 </td><td> E031-01 </td><td> Delimited identifiers </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": &lt;delimited identifier&gt; </td></tr>
+<tr><td> 30 </td><td> E031-02 </td><td> Lower case identifiers </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": An alphabetic character in a &lt;regular identifier&gt; can be either lower case or upper case (meaning that non-delimited identifiers need not comprise only upper case letters) </td></tr>
+<tr><td> 31 </td><td> E031-03 </td><td> Trailing underscore </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": The list &lt;identifier part&gt; in a &lt;regular identifier&gt; can be an &lt;underscore&gt; </td></tr>
+<tr><td> 32 </td><td> E051 </td><td> Basic query specification </td><td> - Subclause 7.12, "&lt;query specification&gt;": When &lt;table reference&gt; is a &lt;table or query name&gt; that is a &lt;table name&gt;, without the support of Feature F131, "Grouped operations" </td></tr>
+<tr><td> 33 </td><td> E051-01 </td><td> SELECT DISTINCT </td><td> - Subclause 7.12, "&lt;query specification&gt;": With a &lt;set quantifier&gt; of DISTINCT, but without subfeatures E051-02 through E051-09 </td></tr>
+<tr><td> 34 </td><td> E051-02 </td><td> GROUP BY clause </td><td> - Subclause 7.4, "&lt;table expression&gt;": &lt;group by clause&gt;, but without subfeatures E051-03 through E051-09 </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 7.9, "&lt;group by clause&gt;": With the restrictions that the &lt;group by clause&gt; must contain all non-aggregated columns in the &lt;select list&gt; and that any column in the &lt;group by clause&gt; must also appear in the &lt;select list&gt; </td></tr>
+<tr><td> 35 </td><td> E051-04 </td><td> GROUP BY can contain columns not in &lt;select list&gt; </td><td> - Subclause 7.9, "&lt;group by clause&gt;": Without the restriction that any column in the &lt;group by clause&gt; must also appear in the &lt;select list&gt; </td></tr>
+<tr><td> 36 </td><td> E051-05 </td><td> Select list items can be renamed </td><td> - Subclause 7.12, "&lt;query specification&gt;": &lt;as clause&gt; </td></tr>
+<tr><td> 37 </td><td> E051-06 </td><td> HAVING clause </td><td> - Subclause 7.4, "&lt;table expression&gt;": &lt;having clause&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 7.10, "&lt;having clause&gt;" </td></tr>
+<tr><td> 38 </td><td> E051-07 </td><td> Qualified * in select list </td><td> - Subclause 7.12, "&lt;query specification&gt;": &lt;qualified asterisk&gt; </td></tr>
+<tr><td> 39 </td><td> E051-08 </td><td> Correlation names in the FROM clause </td><td> - Subclause 7.6, "&lt;table reference&gt;": [ AS ] &lt;correlation name&gt; </td></tr>
+<tr><td> 40 </td><td> E051-09 </td><td> Rename columns in the FROM clause </td><td> - Subclause 7.6, "&lt;table reference&gt;": [ AS ] &lt;correlation name&gt; [ &lt;left paren&gt; &lt;derived column list&gt; &lt;right paren&gt; ] </td></tr>
+<tr><td> 41 </td><td> E061 </td><td> Basic predicates and search conditions </td><td> - Subclause 8.19, "&lt;search condition&gt;", and Subclause 8.1, "&lt;predicate&gt;" </td></tr>
+
+<tr><td> 42 </td><td> E061-01 </td><td> Comparison predicate </td><td> - Subclause 8.2, "&lt;comparison predicate&gt;": For supported data types, without support for &lt;table subquery&gt; </td></tr>
+<tr><td> 43 </td><td> E061-02 </td><td> BETWEEN predicate </td><td> - Subclause 8.3, "&lt;between predicate&gt;" </td></tr>
+<tr><td> 44 </td><td> E061-03 </td><td> IN predicate with list of values </td><td> - Subclause 8.4, "&lt;in predicate&gt;": Without support for &lt;table subquery&gt; </td></tr>
+<tr><td> 45 </td><td> E061-04 </td><td> LIKE predicate </td><td> - Subclause 8.5, "&lt;like predicate&gt;": Without [ ESCAPE &lt;escape character&gt; ] </td></tr>
+<tr><td> 46 </td><td> E061-05 </td><td> LIKE predicate: ESCAPE clause </td><td> - Subclause 8.5, "&lt;like predicate&gt;": With [ ESCAPE &lt;escape character&gt; ] </td></tr>
+<tr><td> 47 </td><td> E061-06 </td><td> NULL predicate </td><td> - Subclause 8.7, "&lt;null predicate&gt;": Without Feature F481, "Expanded NULL predicate" </td></tr>
+<tr><td> 48 </td><td> E061-07 </td><td> Quantified comparison predicate </td><td> - Subclause 8.8, "&lt;quantified comparison predicate&gt;": Without support for &lt;table subquery&gt; </td></tr>
+<tr><td> 49 </td><td> E061-08 </td><td> EXISTS predicate </td><td> - Subclause 8.9, "&lt;exists predicate&gt;" </td></tr>
+<tr><td> 50 </td><td> E061-09 </td><td> Subqueries in comparison predicate </td><td> - Subclause 8.2, "&lt;comparison predicate&gt;": For supported data types, with support for &lt;table subquery&gt; </td></tr>
+<tr><td> 51 </td><td> E061-11 </td><td> Subqueries in IN predicate </td><td> - Subclause 8.4, "&lt;in predicate&gt;": With support for &lt;table subquery&gt; </td></tr>
+<tr><td> 52 </td><td> E061-12 </td><td> Subqueries in quantified comparison predicate </td><td> - Subclause 8.8, "&lt;quantified comparison predicate&gt;": With support for &lt;table subquery&gt; </td></tr>
+<tr><td> 53 </td><td> E061-13 </td><td> Correlated subqueries </td><td> - Subclause 8.1, "&lt;predicate&gt;": When a &lt;correlation name&gt; can be used in a &lt;table subquery&gt; as a correlated reference to a column in the outer query </td></tr>
+<tr><td> 54 </td><td> E061-14 </td><td> Search condition </td><td> - Subclause 8.19, "&lt;search condition&gt;" </td></tr>
+<tr><td> 55 </td><td> E071 </td><td> Basic query expressions </td><td> - Subclause 7.13, "&lt;query expression&gt;" </td></tr>
+<tr><td> 56 </td><td> E071-01 </td><td> UNION DISTINCT table operator </td><td> - Subclause 7.13, "&lt;query expression&gt;": With support for UNION [ DISTINCT ] </td></tr>
+<tr><td> 57 </td><td> E071-02 </td><td> UNION ALL table operator </td><td> - Subclause 7.13, "&lt;query expression&gt;": With support for UNION ALL </td></tr>
+<tr><td> 58 </td><td> E071-03 </td><td> EXCEPT DISTINCT table operator </td><td> - Subclause 7.13, "&lt;query expression&gt;": With support for EXCEPT [ DISTINCT ] </td></tr>
+<tr><td> 59 </td><td> E071-05 </td><td> Columns combined via table operators need not have exactly the same data type.  </td><td> - Subclause 7.13, "&lt;query expression&gt;": Columns combined via UNION and EXCEPT need not have exactly the same data type </td></tr>
+<tr><td> 60 </td><td> E071-06 </td><td> Table operators in subqueries </td><td> - Subclause 7.13, "&lt;query expression&gt;": &lt;table subquery&gt;s can specify UNION and EXCEPT </td></tr>
+<tr><td> 61 </td><td> E081 </td><td> Basic Privileges </td><td> - Subclause 12.3, "&lt;privileges&gt;" </td></tr>
+
+<tr><td> 62 </td><td> E081-01 </td><td> SELECT privilege </td><td> - Subclause 12.3, "&lt;privileges&gt;": With &lt;action&gt; of SELECT </td></tr>
+<tr><td> 63 </td><td> E081-02 </td><td> DELETE privilege </td><td> - Subclause 12.3, "&lt;privileges&gt;": With &lt;action&gt; of DELETE </td></tr>
+<tr><td> 64 </td><td> E081-03 </td><td> INSERT privilege at the table level </td><td> - Subclause 12.3, "&lt;privileges&gt;": With &lt;action&gt; of INSERT without &lt;privilege column list&gt; </td></tr>
+<tr><td> 65 </td><td> E081-04 </td><td> UPDATE privilege at the table level </td><td> - Subclause 12.3, "&lt;privileges&gt;": With &lt;action&gt; of UPDATE without &lt;privilege column list&gt; </td></tr>
+<tr><td> 66 </td><td> E081-05 </td><td> UPDATE privilege at the column level </td><td> - Subclause 12.3, "&lt;privileges&gt;": With &lt;action&gt; of UPDATE &lt;left paren&gt; &lt;privilege column list&gt; &lt;right paren&gt; </td></tr>
+<tr><td> 67 </td><td> E081-06 </td><td> REFERENCES privilege at the table level </td><td> - Subclause 12.3, "&lt;privileges&gt;": with &lt;action&gt; of REFERENCES without &lt;privilege column list&gt; </td></tr>
+<tr><td> 68 </td><td> E081-07 </td><td> REFERENCES privilege at the column level </td><td> - Subclause 12.3, "&lt;privileges&gt;": With &lt;action&gt; of REFERENCES &lt;left paren&gt; &lt;privilege column list&gt; &lt;right paren&gt; </td></tr>
+<tr><td> 69 </td><td> E081-08 </td><td> WITH GRANT OPTION </td><td> - Subclause 12.2, "&lt;grant privilege statement&gt;": WITH GRANT OPTION </td></tr>
+<tr><td> 70 </td><td> E091 </td><td> Set functions </td><td> - Subclause 6.9, "&lt;set function specification&gt;" </td></tr>
+<tr><td> 71 </td><td> E091-01 </td><td> AVG </td><td> - Subclause 6.9, "&lt;set function specification&gt;": With &lt;computational operation&gt; of AVG </td></tr>
+<tr><td> 72 </td><td> E091-02 </td><td> COUNT </td><td> - Subclause 6.9, "&lt;set function specification&gt;": With &lt;computational operation&gt; of COUNT </td></tr>
+<tr><td> 73 </td><td> E091-03 </td><td> MAX </td><td> - Subclause 6.9, "&lt;set function specification&gt;": With &lt;computational operation&gt; of MAX </td></tr>
+<tr><td> 74 </td><td> E091-04 </td><td> MIN </td><td> - Subclause 6.9, "&lt;set function specification&gt;": With &lt;computational operation&gt; of MIN </td></tr>
+<tr><td> 75 </td><td> E091-05 </td><td> SUM </td><td> - Subclause 6.9, "&lt;set function specification&gt;": With &lt;computational operation&gt; of SUM </td></tr>
+<tr><td> 76 </td><td> E091-06 </td><td> ALL quantifier </td><td> - Subclause 6.9, "&lt;set function specification&gt;": With &lt;set quantifier&gt; of ALL </td></tr>
+<tr><td> 77 </td><td> E091-07 </td><td> DISTINCT quantifier </td><td> - Subclause 6.9, "&lt;set function specification&gt;": With &lt;set quantifier&gt; of DISTINCT </td></tr>
+<tr><td> 78 </td><td> E101 </td><td> Basic data manipulation </td><td> - Clause 14, "Data manipulation": &lt;insert statement&gt;, &lt;delete statement: searched&gt;, and &lt;update statement: searched&gt; </td></tr>
+
+<tr><td> 79 </td><td> E101-01 </td><td> INSERT statement </td><td> - Subclause 14.8, "&lt;insert statement&gt;": When a &lt;contextually typed table value constructor&gt; can consist of no more than a single &lt;contextually typed row value expression&gt; </td></tr>
+<tr><td> 80 </td><td> E101-03 </td><td> Searched UPDATE statement </td><td> - Subclause 14.11, "&lt;update statement: searched&gt;": But without support either of Feature E153, "Updatable tables with subqueries", or Feature F221, "Explicit defaults" </td></tr>
+<tr><td> 81 </td><td> E101-04 </td><td> Searched DELETE statement </td><td> - Subclause 14.7, "&lt;delete statement: searched&gt;" </td></tr>
+<tr><td> 82 </td><td> E111 </td><td> Single row SELECT statement </td><td> - Subclause 14.5, "&lt;select statement: single row&gt;": Without support of Feature F131, "Grouped operations" </td></tr>
+<tr><td> 83 </td><td> E121 </td><td> Basic cursor support </td><td> - Clause 14, "Data manipulation": &lt;declare cursor&gt;, &lt;open statement&gt;, &lt;fetch statement&gt;, &lt;close statement&gt;, &lt;delete statement: positioned&gt;, and &lt;update statement: positioned&gt; </td></tr>
+<tr><td> 84 </td><td> E121-01 </td><td> DECLARE CURSOR </td><td> - Subclause 14.1, "&lt;declare cursor&gt;": When each &lt;value expression&gt; in the &lt;sort key&gt; must be a &lt;column reference&gt; and that &lt;column reference&gt; must also be in the &lt;select list&gt;, and &lt;cursor holdability&gt; is not specified </td></tr>
+<tr><td> 85 </td><td> E121-02 </td><td> ORDER BY columns need not be in select list </td><td> - Subclause 14.1, "&lt;declare cursor&gt;": Extend subfeature E121-01 so that &lt;column reference&gt; need not also be in the &lt;select list&gt; </td></tr>
+<tr><td> 86 </td><td> E121-03 </td><td> Value expressions in ORDER BY clause </td><td> - Subclause 14.1, "&lt;declare cursor&gt;": Extend subfeature E121-01 so that the &lt;value expression&gt; in the &lt;sort key&gt; need not be a &lt;column reference&gt; </td></tr>
+<tr><td> 87 </td><td> E121-04 </td><td> OPEN statement </td><td> - Subclause 14.2, "&lt;open statement&gt;" </td></tr>
+<tr><td> 88 </td><td> E121-06 </td><td> Positioned UPDATE statement </td><td> - Subclause 14.10, "&lt;update statement: positioned&gt;": Without support of either Feature E153, "Updateable tables with subqueries" or Feature F221, "Explicit defaults" </td></tr>
+<tr><td> 89 </td><td> E121-07 </td><td> Positioned DELETE statement </td><td> - Subclause 14.6, "&lt;delete statement: positioned&gt;" </td></tr>
+<tr><td> 90 </td><td> E121-08 </td><td> CLOSE statement </td><td> - Subclause 14.4, "&lt;close statement&gt;" </td></tr>
+<tr><td> 91 </td><td> E121-10 </td><td> FETCH statement: implicit NEXT </td><td> - Subclause 14.3, "&lt;fetch statement&gt;" </td></tr>
+<tr><td> 92 </td><td> E121-17 </td><td> WITH HOLD cursors </td><td> - Subclause 14.1, "&lt;declare cursor&gt;": Where the &lt;value expression&gt; in the &lt;sort key&gt; need not be a &lt;column reference&gt; and need not be in the &lt;select list&gt;, and &lt;cursor holdability&gt; may be specified </td></tr>
+
+<tr><td> 93 </td><td> E131 </td><td> Null value support (nulls in lieu of values) </td><td> - Subclause 4.14, "Columns, fields, and attributes": Nullability characteristic </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.5, "&lt;contextually typed value specification&gt;": &lt;null specification&gt; </td></tr>
+<tr><td> 94 </td><td> E141 </td><td> Basic integrity constraints </td><td> - Subclause 11.6, "&lt;table constraint definition&gt;": As specified by the subfeatures of this feature in this table </td></tr>
+<tr><td> 95 </td><td> E141-01 </td><td> NOT NULL constraints </td><td> - Subclause 11.4, "&lt;column definition&gt;": With &lt;column constraint&gt; of NOT NULL </td></tr>
+<tr><td> 96 </td><td> E141-02 </td><td> UNIQUE constraints of NOT NULL columns </td><td> - Subclause 11.4, "&lt;column definition&gt;": With &lt;unique specification&gt; of UNIQUE for columns specified as NOT NULL </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.7, "&lt;unique constraint definition&gt;": With &lt;unique specification&gt; of UNIQUE </td></tr>
+<tr><td> 97 </td><td> E141-03 </td><td> PRIMARY KEY constraints </td><td> - Subclause 11.4, "&lt;column definition&gt;": With &lt;unique specification&gt; of PRIMARY KEY for columns specified as NOT NULL </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.7, "&lt;unique constraint definition&gt;": With &lt;unique specification&gt; of PRIMARY KEY </td></tr>
+<tr><td> 98 </td><td> E141-04 </td><td> Basic FOREIGN KEY constraint with the NO ACTION default for both referential delete action and referential update action.  </td><td> - Subclause 11.4, "&lt;column definition&gt;": With &lt;column constraint&gt; of &lt;references specification&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.8, "&lt;referential constraint definition&gt;": Where the columns in the &lt;column name list&gt;, if specified, must be in the same order as the names in the &lt;unique column list&gt; of the applicable &lt;unique constraint definition&gt; and the &lt;data type&gt;s of the matching columns must be the same </td></tr>
+<tr><td> 99 </td><td> E141-06 </td><td> CHECK constraints </td><td> - Subclause 11.4, "&lt;column definition&gt;": With &lt;column constraint&gt; of &lt;check constraint definition&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.9, "&lt;check constraint definition&gt;" </td></tr>
+<tr><td> 100 </td><td> E141-07 </td><td> Column defaults </td><td> - Subclause 11.4, "&lt;column definition&gt;": With &lt;default clause&gt; </td></tr>
+<tr><td> 101 </td><td> E141-08 </td><td> NOT NULL inferred on PRIMARY KEY </td><td> - Subclause 11.4, "&lt;column definition&gt;", and Subclause 11.7, "&lt;unique constraint definition&gt;": Remove the restriction in subfeatures E141-02 and E141-03 that NOT NULL be specified along with every PRIMARY KEY and UNIQUE constraint </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.4, "&lt;column definition&gt;": NOT NULL is implicit on PRIMARY KEY constraints </td></tr>
+
+<tr><td> 102 </td><td> E141-10 </td><td> Names in a foreign key can be specified in any order </td><td> - Subclause 11.4, "&lt;column definition&gt;", and Subclause 11.8, "&lt;referential constraint definition&gt;": Extend subfeature E141-04 so that the columns in the &lt;column name list&gt;, if specified, need not be in the same order as the names in the &lt;unique column list&gt; of the applicable &lt;unique constraint definition&gt; </td></tr>
+<tr><td> 103 </td><td> E141-11 </td><td> Foreign key"s data types need not be the same as the primary key"s </td><td> - Subclause 11.4, "&lt;column definition&gt;", and Subclause 11.8, "&lt;referential constraint definition&gt;": Extend subfeature E141-04 so that the data types of matching columns need not be the same. </td></tr>
+<tr><td> 104 </td><td> E151 </td><td> Transaction support </td><td> - Clause 16, "Transaction management": &lt;commit statement&gt; and &lt;rollback statement&gt; </td></tr>
+<tr><td> 105 </td><td> E151-01 </td><td> COMMIT statement </td><td> - Subclause 16.6, "&lt;commit statement&gt;" </td></tr>
+<tr><td> 106 </td><td> E151-02 </td><td> ROLLBACK statement </td><td> - Subclause 16.7, "&lt;rollback statement&gt;" </td></tr>
+<tr><td> 107 </td><td> E152 </td><td> Basic SET TRANSACTION statement </td><td> - Subclause 16.2, "&lt;set transaction statement&gt;" </td></tr>
+<tr><td> 108 </td><td> E152-01 </td><td> SET TRANSACTION statement: ISOLATION LEVEL SERIALIZABLE clause </td><td> - Subclause 16.2, "&lt;set transaction statement&gt;": With &lt;transaction mode&gt; of ISOLATION LEVEL SERIALIZABLE clause </td></tr>
+<tr><td> 109 </td><td> E152-02 </td><td> SET TRANSACTION statement: READ ONLY and READ WRITE clauses </td><td> - Subclause 16.2, "&lt;set transaction statement&gt;": with &lt;transaction access mode&gt; of READ ONLY or READ WRITE </td></tr>
+<tr><td> 110 </td><td> E153 </td><td> Updatable queries with subqueries </td><td> - Subclause 7.13, "&lt;query expression&gt;": A &lt;query expression&gt; is updatable even though its &lt;where clause&gt; contains a &lt;subquery&gt; </td></tr>
+<tr><td> 111 </td><td> E161 </td><td> SQL comments using leading double minus </td><td> - Subclause 5.2, "&lt;token&gt; and &lt;separator&gt;": &lt;simple comment&gt; </td></tr>
+<tr><td> 112 </td><td> E171 </td><td> SQLSTATE support </td><td> - Subclause 23.1, "SQLSTATE" </td></tr>
+<tr><td> 113 </td><td> E182 </td><td> Module language </td><td> - Clause 13, "SQL-client modules" <br>(NOTE 450 - An SQL-implementation is required to supply at least one binding to a standard host language using either module language, embedded SQL, or both.) </td></tr>
+<tr><td> 114 </td><td> F031 </td><td> Basic schema manipulation </td><td> - Clause 11, "Schema definition and manipulation": Selected facilities as indicated by the subfeatures of this Feature </td></tr>
+<tr><td> 115 </td><td> F031-01 </td><td> CREATE TABLE statement to create persistent base tables </td><td> - Subclause 11.3, "&lt;table definition&gt;": Not in the context of a &lt;schema definition&gt; </td></tr>
+
+<tr><td> 116 </td><td> F031-02 </td><td> CREATE VIEW statement </td><td> - Subclause 11.22, "&lt;view definition&gt;": Not in the context of a &lt;schema definition&gt;, and without support of Feature F081, "UNION and EXCEPT in views" </td></tr>
+<tr><td> 117 </td><td> F031-03 </td><td> GRANT statement </td><td> - Subclause 12.1, "&lt;grant statement&gt;": Not in the context of a &lt;schema definition&gt; </td></tr>
+<tr><td> 118 </td><td> F031-04 </td><td> ALTER TABLE statement: ADD COLUMN clause </td><td> - Subclause 11.10, "&lt;alter table statement&gt;": The &lt;add column definition&gt; clause </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.11, "&lt;add column definition&gt;" </td></tr>
+<tr><td> 119 </td><td> F031-13 </td><td> DROP TABLE statement: RESTRICT clause </td><td> - Subclause 11.21, "&lt;drop table statement&gt;": With a &lt;drop behavior&gt; of RESTRICT </td></tr>
+<tr><td> 120 </td><td> F031-16 </td><td> DROP VIEW statement: RESTRICT clause </td><td> - Subclause 11.23, "&lt;drop view statement&gt;": With a &lt;drop behavior&gt; of RESTRICT </td></tr>
+<tr><td> 121 </td><td> F031-19 </td><td> REVOKE statement: RESTRICT clause </td><td> - Subclause 12.7, "&lt;revoke statement&gt;": With a &lt;drop behavior&gt; of RESTRICT, only where the use of this statement can be restricted to the owner of the table being dropped </td></tr>
+<tr><td> 122 </td><td> F041 </td><td> Basic joined table </td><td> - Subclause 7.7, "&lt;joined table&gt;" </td></tr>
+<tr><td> 123 </td><td> F041-01 </td><td> Inner join (but not necessarily the INNER keyword) </td><td> - Subclause 7.6, "&lt;table reference&gt;": The &lt;joined table&gt; clause, but without support for subfeatures F041-02 through F041-08 </td></tr>
+<tr><td> 124 </td><td> F041-02 </td><td> INNER keyword </td><td> - Subclause 7.7, "&lt;joined table&gt;": &lt;join type&gt; of INNER </td></tr>
+<tr><td> 125 </td><td> F041-03 </td><td> LEFT OUTER JOIN </td><td> - Subclause 7.7, "&lt;joined table&gt;": &lt;outer join type&gt; of LEFT </td></tr>
+<tr><td> 126 </td><td> F041-04 </td><td> RIGHT OUTER JOIN </td><td> - Subclause 7.7, "&lt;joined table&gt;": &lt;outer join type&gt; of RIGHT </td></tr>
+<tr><td> 127 </td><td> F041-05 </td><td> Outer joins can be nested </td><td> - Subclause 7.7, "&lt;joined table&gt;": Subfeature F041-1 extended so that a &lt;table reference&gt; within the &lt;joined table&gt; can itself be a &lt;joined table&gt; </td></tr>
+<tr><td> 128 </td><td> F041-07 </td><td> The inner table in a left or right outer join can also be used in an inner join </td><td> - Subclause 7.7, "&lt;joined table&gt;": Subfeature F041-1 extended so that a &lt;table name&gt; within a nested &lt;joined table&gt; can be the same as a &lt;table name&gt; in an outer &lt;joined table&gt; </td></tr>
+<tr><td> 129 </td><td> F041-08 </td><td> All comparison operators are supported (rather than just =) </td><td> - Subclause 7.7, "&lt;joined table&gt;": Subfeature F041-1 extended so that the &lt;join condition&gt; is not limited to a &lt;comparison predicate&gt; with a &lt;comp op&gt; of &lt;equals operator&gt; </td></tr>
+<tr><td> 130 </td><td> F051 </td><td> Basic date and time </td><td> - Subclause 6.1, "&lt;data type&gt;": &lt;datetime type&gt; including datetime literals, datetime comparisons, and datetime conversions </td></tr>
+
+<tr><td> 131 </td><td> F051-01 </td><td> DATE data type (including support of DATE literal) </td><td> - Subclause 5.3, "&lt;literal&gt;": The &lt;date literal&gt; form of &lt;datetime literal&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The DATE &lt;datetime type&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.30, "&lt;datetime value expression&gt;": For values of type DATE 132 F051-02 TIME data type (including support of TIME literal) with fractional seconds precision of at least 0. </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.3, "&lt;literal&gt;": The &lt;time literal&gt; form of &lt;datetime literal&gt;, where the value of &lt;unquoted time string&gt; is simply &lt;time value&gt; that does not include the optional &lt;time zone interval&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The TIME &lt;datetime type&gt; without the &lt;with or without timezone&gt; clause </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.30, "&lt;datetime value expression&gt;": For values of type TIME 133 F051-03 TIMESTAMP data type (including support of TIMESTAMP literal) with fractional seconds precision of at least 0 and 6. </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 5.3, "&lt;literal&gt;": The &lt;timestamp literal&gt; form of &lt;datetime literal&gt;, where the value of &lt;unquoted timestamp string&gt; is simply &lt;time value&gt; that does not include the optional &lt;time zone interval&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.1, "&lt;data type&gt;": The TIMESTAMP &lt;datetime type&gt; without the &lt;with or without timezone&gt; clause </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.30, "&lt;datetime value expression&gt;": For values of type TIMESTAMP </td></tr>
+<tr><td> 134 </td><td> F051-04 </td><td> Comparison predicate on DATE, TIME, and TIMESTAMP data types </td><td> - Subclause 8.2, "&lt;comparison predicate&gt;": For comparison between values of the following types: DATE and DATE, TIME and TIME, TIMESTAMP and TIMESTAMP, DATE and TIMESTAMP, and TIME and TIMESTAMP </td></tr>
+<tr><td> 135 </td><td> F051-05 </td><td> Explicit CAST between datetime types and character types </td><td> - Subclause 6.12, "&lt;cast specification&gt;": If support for Feature F201, "CAST function" is available, then CASTing between the following types: from character string to DATE, TIME, and TIMESTAMP; from DATE to DATE, TIMESTAMP, and character string; from TIME to TIME, TIMESTAMP, and character string; from TIMESTAMP to DATE, TIME, TIMESTAMP, and character string </td></tr>
+<tr><td> 136 </td><td> F051-06 </td><td> CURRENT_DATE </td><td> - Subclause 6.31, "&lt;datetime value function&gt;": The &lt;current date value function&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.30, "&lt;datetime value expression&gt;": When the value is a &lt;current date value function&gt; </td></tr>
+
+<tr><td> 137 </td><td> F051-07 </td><td> LOCALTIME </td><td> - Subclause 6.31, "&lt;datetime value function&gt;": The &lt;current local time value function&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.30, "&lt;datetime value expression&gt;": When the value is a &lt;current local time value function&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.5, "&lt;default clause&gt;": LOCALTIME option of &lt;datetime value function&gt; </td></tr>
+<tr><td> 138 </td><td> F051-08 </td><td> LOCALTIMESTAMP </td><td> - Subclause 6.31, "&lt;datetime value function&gt;": The &lt;current local timestamp value function&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.30, "&lt;datetime value expression&gt;": When the value is a &lt;current local timestamp value function&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.5, "&lt;default clause&gt;": LOCALTIMESTAMP option of &lt;datetime value function&gt; </td></tr>
+<tr><td> 139 </td><td> F081 </td><td> UNION and EXCEPT in views </td><td> - Subclause 11.22, "&lt;view definition&gt;": A &lt;query expression&gt; in a &lt;view definition&gt; may specify UNION DISTINCT, UNION ALL, EXCEPT, and/or EXCEPT ALL </td></tr>
+<tr><td> 140 </td><td> F131 </td><td> Grouped operations </td><td> - A grouped view is a view whose &lt;query expression&gt; contains a &lt;group by clause&gt; </td></tr>
+<tr><td> 141 </td><td> F131-01 </td><td> WHERE, GROUP BY, and HAVING clauses supported in queries with grouped views </td><td> - Subclause 7.4, "&lt;table expression&gt;": Even though a table in the &lt;from clause&gt; is a grouped view, the &lt;where clause&gt;, &lt;group by clause&gt;, and &lt;having clause&gt; may be specified </td></tr>
+<tr><td> 142 </td><td> F131-02 </td><td> Multiple tables supported in queries with grouped views </td><td> - Subclause 7.5, "&lt;from clause&gt;": Even though a table in the &lt;from clause&gt; is a grouped view, the &lt;from clause&gt; may specify more than one &lt;table reference&gt; </td></tr>
+<tr><td> 143 </td><td> F131-03 </td><td> Set functions supported in queries with grouped views </td><td> - Subclause 7.12, "&lt;query specification&gt;": Even though a table in the &lt;from clause&gt; is a grouped view, the &lt;select list&gt; may specify a &lt;set function specification&gt; </td></tr>
+<tr><td> 144 </td><td> F131-04 </td><td> Subqueries with GROUP BY and HAVING clauses and grouped views </td><td> - Subclause 7.15, "&lt;subquery&gt;": A &lt;subquery&gt; in a &lt;comparison predicate&gt; is allowed to contain a &lt;group by clause&gt; and/or a &lt;having clause and/or it may identify a grouped view </td></tr>
+<tr><td> 145 </td><td> F131-05 </td><td> Single row SELECT with GROUP BY and HAVING clauses and grouped views </td><td> - Subclause 14.5, "&lt;select statement: single row&gt;": The table in a &lt;from clause&gt; can be a grouped view </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 14.5, "&lt;select statement: single row&gt;": The &lt;table expression&gt; may specify a &lt;group by clause and/or a &lt;having clause </td></tr>
+
+<tr><td> 146 </td><td> F181 </td><td> Multiple module support <br>(NOTE 451 - The ability to associate multiple host compilation units with a single SQL-session at one time.) </td><td> - Subclause 13.1, "&lt;SQL-client module definition&gt;": An SQL-agent can be associated with more than one &lt;SQL-client module definition&gt; <br>(NOTE 452 - With this feature, it is possible to compile &lt;SQL-client module definition&gt;s or &lt;embedded SQL host program&gt;s separately and rely on the SQL-implementation to "link" the together properly at execution time. To ensure portability, applications should adhere to the following limitations: <br><bl><li> Avoid linking modules having cursors with the same &lt;cursor name&gt;. </li> <li> Avoid linking modules that prepare statements using the same &lt;SQL statement name&gt;. </li> <li> Avoid linking modules that allocate descriptors with the same &lt;descriptor name&gt;. </li> <li> Assume that the scope of an &lt;embedded exception declaration&gt; is a single compilation unit. </li> <li> Assume that an &lt;embedded variable name&gt; can be referenced only in the same compilation unit in which it is declared.) </li></bl> </td></tr>
+<tr><td> 147 </td><td> F201 </td><td> CAST function <br>(NOTE 453 - This means the support of CAST, where relevant, among all supported data types.) </td><td> - Subclause 6.12, "&lt;cast specification&gt;": For all supported data types </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 6.25, "&lt;value expression&gt;": &lt;cast specification&gt; </td></tr>
+<tr><td> 148 </td><td> F221 </td><td> Explicit defaults </td><td> - Subclause 6.5, "&lt;contextually typed value specification&gt;": &lt;default specification&gt; <br>(NOTE 454 - Including its use in UPDATE and INSERT statements.) </td></tr>
+<tr><td> 149 </td><td> F261 </td><td> CASE expression </td><td> - Subclause 6.25, "&lt;value expression&gt;": &lt;case expression&gt; </td></tr>
+<tr><td> 150 </td><td> F261-01 </td><td> Simple CASE </td><td> - Subclause 6.11, "&lt;case expression&gt;": The &lt;simple case&gt; variation </td></tr>
+<tr><td> 151 </td><td> F261-02 </td><td> Searched CASE </td><td> - Subclause 6.11, "&lt;case expression&gt;": The &lt;searched case variation&gt; </td></tr>
+<tr><td> 152 </td><td> F261-03 </td><td> NULLIF </td><td> - Subclause 6.11, "&lt;case expression&gt;": The NULLIF &lt;case abbreviation </td></tr>
+<tr><td> 153 </td><td> F261-04 </td><td> COALESCE </td><td> - Subclause 6.11, "&lt;case expression&gt;": The COALESCE &lt;case abbreviation </td></tr>
+<tr><td> 154 </td><td> F311 </td><td> Schema definition statement </td><td> - Subclause 11.1, "&lt;schema definition&gt;" </td></tr>
+
+<tr><td> 155 </td><td> F311-01 </td><td> CREATE SCHEMA </td><td> - Subclause 11.1, "&lt;schema definition&gt;": Support for circular references in that &lt;referential constraint definition&gt;s in two different &lt;table definition&gt;s may reference columns in the other table </td></tr>
+<tr><td> 156 </td><td> F311-02 </td><td> CREATE TABLE for persistent base tables </td><td> - Subclause 11.1, "&lt;schema definition&gt;": A &lt;schema element&gt; that is a &lt;table definition&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.3, "&lt;table definition&gt;": In the context of a &lt;schema definition&gt; </td></tr>
+<tr><td> 157 </td><td> F311-03 </td><td> CREATE VIEW </td><td> - Subclause 11.1, "&lt;schema definition&gt;": A &lt;schema element&gt; that is a &lt;view definition&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 11.22, "&lt;view definition&gt;": In the context of a &lt;schema definition&gt; without the WITH CHECK OPTION clause and without support of Feature F081, "UNION and EXCEPT in views" </td></tr>
+<tr><td> 158 </td><td> F311-04 </td><td> CREATE VIEW: WITH CHECK OPTION </td><td> - Subclause 11.22, "&lt;view definition&gt;": The WITH CHECK OPTION clause, in the context of a &lt;schema definition&gt;, but without support of Feature F081, "UNION and EXCEPT in views" </td></tr>
+<tr><td> 159 </td><td> F311-05 </td><td> GRANT statement </td><td> - Subclause 11.1, "&lt;schema definition&gt;": A &lt;schema element&gt; that is a &lt;grant statement&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 12.1, "&lt;grant statement&gt;": In the context of a &lt;schema definition&gt; </td></tr>
+<tr><td> 160 </td><td> F471 </td><td> Scalar subquery values </td><td> - Subclause 6.25, "&lt;value expression&gt;": A &lt;value expression primary&gt; can be a &lt;scalar subquery&gt; </td></tr>
+<tr><td> 161 </td><td> F481 </td><td> Expanded NULL predicate </td><td> - Subclause 8.7, "&lt;null predicate&gt;": The &lt;row value expression&gt; can be something other than a &lt;column reference&gt; </td></tr>
+<tr><td> 162 </td><td> F812 </td><td> Basic flagging </td><td> - Part 1, Subclause 8.1.4, "SQL flagger": With "level of flagging" specified to be Core SQL Flagging and "extent of checking" specified to be Syntax Only <br>(NOTE 455 - This form of flagging identifies vendor extensions and other non-standard SQL by checking syntax only without requiring access to the catalog information.) </td></tr>
+<tr><td> 163 </td><td> S011 </td><td> Distinct data types </td><td> - Subclause 11.41, "&lt;user-defined type definition&gt;": When &lt;representation&gt; is &lt;predefined type&gt; </td></tr>
+
+<tr><td> 164 </td><td> T321 </td><td> Basic SQL-invoked routines </td><td> - Subclause 11.50, "&lt;SQL-invoked routine&gt;" </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - If Feature T041, "Basic LOB data type support", is supported, then the &lt;locator indication&gt; clause must also be supported <br>(NOTE 456 - "Routine" is the collective term for functions, methods, and procedures.  This feature requires a conforming SQLimplementation to support both user-defined functions and user-defined procedures.  An SQL-implementation that conforms to Core SQL must support at least one language for writing routines; that language may be SQL. If the language is SQL, then the basic specification capability in Core SQL is the ability to specify a one-statement routine.  Support for overloaded functions and procedures is not part of Core SQL.) </td></tr>
+<tr><td> 165 </td><td> T321-01 </td><td> User-defined functions with no overloading </td><td> - Subclause 11.50, "&lt;SQL-invoked routine&gt;": With &lt;function specification&gt; </td></tr>
+<tr><td> 166 </td><td> T321-02 </td><td> User-defined stored procedures with no overloading </td><td> - Subclause 11.50, "&lt;SQL-invoked routine&gt;": With &lt;SQL-invoked procedure&gt; </td></tr>
+<tr><td> 167 </td><td> T321-03 </td><td> Function invocation </td><td> - Subclause 6.4, "&lt;value specification&gt; and &lt;target specification&gt;": With a &lt;value expression primary&gt; that is a &lt;routine invocation&gt; </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 10.4, "&lt;routine invocation&gt;": For user-defined functions </td></tr>
+<tr><td> 168 </td><td> T321-04 </td><td> CALL statement </td><td> - Subclause 10.4, "&lt;routine invocation&gt;": Used by &lt;call statement&gt;s </td></tr>
+<tr><td> &nbsp; </td><td> &nbsp; </td><td> &nbsp; </td><td> - Subclause 15.1, "&lt;call statement&gt;" </td></tr>
+<tr><td> 169 </td><td> T321-05 </td><td> RETURN statement </td><td> - Subclause 15.2, "&lt;return statement&gt;", if the SQL-implementation supports SQL routines </td></tr>
+
+</table>
+
+<hr>
+<p>
+Please send feedback to Jonathan Leffler, variously:
+<a href="mailto:jleffler@us.ibm.com"> jleffler@us.ibm.com </a> or
+<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.
+</p>
+
+<p><font color=green><i><small>
+@(#)$Id: sql-2003-core-features.html,v 1.2 2005/07/18 22:51:48 jleffler Exp $
+</small></i></font></p>
+
+</body>
+</html>

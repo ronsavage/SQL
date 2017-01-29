@@ -1,0 +1,923 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- Generated HTML - Modify at your own peril! -->
+<html>
+<head>
+<title> BNF Grammar for ISO/IEC 9075-1:2003 SQL/Foundation - Database Language SQL (SQL-2003) </title>
+</head>
+<body>
+
+<h1> BNF Grammar for ISO/IEC 9075-1:2003 SQL/Foundation - Database Language SQL (SQL-2003) </h1>
+
+<a name="top">&nbsp;</a>
+<br>
+<a href="#xref-rules"> Cross-Reference: rules </a>
+<br>
+<a href="#xref-keywords"> Cross-Reference: keywords </a>
+<br>
+
+<p><font color=green><i><small>
+Derived from file sql-2003-1.bnf version 1.3 dated 2009/06/24 17:15:49
+<br>
+Generated on 2017-01-17 05:18:34+00:00 by file bnf2html.pl version 3.12 dated 2016/04/18 05:13:47
+</small></i></font></p>
+
+<p>
+Information taken from the Final Committee Draft (FCD) of ISO/IEC 9075-1:2003.
+</p>
+
+
+<p>
+The plain text version of this grammar is
+<a href='sql-2003-1.bnf'> sql-2003-1.bnf </a>.
+</p>
+
+<hr>
+<h2> Identifying the version of SQL in use
+</h2>
+
+<p>
+This material (starting with &lt;SQL object identifier&gt;) is defined in
+section 6.3 "Object Identifier for Database Language SQL" of ISO/IEC
+9075-1:1999 (SQL Framework).
+It is used to express the capabilities of an implementation.
+The package names are identifiers such as 'PKG001', equivalent to
+'Enhanced datetime facilities', as defined in the informative Annex B to
+SQL Framework.
+Each such package identifies a number of features that are provided when
+the SQL object identifier claims to provide the package.
+</p>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> 6.3 Object identifier for Database Language SQL
+</h2>
+
+<p><a href="#xref-SQL object identifier" name="SQL object identifier"> &lt;SQL object identifier&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#SQL provenance'>&lt;SQL provenance&gt;</a>  <a href='#SQL variant'>&lt;SQL variant&gt;</a>
+
+<p><a href="#xref-SQL provenance" name="SQL provenance"> &lt;SQL provenance&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#arc1'>&lt;arc1&gt;</a>  <a href='#arc2'>&lt;arc2&gt;</a>  <a href='#arc3'>&lt;arc3&gt;</a>
+
+<p><a href="#xref-arc1" name="arc1"> &lt;arc1&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-iso"> iso </a>  |  <a href="#xref-1"> 1 </a>  |  <a href="#xref-iso"> iso </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-arc2" name="arc2"> &lt;arc2&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-standard"> standard </a>  |  <a href="#xref-0"> 0 </a>  |  <a href="#xref-standard"> standard </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-0"> 0 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-arc3" name="arc3"> &lt;arc3&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;9075
+
+<p><a href="#xref-SQL variant" name="SQL variant"> &lt;SQL variant&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#SQL edition'>&lt;SQL edition&gt;</a>  <a href='#SQL conformance'>&lt;SQL conformance&gt;</a>
+
+<p><a href="#xref-SQL edition" name="SQL edition"> &lt;SQL edition&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#1987'>&lt;1987&gt;</a>  |  <a href='#1989'>&lt;1989&gt;</a>  |  <a href='#1992'>&lt;1992&gt;</a>  |  <a href='#1999'>&lt;1999&gt;</a>  |  <a href='#200n'>&lt;200n&gt;</a>
+
+<p><a href="#xref-1987" name="1987"> &lt;1987&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-0"> 0 </a>  |  <a href="#xref-edition1987"> edition1987 </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-0"> 0 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-1989" name="1989"> &lt;1989&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#1989 base'>&lt;1989 base&gt;</a>  <a href='#1989 package'>&lt;1989 package&gt;</a>
+
+<p><a href="#xref-1989 base" name="1989 base"> &lt;1989 base&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-1"> 1 </a>  |  <a href="#xref-edition1989"> edition1989 </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-1989 package" name="1989 package"> &lt;1989 package&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#integrity no'>&lt;integrity no&gt;</a>  |  <a href='#integrity yes'>&lt;integrity yes&gt;</a>
+
+<p><a href="#xref-integrity no" name="integrity no"> &lt;integrity no&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-0"> 0 </a>  |  <a href="#xref-IntegrityNo"> IntegrityNo </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-0"> 0 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-integrity yes" name="integrity yes"> &lt;integrity yes&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-1"> 1 </a>  |  <a href="#xref-IntegrityYes"> IntegrityYes </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-1992" name="1992"> &lt;1992&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-2"> 2 </a>  |  <a href="#xref-edition1992"> edition1992 </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-2"> 2 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-SQL conformance" name="SQL conformance"> &lt;SQL conformance&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#level'>&lt;level&gt;</a>  <a href='#bindings'>&lt;bindings&gt;</a>  <a href='#parts'>&lt;parts&gt;</a>  <a href='#packages'>&lt;packages&gt;</a>
+
+<p><a href="#xref-level" name="level"> &lt;level&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#low'>&lt;low&gt;</a>  |  <a href='#intermediate'>&lt;intermediate&gt;</a>  |  <a href='#high'>&lt;high&gt;</a>
+
+<p><a href="#xref-low" name="low"> &lt;low&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-0"> 0 </a>  |  <a href="#xref-Low"> Low </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-0"> 0 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-intermediate" name="intermediate"> &lt;intermediate&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-1"> 1 </a>  |  <a href="#xref-Intermediate"> Intermediate </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-high" name="high"> &lt;high&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-2"> 2 </a>  |  <a href="#xref-High"> High </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-2"> 2 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-1999" name="1999"> &lt;1999&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-3"> 3 </a> |  <a href="#xref-edition1999"> edition1999 </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-3"> 3 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-2003" name="2003"> &lt;2003&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-4"> 4 </a> |  <a href="#xref-edition2003"> edition2003 </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-4"> 4 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-bindings" name="bindings"> &lt;bindings&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#module'>&lt;module&gt;</a>  <a href='#embedded'>&lt;embedded&gt;</a>  <a href='#direct'>&lt;direct&gt;</a>  <a href='#invoked routine languages'>&lt;invoked routine languages&gt;</a>
+
+<p><a href="#xref-module" name="module"> &lt;module&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#module no'>&lt;module no&gt;</a>  |  <a href='#module languages'>&lt;module languages&gt;</a> ...
+
+<p><a href="#xref-module languages" name="module languages"> &lt;module languages&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#module Ada'>&lt;module Ada&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#module C'>&lt;module C&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#module COBOL'>&lt;module COBOL&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#module Fortran'>&lt;module Fortran&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#module MUMPS'>&lt;module MUMPS&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#module Pascal'>&lt;module Pascal&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#module PL/I'>&lt;module PL/I&gt;</a>
+<p><a href="#xref-module Ada" name="module Ada"> &lt;module Ada&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-1"> 1 </a>  |  <a href="#xref-moduleAda"> moduleAda </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-module C" name="module C"> &lt;module C&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-2"> 2 </a>  |  <a href="#xref-moduleC"> moduleC </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-2"> 2 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-module COBOL" name="module COBOL"> &lt;module COBOL&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-3"> 3 </a>  |  <a href="#xref-moduleCOBOL"> moduleCOBOL </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-3"> 3 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-module Fortran" name="module Fortran"> &lt;module Fortran&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-4"> 4 </a>  |  <a href="#xref-moduleFortran"> moduleFortran </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-4"> 4 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-module MUMPS" name="module MUMPS"> &lt;module MUMPS&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-5"> 5 </a>  |  <a href="#xref-moduleMUMPS"> moduleMUMPS </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-5"> 5 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-module Pascal" name="module Pascal"> &lt;module Pascal&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-6"> 6 </a>  |  <a href="#xref-modulePascal"> modulePascal </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-6"> 6 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-module PL/I" name="module PL/I"> &lt;module PL/I&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-7"> 7 </a>  |  <a href="#xref-modulePLI"> modulePLI </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-7"> 7 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-embedded" name="embedded"> &lt;embedded&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#embedded no'>&lt;embedded no&gt;</a>  |  <a href='#embedded languages'>&lt;embedded languages&gt;</a> ...
+
+<p><a href="#xref-embedded languages" name="embedded languages"> &lt;embedded languages&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#embedded Ada'>&lt;embedded Ada&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#embedded C'>&lt;embedded C&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#embedded COBOL'>&lt;embedded COBOL&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#embedded Fortran'>&lt;embedded Fortran&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#embedded MUMPS'>&lt;embedded MUMPS&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#embedded Pascal'>&lt;embedded Pascal&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#embedded PL/I'>&lt;embedded PL/I&gt;</a>
+<p><a href="#xref-embedded Ada" name="embedded Ada"> &lt;embedded Ada&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-1"> 1 </a>  |  <a href="#xref-embeddedAda"> embeddedAda </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-embedded C" name="embedded C"> &lt;embedded C&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-2"> 2 </a>  |  <a href="#xref-embeddedC"> embeddedC </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-2"> 2 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-embedded COBOL" name="embedded COBOL"> &lt;embedded COBOL&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-3"> 3 </a>  |  <a href="#xref-embeddedCOBOL"> embeddedCOBOL </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-3"> 3 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-embedded Fortran" name="embedded Fortran"> &lt;embedded Fortran&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-4"> 4 </a>  |  <a href="#xref-embeddedFortran"> embeddedFortran </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-4"> 4 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-embedded MUMPS" name="embedded MUMPS"> &lt;embedded MUMPS&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-5"> 5 </a>  |  <a href="#xref-embeddedMUMPS"> embeddedMUMPS </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-5"> 5 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-embedded Pascal" name="embedded Pascal"> &lt;embedded Pascal&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-6"> 6 </a>  |  <a href="#xref-embeddedPascal"> embeddedPascal </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-6"> 6 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-embedded PL/I" name="embedded PL/I"> &lt;embedded PL/I&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-7"> 7 </a>  |  <a href="#xref-embeddedPLI"> embeddedPLI </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-7"> 7 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-direct" name="direct"> &lt;direct&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#direct yes'>&lt;direct yes&gt;</a>  |  <a href='#direct no'>&lt;direct no&gt;</a>
+
+<p><a href="#xref-direct yes" name="direct yes"> &lt;direct yes&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-1"> 1 </a>  |  <a href="#xref-directyes"> directyes </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-direct no" name="direct no"> &lt;direct no&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-0"> 0 </a>  |  <a href="#xref-directno"> directno </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-0"> 0 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-invoked routine languages" name="invoked routine languages"> &lt;invoked routine languages&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#invoked Ada'>&lt;invoked Ada&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#invoked C'>&lt;invoked C&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#invoked COBOL'>&lt;invoked COBOL&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#invoked Fortran'>&lt;invoked Fortran&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#invoked MUMPS'>&lt;invoked MUMPS&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#invoked Pascal'>&lt;invoked Pascal&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#invoked PL/I'>&lt;invoked PL/I&gt;</a>
+<p><a href="#xref-invoked Ada" name="invoked Ada"> &lt;invoked Ada&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-1"> 1 </a>  |  <a href="#xref-invokedAda"> invokedAda </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-1"> 1 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-invoked C" name="invoked C"> &lt;invoked C&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-2"> 2 </a>  |  <a href="#xref-invokedC"> invokedC </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-2"> 2 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-invoked COBOL" name="invoked COBOL"> &lt;invoked COBOL&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-3"> 3 </a>  |  <a href="#xref-invokedCOBOL"> invokedCOBOL </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-3"> 3 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-invoked Fortran" name="invoked Fortran"> &lt;invoked Fortran&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-4"> 4 </a>  |  <a href="#xref-invokedFortran"> invokedFortran </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-4"> 4 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-invoked MUMPS" name="invoked MUMPS"> &lt;invoked MUMPS&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-5"> 5 </a>  |  <a href="#xref-invokedMUMPS"> invokedMUMPS </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-5"> 5 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-invoked Pascal" name="invoked Pascal"> &lt;invoked Pascal&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-6"> 6 </a>  |  <a href="#xref-invokedPascal"> invokedPascal </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-6"> 6 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-invoked PL/I" name="invoked PL/I"> &lt;invoked PL/I&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-7"> 7 </a>  |  <a href="#xref-invokedPLI"> invokedPLI </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-7"> 7 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+<p><a href="#xref-parts" name="parts"> &lt;parts&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#Part 3'>&lt;Part 3&gt;</a>  <a href='#Part 4'>&lt;Part 4&gt;</a>  <a href='#Part 7'>&lt;Part 7&gt;</a>  <a href='#Part 9'>&lt;Part 9&gt;</a>  <a href='#Part 10'>&lt;Part 10&gt;</a>  <a href='#Part 11'>&lt;Part 11&gt;</a>
+<p><a href="#xref-Part n" name="Part n"> &lt;Part n&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#Part n no'>&lt;Part n no&gt;</a>  |  <a href='#Part n yes'>&lt;Part n yes&gt;</a>
+
+<p><a href="#xref-Part n no" name="Part n no"> &lt;Part n no&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-0"> 0 </a>  |  <a href="#xref-Part-nNo"> Part-nNo </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href="#xref-0"> 0 </a>  <a href='#right paren'>&lt;right paren&gt;</a>
+
+<p><a href="#xref-Part n yes" name="Part n yes"> &lt;Part n yes&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;<font color="red"> !! as specified in ISO/IEC 9075-n </font>
+
+<p><a href="#xref-packages" name="packages"> &lt;packages&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#Package PKGi'>&lt;Package PKGi&gt;</a> ...
+
+<p><a href="#xref-Package PKGi" name="Package PKGi"> &lt;Package PKGi&gt; </a>&nbsp;&nbsp;&nbsp;::=
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#Package PKGiYes'>&lt;Package PKGiYes&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#Package PKGiNo'>&lt;Package PKGiNo&gt;</a>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> Annex B (informative) SQL Packages:
+</h2>
+
+<table border=1>
+<tr><td> 1 </td><td> PKG001 </td><td> Enhanced datetime facilities </td></tr>
+<tr><td> 2 </td><td> PKG002 </td><td> Enhanced integrity management </td></tr>
+<tr><td> 3 </td><td> PKG004 </td><td> PSM </td></tr>
+<tr><td> 4 </td><td> PKG005 </td><td> CLI </td></tr>
+<tr><td> 5 </td><td> PKG006 </td><td> Basic object support </td></tr>
+<tr><td> 6 </td><td> PKG007 </td><td> Enhanced object support </td></tr>
+<tr><td> 7 </td><td> PKG008 </td><td> Active database </td></tr>
+<tr><td> 8 </td><td> PKG009 </td><td> SQL/MM support </td></tr>
+<tr><td> 9 </td><td> PKG010 </td><td> OLAP </td></tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> B.1 Enhanced datetime facilities
+</h2>
+
+<p>
+The package called "Enhanced datetime facilities" comprises the following features of the SQL
+language as specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature F052 </td> <td> Intervals and datetime arithmetic </td> </tr>
+<tr> <td> Feature F411 </td> <td> Time zone specification </td> </tr>
+<tr> <td> Feature F555 </td> <td> Enhanced seconds precision </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2>
+B.2 Enhanced integrity management
+</h2>
+
+<p>
+The package called "Enhanced integrity management" comprises the following features of the SQL
+language as specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature F191 </td> <td> Referential delete actions </td> </tr>
+<tr> <td> Feature F521 </td> <td> Assertions </td> </tr>
+<tr> <td> Feature F701 </td> <td> Referential update actions </td> </tr>
+<tr> <td> Feature F491 </td> <td> Constraint management </td> </tr>
+<tr> <td> Feature F671 </td> <td> Subqueries in CHECK constraints </td> </tr>
+<tr> <td> Feature T201 </td> <td> Comparable data types for referential constraints </td> </tr>
+<tr> <td> Feature T211 </td> <td> Basic trigger capability </td> </tr>
+<tr> <td> Feature T212 </td> <td> Enhanced trigger capability </td> </tr>
+<tr> <td> Feature T191 </td> <td> Referential action RESTRICT </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> B.3 PSM
+</h2>
+
+<p>
+The package called "PSM" comprises the following features of the SQL language as specified in the
+SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature T322 </td> <td> Overloading of SQL-invoked functions and SQL-invoked procedures </td> </tr>
+<tr> <td> Feature P001 </td> <td> Stored modules </td> </tr>
+<tr> <td> Feature P002 </td> <td> Computational completeness </td> </tr>
+<tr> <td> Feature P003 </td> <td> Information Schema views </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> B.4 CLI
+</h2>
+
+<p>
+The package called "CLI" comprises the following features of the SQL language as specified in the
+SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature C011 </td> <td> SQL/CLI </td> </tr>
+<tr> <td> Feature C021 </td> <td> Automatic population of Implementation Parameter Descriptor </td> </tr>
+<tr> <td> Feature C041 </td> <td> Information Schema data controlled by current privileges </td> </tr>
+<tr> <td> Feature C051 </td> <td> GetData extensions </td> </tr>
+<tr> <td> Feature C061 </td> <td> GetParamData extensions </td> </tr>
+<tr> <td> Feature C071 </td> <td> Scroll Concurrency </td> </tr>
+<tr> <td> Feature C081 </td> <td> Read-only data source </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> B.5 Basic object support
+</h2>
+
+<p>
+The package called "basic object support" comprises the following features of the SQL language as
+specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature S023 </td> <td> Basic structured types </td> </tr>
+<tr> <td> Feature S041 </td> <td> Basic reference types </td> </tr>
+<tr> <td> Feature S051 </td> <td> Create table of type </td> </tr>
+<tr> <td> Feature S151 </td> <td> Type predicate </td> </tr>
+<tr> <td> Feature T041 </td> <td> Basic LOB data type support </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> B.6 Enhanced object support
+</h2>
+
+<p>
+The package called "enhanced object support" comprises all of the features of the package called
+(Basic object support), plus the following features of the SQL language as specified in the SQL
+Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature S024 </td> <td> Enhanced structured types </td> </tr>
+<tr> <td> Feature S043 </td> <td> Enhanced reference types </td> </tr>
+<tr> <td> Feature S071 </td> <td> SQL-paths in function and type name resolution </td> </tr>
+<tr> <td> Feature S081 </td> <td> Subtables </td> </tr>
+<tr> <td> Feature S111 </td> <td> ONLY in query expressions </td> </tr>
+<tr> <td> Feature S161 </td> <td> Subtype treatment </td> </tr>
+<tr> <td> Feature S211 </td> <td> User-defined cast functions </td> </tr>
+<tr> <td> Feature S231 </td> <td> Structured type locators </td> </tr>
+<tr> <td> Feature S241 </td> <td> Transform functions </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> B.7 Active database
+</h2>
+
+<p>
+The package called "Active database" comprises the following features of the SQL language as
+specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature T211 </td> <td> Basic trigger capability </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> B.8 OLAP
+</h2>
+
+<p>
+The package called "OLAP" comprises the following features of the SQL language as specified in the
+SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
+</p>
+
+<p>
+<table border=1>
+<tr> <td> Feature T431 </td> <td> Extended grouping capabilities </td> </tr>
+<tr> <td> Feature T611 </td> <td> Elementary OLAP operators </td> </tr>
+</table>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<h2> END OF SQL-2003-1 GRAMMAR
+</h2>
+
+<p><a href='#top'>Top</a></p>
+
+<hr>
+
+<br>
+
+<hr>
+<a name="xref-rules"></a>
+<h2> Cross-Reference Table: Rules </h2>
+<a href="#rules-A"> A </a>
+<a href="#rules-B"> B </a>
+C
+<a href="#rules-D"> D </a>
+<a href="#rules-E"> E </a>
+F
+G
+<a href="#rules-H"> H </a>
+<a href="#rules-I"> I </a>
+J
+K
+<a href="#rules-L"> L </a>
+<a href="#rules-M"> M </a>
+N
+O
+<a href="#rules-P"> P </a>
+Q
+<a href="#rules-R"> R </a>
+<a href="#rules-S"> S </a>
+T
+U
+V
+W
+X
+Y
+Z
+
+<table border=1>
+<tr> <th> Rule (non-terminal) </th> <th> Rules using it </th> </tr>
+<tr> <td> <a name="rules-1"> </a> <a href="#1987" name="xref-1987"> 1987 </a> </td>
+     <td> <a href="#SQL edition"> &lt;SQL edition&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#1989" name="xref-1989"> 1989 </a> </td>
+     <td> <a href="#SQL edition"> &lt;SQL edition&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#1989 base" name="xref-1989 base"> 1989 base </a> </td>
+     <td> <a href="#1989"> &lt;1989&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#1989 package" name="xref-1989 package"> 1989 package </a> </td>
+     <td> <a href="#1989"> &lt;1989&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#1992" name="xref-1992"> 1992 </a> </td>
+     <td> <a href="#SQL edition"> &lt;SQL edition&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#1999" name="xref-1999"> 1999 </a> </td>
+     <td> <a href="#SQL edition"> &lt;SQL edition&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-2"> </a> <a href="#200n" name="xref-200n"> 200n </a> </td>
+     <td> <a href="#SQL edition"> &lt;SQL edition&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-A"> </a> <a href="#arc1" name="xref-arc1"> arc1 </a> </td>
+     <td> <a href="#SQL provenance"> &lt;SQL provenance&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#arc2" name="xref-arc2"> arc2 </a> </td>
+     <td> <a href="#SQL provenance"> &lt;SQL provenance&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#arc3" name="xref-arc3"> arc3 </a> </td>
+     <td> <a href="#SQL provenance"> &lt;SQL provenance&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-B"> </a> <a href="#bindings" name="xref-bindings"> bindings </a> </td>
+     <td> <a href="#SQL conformance"> &lt;SQL conformance&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-D"> </a> <a href="#direct" name="xref-direct"> direct </a> </td>
+     <td> <a href="#bindings"> &lt;bindings&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#direct no" name="xref-direct no"> direct no </a> </td>
+     <td> <a href="#direct"> &lt;direct&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#direct yes" name="xref-direct yes"> direct yes </a> </td>
+     <td> <a href="#direct"> &lt;direct&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-E"> </a> <a href="#embedded" name="xref-embedded"> embedded </a> </td>
+     <td> <a href="#bindings"> &lt;bindings&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded Ada" name="xref-embedded Ada"> embedded Ada </a> </td>
+     <td> <a href="#embedded languages"> &lt;embedded languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded C" name="xref-embedded C"> embedded C </a> </td>
+     <td> <a href="#embedded languages"> &lt;embedded languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded COBOL" name="xref-embedded COBOL"> embedded COBOL </a> </td>
+     <td> <a href="#embedded languages"> &lt;embedded languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded Fortran" name="xref-embedded Fortran"> embedded Fortran </a> </td>
+     <td> <a href="#embedded languages"> &lt;embedded languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded languages" name="xref-embedded languages"> embedded languages </a> </td>
+     <td> <a href="#embedded"> &lt;embedded&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded MUMPS" name="xref-embedded MUMPS"> embedded MUMPS </a> </td>
+     <td> <a href="#embedded languages"> &lt;embedded languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded no" name="xref-embedded no"> embedded no </a> </td>
+     <td> <a href="#embedded"> &lt;embedded&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded Pascal" name="xref-embedded Pascal"> embedded Pascal </a> </td>
+     <td> <a href="#embedded languages"> &lt;embedded languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#embedded PL/I" name="xref-embedded PL/I"> embedded PL/I </a> </td>
+     <td> <a href="#embedded languages"> &lt;embedded languages&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-H"> </a> <a href="#high" name="xref-high"> high </a> </td>
+     <td> <a href="#level"> &lt;level&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-I"> </a> <a href="#integrity no" name="xref-integrity no"> integrity no </a> </td>
+     <td> <a href="#1989 package"> &lt;1989 package&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#integrity yes" name="xref-integrity yes"> integrity yes </a> </td>
+     <td> <a href="#1989 package"> &lt;1989 package&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#intermediate" name="xref-intermediate"> intermediate </a> </td>
+     <td> <a href="#level"> &lt;level&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked Ada" name="xref-invoked Ada"> invoked Ada </a> </td>
+     <td> <a href="#invoked routine languages"> &lt;invoked routine languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked C" name="xref-invoked C"> invoked C </a> </td>
+     <td> <a href="#invoked routine languages"> &lt;invoked routine languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked COBOL" name="xref-invoked COBOL"> invoked COBOL </a> </td>
+     <td> <a href="#invoked routine languages"> &lt;invoked routine languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked Fortran" name="xref-invoked Fortran"> invoked Fortran </a> </td>
+     <td> <a href="#invoked routine languages"> &lt;invoked routine languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked MUMPS" name="xref-invoked MUMPS"> invoked MUMPS </a> </td>
+     <td> <a href="#invoked routine languages"> &lt;invoked routine languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked Pascal" name="xref-invoked Pascal"> invoked Pascal </a> </td>
+     <td> <a href="#invoked routine languages"> &lt;invoked routine languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked PL/I" name="xref-invoked PL/I"> invoked PL/I </a> </td>
+     <td> <a href="#invoked routine languages"> &lt;invoked routine languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#invoked routine languages" name="xref-invoked routine languages"> invoked routine languages </a> </td>
+     <td> <a href="#bindings"> &lt;bindings&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-L"> </a> <a href="#left paren" name="xref-left paren"> left paren </a> </td>
+     <td> <a href="#1987"> &lt;1987&gt; </a>
+          <a href="#1989 base"> &lt;1989 base&gt; </a>
+          <a href="#1992"> &lt;1992&gt; </a>
+          <a href="#1999"> &lt;1999&gt; </a>
+          <a href="#2003"> &lt;2003&gt; </a>
+          <a href="#arc1"> &lt;arc1&gt; </a>
+          <a href="#arc2"> &lt;arc2&gt; </a>
+          <a href="#direct no"> &lt;direct no&gt; </a>
+          <a href="#direct yes"> &lt;direct yes&gt; </a>
+          <a href="#embedded Ada"> &lt;embedded Ada&gt; </a>
+          <a href="#embedded C"> &lt;embedded C&gt; </a>
+          <a href="#embedded COBOL"> &lt;embedded COBOL&gt; </a>
+          <a href="#embedded Fortran"> &lt;embedded Fortran&gt; </a>
+          <a href="#embedded MUMPS"> &lt;embedded MUMPS&gt; </a>
+          <a href="#embedded Pascal"> &lt;embedded Pascal&gt; </a>
+          <a href="#embedded PL/I"> &lt;embedded PL/I&gt; </a>
+          <a href="#high"> &lt;high&gt; </a>
+          <a href="#integrity no"> &lt;integrity no&gt; </a>
+          <a href="#integrity yes"> &lt;integrity yes&gt; </a>
+          <a href="#intermediate"> &lt;intermediate&gt; </a>
+          <a href="#invoked Ada"> &lt;invoked Ada&gt; </a>
+          <a href="#invoked C"> &lt;invoked C&gt; </a>
+          <a href="#invoked COBOL"> &lt;invoked COBOL&gt; </a>
+          <a href="#invoked Fortran"> &lt;invoked Fortran&gt; </a>
+          <a href="#invoked MUMPS"> &lt;invoked MUMPS&gt; </a>
+          <a href="#invoked Pascal"> &lt;invoked Pascal&gt; </a>
+          <a href="#invoked PL/I"> &lt;invoked PL/I&gt; </a>
+          <a href="#low"> &lt;low&gt; </a>
+          <a href="#module Ada"> &lt;module Ada&gt; </a>
+          <a href="#module C"> &lt;module C&gt; </a>
+          <a href="#module COBOL"> &lt;module COBOL&gt; </a>
+          <a href="#module Fortran"> &lt;module Fortran&gt; </a>
+          <a href="#module MUMPS"> &lt;module MUMPS&gt; </a>
+          <a href="#module Pascal"> &lt;module Pascal&gt; </a>
+          <a href="#module PL/I"> &lt;module PL/I&gt; </a>
+          <a href="#Part n no"> &lt;Part n no&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#level" name="xref-level"> level </a> </td>
+     <td> <a href="#SQL conformance"> &lt;SQL conformance&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#low" name="xref-low"> low </a> </td>
+     <td> <a href="#level"> &lt;level&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-M"> </a> <a href="#module" name="xref-module"> module </a> </td>
+     <td> <a href="#bindings"> &lt;bindings&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module Ada" name="xref-module Ada"> module Ada </a> </td>
+     <td> <a href="#module languages"> &lt;module languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module C" name="xref-module C"> module C </a> </td>
+     <td> <a href="#module languages"> &lt;module languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module COBOL" name="xref-module COBOL"> module COBOL </a> </td>
+     <td> <a href="#module languages"> &lt;module languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module Fortran" name="xref-module Fortran"> module Fortran </a> </td>
+     <td> <a href="#module languages"> &lt;module languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module languages" name="xref-module languages"> module languages </a> </td>
+     <td> <a href="#module"> &lt;module&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module MUMPS" name="xref-module MUMPS"> module MUMPS </a> </td>
+     <td> <a href="#module languages"> &lt;module languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module no" name="xref-module no"> module no </a> </td>
+     <td> <a href="#module"> &lt;module&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module Pascal" name="xref-module Pascal"> module Pascal </a> </td>
+     <td> <a href="#module languages"> &lt;module languages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#module PL/I" name="xref-module PL/I"> module PL/I </a> </td>
+     <td> <a href="#module languages"> &lt;module languages&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-P"> </a> <a href="#Package PKGi" name="xref-Package PKGi"> Package PKGi </a> </td>
+     <td> <a href="#packages"> &lt;packages&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Package PKGiNo" name="xref-Package PKGiNo"> Package PKGiNo </a> </td>
+     <td> <a href="#Package PKGi"> &lt;Package PKGi&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Package PKGiYes" name="xref-Package PKGiYes"> Package PKGiYes </a> </td>
+     <td> <a href="#Package PKGi"> &lt;Package PKGi&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#packages" name="xref-packages"> packages </a> </td>
+     <td> <a href="#SQL conformance"> &lt;SQL conformance&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part 10" name="xref-Part 10"> Part 10 </a> </td>
+     <td> <a href="#parts"> &lt;parts&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part 11" name="xref-Part 11"> Part 11 </a> </td>
+     <td> <a href="#parts"> &lt;parts&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part 3" name="xref-Part 3"> Part 3 </a> </td>
+     <td> <a href="#parts"> &lt;parts&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part 4" name="xref-Part 4"> Part 4 </a> </td>
+     <td> <a href="#parts"> &lt;parts&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part 7" name="xref-Part 7"> Part 7 </a> </td>
+     <td> <a href="#parts"> &lt;parts&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part 9" name="xref-Part 9"> Part 9 </a> </td>
+     <td> <a href="#parts"> &lt;parts&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part n no" name="xref-Part n no"> Part n no </a> </td>
+     <td> <a href="#Part n"> &lt;Part n&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#Part n yes" name="xref-Part n yes"> Part n yes </a> </td>
+     <td> <a href="#Part n"> &lt;Part n&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#parts" name="xref-parts"> parts </a> </td>
+     <td> <a href="#SQL conformance"> &lt;SQL conformance&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-R"> </a> <a href="#right paren" name="xref-right paren"> right paren </a> </td>
+     <td> <a href="#1987"> &lt;1987&gt; </a>
+          <a href="#1989 base"> &lt;1989 base&gt; </a>
+          <a href="#1992"> &lt;1992&gt; </a>
+          <a href="#1999"> &lt;1999&gt; </a>
+          <a href="#2003"> &lt;2003&gt; </a>
+          <a href="#arc1"> &lt;arc1&gt; </a>
+          <a href="#arc2"> &lt;arc2&gt; </a>
+          <a href="#direct no"> &lt;direct no&gt; </a>
+          <a href="#direct yes"> &lt;direct yes&gt; </a>
+          <a href="#embedded Ada"> &lt;embedded Ada&gt; </a>
+          <a href="#embedded C"> &lt;embedded C&gt; </a>
+          <a href="#embedded COBOL"> &lt;embedded COBOL&gt; </a>
+          <a href="#embedded Fortran"> &lt;embedded Fortran&gt; </a>
+          <a href="#embedded MUMPS"> &lt;embedded MUMPS&gt; </a>
+          <a href="#embedded Pascal"> &lt;embedded Pascal&gt; </a>
+          <a href="#embedded PL/I"> &lt;embedded PL/I&gt; </a>
+          <a href="#high"> &lt;high&gt; </a>
+          <a href="#integrity no"> &lt;integrity no&gt; </a>
+          <a href="#integrity yes"> &lt;integrity yes&gt; </a>
+          <a href="#intermediate"> &lt;intermediate&gt; </a>
+          <a href="#invoked Ada"> &lt;invoked Ada&gt; </a>
+          <a href="#invoked C"> &lt;invoked C&gt; </a>
+          <a href="#invoked COBOL"> &lt;invoked COBOL&gt; </a>
+          <a href="#invoked Fortran"> &lt;invoked Fortran&gt; </a>
+          <a href="#invoked MUMPS"> &lt;invoked MUMPS&gt; </a>
+          <a href="#invoked Pascal"> &lt;invoked Pascal&gt; </a>
+          <a href="#invoked PL/I"> &lt;invoked PL/I&gt; </a>
+          <a href="#low"> &lt;low&gt; </a>
+          <a href="#module Ada"> &lt;module Ada&gt; </a>
+          <a href="#module C"> &lt;module C&gt; </a>
+          <a href="#module COBOL"> &lt;module COBOL&gt; </a>
+          <a href="#module Fortran"> &lt;module Fortran&gt; </a>
+          <a href="#module MUMPS"> &lt;module MUMPS&gt; </a>
+          <a href="#module Pascal"> &lt;module Pascal&gt; </a>
+          <a href="#module PL/I"> &lt;module PL/I&gt; </a>
+          <a href="#Part n no"> &lt;Part n no&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="rules-S"> </a> <a href="#SQL conformance" name="xref-SQL conformance"> SQL conformance </a> </td>
+     <td> <a href="#SQL variant"> &lt;SQL variant&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#SQL edition" name="xref-SQL edition"> SQL edition </a> </td>
+     <td> <a href="#SQL variant"> &lt;SQL variant&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#SQL provenance" name="xref-SQL provenance"> SQL provenance </a> </td>
+     <td> <a href="#SQL object identifier"> &lt;SQL object identifier&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a href="#SQL variant" name="xref-SQL variant"> SQL variant </a> </td>
+     <td> <a href="#SQL object identifier"> &lt;SQL object identifier&gt; </a>
+     </td>
+</tr>
+</table>
+<br>
+<p><a href='#top'>Top</a></p>
+
+<hr>
+<a name="xref-keywords"></a>
+<h2> Cross-Reference Table: Keywords </h2>
+A
+B
+C
+<a href="#keywords-D"> D </a>
+<a href="#keywords-E"> E </a>
+F
+G
+<a href="#keywords-H"> H </a>
+<a href="#keywords-I"> I </a>
+J
+K
+<a href="#keywords-L"> L </a>
+<a href="#keywords-M"> M </a>
+N
+O
+<a href="#keywords-P"> P </a>
+Q
+R
+<a href="#keywords-S"> S </a>
+T
+U
+V
+W
+X
+Y
+Z
+
+<table border=1>
+<tr> <th> Keyword </th> <th> Rules using it </th> </tr>
+<tr> <td> <a name="keywords-D"> </a> <a name="xref-directno"> </a> directno </td>
+     <td> <a href="#direct no"> &lt;direct no&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-directyes"> </a> directyes </td>
+     <td> <a href="#direct yes"> &lt;direct yes&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="keywords-E"> </a> <a name="xref-edition1987"> </a> edition1987 </td>
+     <td> <a href="#1987"> &lt;1987&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-edition1989"> </a> edition1989 </td>
+     <td> <a href="#1989 base"> &lt;1989 base&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-edition1992"> </a> edition1992 </td>
+     <td> <a href="#1992"> &lt;1992&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-edition1999"> </a> edition1999 </td>
+     <td> <a href="#1999"> &lt;1999&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-edition2003"> </a> edition2003 </td>
+     <td> <a href="#2003"> &lt;2003&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-embeddedAda"> </a> embeddedAda </td>
+     <td> <a href="#embedded Ada"> &lt;embedded Ada&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-embeddedC"> </a> embeddedC </td>
+     <td> <a href="#embedded C"> &lt;embedded C&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-embeddedCOBOL"> </a> embeddedCOBOL </td>
+     <td> <a href="#embedded COBOL"> &lt;embedded COBOL&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-embeddedFortran"> </a> embeddedFortran </td>
+     <td> <a href="#embedded Fortran"> &lt;embedded Fortran&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-embeddedMUMPS"> </a> embeddedMUMPS </td>
+     <td> <a href="#embedded MUMPS"> &lt;embedded MUMPS&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-embeddedPascal"> </a> embeddedPascal </td>
+     <td> <a href="#embedded Pascal"> &lt;embedded Pascal&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-embeddedPLI"> </a> embeddedPLI </td>
+     <td> <a href="#embedded PL/I"> &lt;embedded PL/I&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="keywords-H"> </a> <a name="xref-High"> </a> High </td>
+     <td> <a href="#high"> &lt;high&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="keywords-I"> </a> <a name="xref-IntegrityNo"> </a> IntegrityNo </td>
+     <td> <a href="#integrity no"> &lt;integrity no&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-IntegrityYes"> </a> IntegrityYes </td>
+     <td> <a href="#integrity yes"> &lt;integrity yes&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-Intermediate"> </a> Intermediate </td>
+     <td> <a href="#intermediate"> &lt;intermediate&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-invokedAda"> </a> invokedAda </td>
+     <td> <a href="#invoked Ada"> &lt;invoked Ada&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-invokedC"> </a> invokedC </td>
+     <td> <a href="#invoked C"> &lt;invoked C&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-invokedCOBOL"> </a> invokedCOBOL </td>
+     <td> <a href="#invoked COBOL"> &lt;invoked COBOL&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-invokedFortran"> </a> invokedFortran </td>
+     <td> <a href="#invoked Fortran"> &lt;invoked Fortran&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-invokedMUMPS"> </a> invokedMUMPS </td>
+     <td> <a href="#invoked MUMPS"> &lt;invoked MUMPS&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-invokedPascal"> </a> invokedPascal </td>
+     <td> <a href="#invoked Pascal"> &lt;invoked Pascal&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-invokedPLI"> </a> invokedPLI </td>
+     <td> <a href="#invoked PL/I"> &lt;invoked PL/I&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-iso"> </a> iso </td>
+     <td> <a href="#arc1"> &lt;arc1&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="keywords-L"> </a> <a name="xref-Low"> </a> Low </td>
+     <td> <a href="#low"> &lt;low&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="keywords-M"> </a> <a name="xref-moduleAda"> </a> moduleAda </td>
+     <td> <a href="#module Ada"> &lt;module Ada&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-moduleC"> </a> moduleC </td>
+     <td> <a href="#module C"> &lt;module C&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-moduleCOBOL"> </a> moduleCOBOL </td>
+     <td> <a href="#module COBOL"> &lt;module COBOL&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-moduleFortran"> </a> moduleFortran </td>
+     <td> <a href="#module Fortran"> &lt;module Fortran&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-moduleMUMPS"> </a> moduleMUMPS </td>
+     <td> <a href="#module MUMPS"> &lt;module MUMPS&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-modulePascal"> </a> modulePascal </td>
+     <td> <a href="#module Pascal"> &lt;module Pascal&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-modulePLI"> </a> modulePLI </td>
+     <td> <a href="#module PL/I"> &lt;module PL/I&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="keywords-P"> </a> <a name="xref-Part-nNo"> </a> Part-nNo </td>
+     <td> <a href="#Part n no"> &lt;Part n no&gt; </a>
+     </td>
+</tr>
+<tr> <td> <a name="keywords-S"> </a> <a name="xref-standard"> </a> standard </td>
+     <td> <a href="#arc2"> &lt;arc2&gt; </a>
+     </td>
+</tr>
+</table>
+<br>
+<p><a href='#top'>Top</a></p>
+
+<hr>
+Please send feedback to Jonathan Leffler, variously:
+<a href="mailto:jleffler@us.ibm.com"> jleffler@us.ibm.com </a> or
+<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.
+
+</body>
+</html>

@@ -1,0 +1,1440 @@
+<!-- @(#)$Id: outer-joins.html,v 1.6 2007/06/14 04:55:07 jleffler Exp $ -->
+
+<HTML>
+<HEAD>
+<TITLE> Informix Outer Joins </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#CCCCCC">
+<H1 ALIGN=CENTER> Informix Outer Joins </H1>
+
+This document contains two ancient appendixes describing Informix outer joins,
+along with some commentary.
+<P>
+<A HREF="#version1"> Version 1.10 </A>
+<BR>
+<A HREF="#version4"> Version 4.0 </A>
+<BR>
+<A HREF="#commentary"> Commentary </A>
+</P>
+
+<P>
+The Spring 1987 issue of Informix's Tech Notes had an article on Outer
+Joins.  The content of that article is the basis of the version 4.0
+appendix with minimal changes for the altered context, such as omitting
+a reference to the next article in the Tech Notes which was on query
+optimization.
+</P>
+
+<HR SIZE=4>
+
+<A NAME="version1"></A>
+<H1 ALIGN=CENTER> Appendix G, Informix-4GL Reference Manual </H1>
+<H1 ALIGN=CENTER> Version 1.10 </H1>
+<H1 ALIGN=CENTER> COMPLEX OUTER JOINS </H1>
+
+<SMALL> <I>
+Jonathan Leffler comments:
+</I> </SMALL>
+
+<P>
+This is a transcription and translation into HTML of an ancient
+document, namely Appendix G (Complex Outer Joins) from the Informix-4GL
+Reference Manual, Vol 2, Version 1.10 (part number 200-507-0002-0, dated
+July 1988).  It is referring to Informix's OUTER construct, not the ISO
+9075:1992 SQL standard construct with the same name but a radically
+different syntax.  The ISO (ANSI) outer join notation is available IDS
+7.31 and in IDS.2000 9.21.  Also, the document uses the term RDSQL to
+refer to the database server.  The original version of this document
+dates back to the days before SE and Turbo were separate products, when
+you bought Informix-4GL or Informix-SQL and the database process,
+sqlexec (which became the core of SE) was simply an important part of
+the base product.
+</P>
+
+<SMALL> <I>
+End commentary
+</I> </SMALL>
+<HR>
+
+<H2> Complex Outer Joins </H2>
+
+When more than two table participate in an outer join, there are many
+ways in which to relate them.  For three tables, there are five
+logically distinct joins, of which four involve outer joins.  These
+distinct outer joins are listed later in this appendix, using the
+notation to be used in SELECT statements and a graphic notation that can
+be generalized for any number of tables.  The detailed rules for the
+graphic representation are located at the end of this section.  Briefly,
+the subservient tables are placed on a lower level than dominant tables.
+
+<P>
+The two-table outer join described in Chapter 2 <i>[of the I4GL
+Reference Manual, Volume 1]</i> is graphically represented as follows:
+</P>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT a, b
+    FROM tab1, OUTER tab2
+    WHERE a = b
+
+<I>Diagram</I>
+tab1 -------@           Level 1
+            |
+          tab2          Level 2
+</PRE></CODE>
+<HR WIDTH=80%>
+<P>
+In the examples that follow, the tilde (~) symbol represents any Boolean
+relation between the columns of two tables.
+</P>
+
+<H3> Example 1 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, y, z
+    WHERE ...
+
+<I>Diagram</I>
+x ---- y ---- z         Level 1
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<P>
+This is the standard inner join and all three tables are treated on the
+same level.  There are no restrictions on the WHERE clause.  It need not
+exist.  Before the WHERE clause is applied, a full Cartesian product is
+made among all three tables.  (<B>Note</b>: A Cartesian product of two
+tables appends every row of the second table to every row of the first.
+A Cartesian product of three tables is the Cartesian product of the
+third with the Cartesian product of the first two, and so on.)
+</P>
+
+<H3> Example 2 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, y, OUTER z
+    WHERE (x or y) ~ z
+
+<I>Diagram</I>
+x ---- y -----@         Level 1
+              |
+              z         Level 2
+</PRE></CODE>
+<HR WIDTH=80%>
+
+Example 2 illustrates the simplest extension of the outer join from two
+tables to three tables. <b>x</b> and <b>y</b> are joined at the same
+level and are shown connected together. <b>z</b> is the subservient
+table and is placed down one level.  The WHERE clause must relate a
+Level 1 table with a Level 2 table.  Other relationships are also
+permitted.  Before the WHERE clause is applied, RDSQL takes the
+cartesian product of <b>x</b> and <b>y</b> and then takes the outer join
+of the result with z. <b>x</b>
+
+<H3> Example 3 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, OUTER y, OUTER z
+    WHERE x ~ y AND x ~ z
+
+<I>Diagram</I>
+x -----@------@         Level 1
+       |      |
+       y      z         Level 2
+</PRE></CODE>
+<HR WIDTH=80%>
+
+Although both <b>y</b> and <b>z</b> are at the same level, they are not
+connected.  Here, a relationship is required between <b>x</b> and
+<b>y</b> and also between <b>x</b> and <b>z</b>.  No relationship is
+permitted between <b>y</b> and <b>z</b> since they are not connected at
+the second level.  The outer join is performed between <b>x</b> and
+<b>y</b> and then the outer join between the resulting table and
+<b>z</b>.
+
+<H3> Example 4 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, OUTER (y, z)
+    WHERE x ~ (y or z)
+
+<I>Diagram</I>
+x -----@                Level 1
+       |
+       y ---- z         Level 2
+</PRE></CODE>
+<HR WIDTH=80%>
+
+In Example 4, a relationship is required between <b>x</b> and either
+<b>y</b> or <b>z</b> or both.  In addition, there may be a relationship
+between <b>y</b> and <b>z</b> since they are connected at the second
+level.  To perform this join, RDSQL starts at the top and works down.
+For each row of <b>x</b>, RDSQL attempts to find a row of <b>y</b> that
+satisfies the WHERE clause.  If none is found, RDSQL substitutes NULL
+values for the columns of <b>y</b> and <b>z</b>.  If a row of <b>y</b>
+satisfies the WHERE clause, RDSQL seeks a row of <b>z</b> that satisfies
+the WHERE clause.  It substitutes NULL values for both <b>y</b> and
+<b>z</b> if no row in <b>z</b> is found.
+
+<H3> Example 5 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, OUTER (y, OUTER z)
+    WHERE x ~ y AND y ~ z
+
+<I>Diagram</I>
+x -----@                Level 1
+       |
+       y -----@         Level 2
+              |
+              z         Level 3
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<P>
+Example 5 shows a three-level outer join.  There must always be a
+relationship between adjacent levels.  In this case, <b>x</b> must be
+related to <b>y</b>, and <b>y</b> must be related to <b>z</b>.  RDSQL
+performs this join by picking a row from <b>x</b> and looking for a pair
+from <b>y</b> and <b>z</b> that satisfies (<b>y</b>, outer <b>z</b>).
+</P>
+
+<H2> Output from Examples </H2>
+<P>
+If each of the tables consists of a single column with the values in the
+followin table, then the previously described joins will result in the
+subsequent tables.
+
+<HR WIDTH=80%>
+<CODE><PRE>
+
+    x.a     y.b     z.c
+    1       2       3
+    2       3       4
+    3       4       5
+    5
+
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<H3> Example 1 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, y, z
+    WHERE x.a = z.c
+</PRE></CODE>
+
+<CODE><PRE>
+    a       b       c
+    3       2       3
+    3       3       3
+    3       4       3
+    5       2       5
+    5       3       5
+    5       4       5
+</PRE></CODE>
+
+<P>
+<SMALL><I>
+[JL: this example, and several of the following ones, has a Cartesian
+product of table <b>y</b> with the join of tables <b>x</b> and
+<b>z</b>.]
+</I></SMALL>
+</P>
+
+<HR WIDTH=80%>
+
+<H3> Example 2 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, y, OUTER z
+    WHERE x.a = z.c
+</PRE></CODE>
+
+<CODE><PRE>
+    a       b       c
+    1       2       -
+    1       3       -
+    1       4       -
+    2       2       -
+    2       3       -
+    2       4       -
+    3       2       3
+    3       3       3
+    3       4       3
+    5       2       5
+    5       3       5
+    5       4       5
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<H3> Example 3 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, OUTER y, OUTER z
+    WHERE x.a = y.b AND x.a = z.c
+</PRE></CODE>
+
+<CODE><PRE>
+    a       b       c
+    1       -       -
+    2       2       -
+    3       3       3
+    5       -       5
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<H3> Example 4 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, OUTER (y, z)
+    WHERE x.a = z.c
+</PRE></CODE>
+
+<CODE><PRE>
+    a       b       c
+    1       -       -
+    2       -       -
+    3       2       3
+    3       3       3
+    3       4       3
+    5       2       5
+    5       3       5
+    5       4       5
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<H3> Example 5 </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, OUTER (y, OUTER z)
+    WHERE x.a = y.b AND y.b = z.c
+</PRE></CODE>
+
+<CODE><PRE>
+    a       b       c
+    1       -       -
+    2       2       -
+    3       3       3
+    5       -       -
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<P>
+The following steps are useful when considering how RDSQL performs an outer join:
+
+<OL>
+<LI>
+Draw the graph corresponding to the FROM clause.  Replace each keyword
+OUTER with the symbol @ and put the table names to which the keyword
+applies in the next lower level.
+
+<LI>
+Ensure that a condition exists in the WHERE clause relating a table on
+each level through each @ to a table in the next level below.
+
+<LI>
+Form a Cartesian product of all tables connected on the same level,
+applying whichever conditions of the WHERE clause apply only to that
+level.
+
+<LI>
+Starting with the first level, take a row at a time from the resulting
+table and attempt to satisfy the WHERE clause with the resulting table
+of the next lower level, replacing the columns of the lower-level table
+with NULL values if the WHERE clause cannot be satisfied.
+</OL>
+
+As an example, the following FROM clause results in the accompanying graph:
+
+<HR WIDTH=80%>
+<CODE><PRE>
+    FROM x, OUTER (y, OUTER (z, a, b)), outer c, d
+</PRE></CODE>
+
+<CODE><PRE>
+x -----@-------------@----- d   Level 1
+       |             |
+       y ---- @      c          Level 2
+              |
+              z ---- a ---- b   Level 3
+</PRE></CODE>
+<HR WIDTH=80%>
+
+A Cartesian product is made between <b>x</b> and <b>d</b> (call it
+<b>txd</b>) and between <b>z</b>, <b>a</b> and <b>b</b> (call it
+<b>tzab</b>), since these sets of tables are connected on the same
+level. <b>y</b> and <b>c</b> are both on Level 2, but they are not
+connected on that level.  For each row of <b>txd</b>, RDSQL attempts to
+find a row of <b>y</b> that satisfies the WHERE clause.  If it succeeds,
+it searches for a row of <b>tzab</b> that satisfies the WHERE clause.
+In both cases, NULL values are substituted if no satisfactory row is
+found.  RDSQL then searches for a row of <b>c</b> that satisfies the
+WHERE clause, substituting NULL values if unsuccessful.
+
+<P>
+
+<HR WIDTH=80%>
+<CENTER>
+<SMALL> <I>
+This is the end of Appendix G in the 1.10 manual.
+</I> </SMALL>
+</CENTER>
+
+<HR SIZE=4>
+
+<A NAME="version4"></A>
+<H1 ALIGN=CENTER> Appendix G, Informix-4GL Reference Manual </H1>
+<H1 ALIGN=CENTER> Version 4.0 </H1>
+<H1 ALIGN=CENTER> OUTER JOINS </H1>
+
+<SMALL> <I>
+Jonathan Leffler comments:
+</I> </SMALL>
+
+<P>
+This is a transcription and translation into HTML of an ancient
+document, namely Appendix G (Outer Joins) from the Informix-4GL
+Reference Manual, Vol 2, Version 4.0 (part number 000-7405, dated March
+1990).  It is referring to Informix's OUTER construct, not the ISO
+9075:1992 SQL standard construct with the same name but a radically
+different syntax.  The ISO (ANSI) outer join notation is understood in
+IDS 7.31 and in IDS.2000 9.21.  Note that the document uses the term
+'4GL' to refer to the database server.
+</P>
+
+<SMALL> <I>
+End commentary
+</I> </SMALL>
+<HR>
+
+<H2> Outer Joins </H2>
+
+This appendix discusses the difference between a simple join and an
+outer join, and describes in detail how outer joins work.  The following
+SELECT statements illustrate the basic difference between the two types
+of join.
+
+<HR WIDTH=80%>
+<H3> Query 1 - Using a Simple Join </H3>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT customer.customer_num, lname, order_num
+    FROM customer, orders
+    WHERE customer.customer_num = orders.order_num
+</PRE></CODE>
+
+<H3> Query 2 - Using an Outer Join </H3>
+
+<CODE><PRE>
+SELECT customer.customer_num, lname, order_num
+    FROM customer, OUTER orders
+    WHERE customer.customer_num = orders.customer_num
+</PRE></CODE>
+
+<HR WIDTH=80%>
+
+Both query the same tables (<B>customer</b> and <B>orders</B>) of the
+same database (<B>stores</B>) through a join on the same column
+(<B>customer_num</B>).  At first glance, both fetch the same data.  The
+query results, however, are quote different, as the following
+illustration shows.
+
+<P>
+<SMALL><I>
+Query Results from Stores7 Database Generated on Solaris 7 with IDS.2000 9.20.UC2.
+</I></SMALL>
+</P>
+
+<HR WIDTH=80%>
+
+<CODE><PRE>
+Query 1 Results
+
+104             Higgins         1001
+101             Pauli           1002
+104             Higgins         1003
+106             Watson          1004
+116             Parmelee        1005
+112             Lawson          1006
+117             Sipes           1007
+110             Jaeger          1008
+111             Keyes           1009
+115             Grant           1010
+104             Higgins         1011
+117             Sipes           1012
+104             Higgins         1013
+106             Watson          1014
+110             Jaeger          1015
+119             Shorter         1016
+120             Jewell          1017
+121             Wallack         1018
+122             O'Brian         1019
+123             Hanlon          1020
+124             Putnum          1021
+126             Neelie          1022
+127             Satifer         1023
+
+
+Query 2 Results
+
+customer_num    lname           order_num
+101             Pauli           1002
+102             Sadler
+103             Currie
+104             Higgins         1001
+104             Higgins         1003
+104             Higgins         1011
+104             Higgins         1013
+105             Vector
+106             Watson          1004
+106             Watson          1014
+107             Ream
+108             Quinn
+109             Miller
+110             Jaeger          1008
+110             Jaeger          1015
+111             Keyes           1009
+112             Lawson          1006
+113             Beatty
+114             Albertson
+115             Grant           1010
+116             Parmelee        1005
+117             Sipes           1007
+117             Sipes           1012
+118             Baxter
+119             Shorter         1016
+120             Jewell          1017
+121             Wallack         1018
+122             O'Brian         1019
+123             Hanlon          1020
+124             Putnum          1021
+125             Henry
+126             Neelie          1022
+127             Satifer         1023
+128             Lessor
+</PRE></CODE>
+
+<P>
+By using a <I>simple join</i>, Query 1 fetches a list of only those
+customers who have items on order, while Query 2 fetches a list of all
+customers by using an <i>outer</i> join.  Once you understand how
+similar queries can produce such dissimilar results, you can begin to
+use outer joins effectively.  The obvious differences between the two
+joins are as follows:
+</P>
+
+<P>
+<BL>
+<LI>
+A <i>simple join</i> discards all rows that do not satisfy the join condition.
+<LI>
+An <i>outer join</i> preserves rows that would otherwise be discarded.
+</BL>
+
+</P>
+<P>
+The following section discusses outer joins in detail.
+</P>
+
+<H2> How Outer Joins Work </H2>
+
+<P>
+A join queries two or more tables as though they were one.  It is as if
+4GL creates and then acts upon a single temporary table to produce the
+query results.  4GL does not actually create such a table to perform a
+join, but it is helpful to conceptualize a join in these terms.
+</P>
+
+<P>
+In a simple two-table join, the resulting "table" contains only those
+combinations of rows from both tables that satisfy the join condition.
+In an outer join, the resulting "table" contains these rows, plus all
+the remaining rows from on of the tables, called the dominant (or
+preserved) table.  The second table is called the subservient table.
+</P>
+
+<P>
+Consider two hypothetical tables, <B>employees</B> and <B>depts</B>,
+which contain the following columns and rows (where dash '--' indicates
+a NULL value):
+</P>
+
+<CODE><PRE>
+employees
+
+emp_num     dept_num
+2           105
+4           103
+6           103
+5           --
+3           102
+
+depts
+
+depts_num   dept_loc
+
+102         NY
+103         LA
+105         SF
+
+</PRE></CODE>
+
+<P>
+Suppose, for example, that you need a list of employee numbers and
+department locations for all employees, including those employees whose department locations are unknown
+(represented by NULL values in the <B>employees</B> table).  The following query fetches the desired results:
+</P>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT emp_num, dept_loc
+    FROM employees, OUTER depts
+    WHERE employees.dept_num = depts.dept_num
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<P>
+The keyword OUTER designates <b>depts</b> as the subservient table,
+making <B>employees</B> the dominant table.  4GL processes the query by
+the following steps:
+
+<OL>
+<LI>
+4GL applies filters to the subservient table while sequentially applying
+the join condition to the rows of the dominant table.  Rows in the
+dominant table are retrieved without considering the join, but rows from
+the subservient table (outer table) are retrieved only if they satisfy
+the join condition.  Any dominant-table rows that do not have a matching
+row from the subservient table receive a row of NULL values in place of
+a subservient-table row.
+</P>
+
+<P>
+The result is a "table" with the following rows:
+
+</P>
+<CODE><PRE>
+emp_num     dept_num    dept_num    dept_loc
+2           105         105         SF
+4           103         103         LA
+6           103         103         LA
+5           --          --          --
+3           102         102         NY
+</PRE></CODE>
+
+<P>
+Note: A <i>filter</i> is a condition expressed in a WHERE clause that
+applies to columns in a single table.  For example,
+</P>
+
+<CODE><PRE>
+dept_loc  = "SF"        <i>or</i>          emp_num < 105
+</PRE></CODE>
+
+<P>
+Because 4GL applies such filters to the subservient table as it performs
+the join, the resulting "table" may contain NULL values that were not
+present in the subservient table prior to the join.
+</P>
+<P>
+Suppose that the query include a filter on the <b>dept_loc</b> column:
+</P>
+
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT emp_num, dept_loc
+    FROM employees, OUTER depts
+    WHERE employees.dept_num = depts.dept_num
+      AND dept_loc != "LA"
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<P>
+At step 2, the results include more rows of NULL values than the results
+of the original query:
+</P>
+
+<CODE><PRE>
+emp_num     dept_loc
+2           SF
+4           --
+6           --
+5           --
+3           NY
+</PRE></CODE>
+
+<P>
+The filter removes rows from the <b>depts</b> table where
+<b>dept_loc</b> is equal to "LA".
+
+<LI>
+After performing the join, 4Gl applies filters to the dominant table (if
+they exist).
+
+<LI>
+4GL applies the SELECT clause to eliminate unneeded columns, and the
+query returns the results:
+
+
+<CODE><PRE>
+emp_num     dept_loc
+2           SF
+4           LA
+6           LA
+5
+3           NY
+</PRE></CODE>
+
+<P>
+<SMALL><I>
+The original version listed the <b>emp_num</b> values in numeric order
+without any sorting.  IDS.2000 does not do this.
+</I></SMALL>
+
+</OL>
+
+<P>
+In a similar way to the previous example, the following query produces a
+list of all customers with supplemental information for those customers
+with items on orders.  Where <b>orders.customer_num</b> is not equal to
+<b>customer.customer_num</b>, 4GL combines a row of NULL values with the
+corresponding row from the <b>customer</b> table.  Because the query
+does not contain filters, the results preserve every row from the
+dominant table.
+</P>
+
+<H3> Query 3 </H3>
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT customer.customer_num, company, order_num, ship_date
+    FROM customer, OUTER orders
+    WHERE customer.customer_num = orders.customer_num
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<H3> Query 3 Results </H3>
+
+<CODE><PRE>
+customer_num    company                 order_num   ship_date
+101             All Sports Supplies     1002        26/05/1998
+102             Sports Spot
+103             Phil's Sports
+104             Play Ball!              1001        01/06/1998
+104             Play Ball!              1003        23/05/1998
+104             Play Ball!              1011        03/07/1998
+104             Play Ball!              1013        10/07/1998
+105             Los Altos Sports
+106             Watson & Son            1004        30/05/1998
+106             Watson & Son            1014        03/07/1998
+107             Athletic Supplies
+108             Quinn's Sports
+109             Sport Stuff
+110             AA Athletics            1008        06/07/1998
+110             AA Athletics            1015        16/07/1998
+111             Sports Center           1009        21/06/1998
+112             Runners & Others        1006
+113             Sportstown
+114             Sporting Place
+115             Gold Medal Sports       1010        29/06/1998
+116             Olympic City            1005        09/06/1998
+117             Kids Korner             1007        05/06/1998
+117             Kids Korner             1012        29/06/1998
+118             Blue Ribbon Sports
+119             The Triathletes Club    1016        12/07/1998
+120             Century Pro Shop        1017        13/07/1998
+121             City Sports             1018        13/07/1998
+122             The Sporting Life       1019        16/07/1998
+123             Bay Sports              1020        16/07/1998
+124             Putnum's Putters        1021        25/07/1998
+125             Total Fitness Sports
+126             Neelie's Discount Sp    1022        30/07/1998
+127             Big Blue Bike Shop      1023        30/07/1998
+128             Phoenix University
+
+</PRE></CODE>
+
+<P>
+The preceeding example queries two tables in the simplest type of outer
+join.  You can, in fact, use outer joins to query any number of tables,
+producing more types of joins than can be discussed here.  The following
+types are possible when three tables are involved in a query:
+</P>
+
+<BL>
+<LI>
+You can outer-join the result of a simple join to a third table.
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT <i>column-list</i>
+    FROM x, OUTER (y, z)
+    WHERE x.a = y.a
+      AND y.b = z.b
+</PRE></CODE>
+<HR WIDTH=80%>
+<A HREF="#query4">Query 4</A> performs this kind of join.  (See the
+sections "Examples" later in this chapter.)
+</LI>
+
+<LI>
+You can outer-join the result of an outer join to a third table.
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT <i>column-list</i>
+    FROM x, OUTER (y, OUTER z)
+    WHERE x.a = y.a
+      AND y.b = z.b
+</PRE></CODE>
+<HR WIDTH=80%>
+or
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT <i>column-list</i>
+    FROM x, OUTER (y, OUTER z)
+    WHERE x.a = z.a     <i>-- different join here!</i>
+      AND y.b = z.b
+</PRE></CODE>
+<HR WIDTH=80%>
+<A HREF="#query5">Query 5</A> and
+<A HREF="#query6">Query 6</A>
+perform this kind of join.  (See the sections "Examples" later in this chapter.)
+</LI>
+
+<LI>
+You can outer-join two tables individually to a third tables, in which
+case, join relationships are possible only between the subservient
+tables and the dominant tables.  <A HREF="#query7">Query 7</A> performs
+this kind of join.  (See the sections "Examples" later in this chapter.)
+
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT <i>column-list</i>
+    FROM x, OUTER y, OUTER z
+    WHERE x.a = y.a
+      AND x.b = z.b
+</PRE></CODE>
+<HR WIDTH=80%>
+
+When you outer-join several tables to another table, make sure that your
+WHERE clause does not attempt to specify impossible join conditions.
+The following query attempts a join between two subservient tables:
+
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT <i>column-list</i>
+    FROM x, OUTER y, OUTER z
+    WHERE x.a = y.a
+      AND y.b = z.b
+</PRE></CODE>
+<HR WIDTH=80%>
+An error results: every outer join must have a dominant table.
+</LI>
+
+</BL>
+
+The following examples use the stores database to demonstrate common
+multi-table outer joins.
+
+<H1> Examples </H1>
+
+<A NAME="query4"></A>
+<H2> Query 4 </H2>
+
+This query outer-joins the result of a simple join to a third table.  It
+produces a list of all customers with supplemental information (order
+number, stock number, manufacturer code, and quantity ordered) for those
+customers who ordered items manufactured by Anza.
+
+<HR WIDTH=80%>
+<CODE><PRE>
+SELECT customer.customer_num, lname, orders.order_num, stock_num, manu_code, quantity
+    FROM customer, OUTER(orders, items)
+    WHERE customer.customer_num = orders.customer_num
+      AND orders.order_num = items.order_num
+      AND manu_code = 'ANZ'
+</PRE></CODE>
+<HR WIDTH=80%>
+
+<P>
+4GL performs the simple join between <b>orders</b> and <b>items</b>
+first, yielding information on all orders for ANZA-manufactured items.
+The outer join combines the <b>customer</b> table with the Anza order
+information.  The query results do not include orders for other items.
+</P>
+
+<H3> Query 4 Results </H3>
+
+<CODE><PRE>
+
+customer_num    lname           order_num       stock_num       manu_code       quantity
+101             Pauli
+102             Sadler
+103             Currie
+104             Higgins         1003            9               ANZ             1
+104             Higgins         1003            8               ANZ             1
+104             Higgins         1003            5               ANZ             5
+104             Higgins         1011            5               ANZ             5
+104             Higgins         1013            5               ANZ             1
+104             Higgins         1013            6               ANZ             1
+104             Higgins         1013            9               ANZ             2
+105             Vector
+106             Watson
+107             Ream
+108             Quinn
+109             Miller
+110             Jaeger          1008            8               ANZ             1
+110             Jaeger          1008            9               ANZ             5
+111             Keyes
+112             Lawson          1006            5               ANZ             5
+112             Lawson          1006            6               ANZ             1
+113             Beatty
+114             Albertson
+115             Grant           1010            6               ANZ             1
+116             Parmelee        1005            5               ANZ             10
+116             Parmelee        1005            6               ANZ             1
+117             Sipes           1012            8               ANZ             1
+117             Sipes           1012            9               ANZ             10
+118             Baxter
+119             Shorter
+120             Jewell
+121             Wallack
+122             O'Brian
+123             Hanlon
+124             Putnum          1021            201             ANZ             3
+124             Putnum          1021            205             ANZ             2
+125             Henry
+126             Neelie          1022            6               ANZ             2
+127             Satifer         1023            304             ANZ             1
+128             Lessor
+
+</PRE></CODE>
+
+<A NAME="query5"></A>
+<H2> Query 5 </H2>
+
+This query outer-joins the result of an outer join to a third table.
+When you use a nested outer join, the query preserves the order numbers
+that <A HREF="#query4">Query 4</A> (using a nested simple join)
+eliminates.  The query results include all orders, whether or not they
+contain Anza-manufactured items.  For other items, the condition
+<HR WIDTH=80%>
+<CODE> <PRE>
+WHERE manu_code = 'ANZ'
+</PRE> </CODE>
+<HR WIDTH=80%>
+eliminates stock numbers, manufacturer codes and quantities as before.
+
+<HR WIDTH=80%>
+<CODE> <PRE>
+SELECT customer.customer_num, lname, orders.order_num, stock_num, manu_code, quantity
+    FROM customer, OUTER (orders, OUTER items)
+    WHERE customer.customer_num = orders.customer_num
+      AND orders.order_num = items.order_num
+      AND manu_code = 'ANZ'
+</PRE> </CODE>
+<HR WIDTH=80%>
+
+<H3> Query 5 Results </H3>
+
+<CODE> <PRE>
+
+customer_num    lname           order_num       stock_num       manu_code       quantity
+
+101             Pauli           1002
+102             Sadler
+103             Currie
+104             Higgins         1001
+104             Higgins         1003            9               ANZ             1
+104             Higgins         1003            8               ANZ             1
+104             Higgins         1003            5               ANZ             5
+104             Higgins         1011            5               ANZ             5
+104             Higgins         1013            5               ANZ             1
+104             Higgins         1013            6               ANZ             1
+104             Higgins         1013            9               ANZ             2
+105             Vector
+106             Watson          1004
+106             Watson          1014
+107             Ream
+108             Quinn
+109             Miller
+110             Jaeger          1008            8               ANZ             1
+110             Jaeger          1008            9               ANZ             5
+110             Jaeger          1015
+111             Keyes           1009
+112             Lawson          1006            5               ANZ             5
+112             Lawson          1006            6               ANZ             1
+113             Beatty
+114             Albertson
+115             Grant           1010            6               ANZ             1
+116             Parmelee        1005            5               ANZ             10
+116             Parmelee        1005            6               ANZ             1
+117             Sipes           1007
+117             Sipes           1012            8               ANZ             1
+117             Sipes           1012            9               ANZ             10
+118             Baxter
+119             Shorter         1016
+120             Jewell          1017
+121             Wallack         1018
+122             O'Brian         1019
+123             Hanlon          1020
+124             Putnum          1021            201             ANZ             3
+124             Putnum          1021            205             ANZ             2
+125             Henry
+126             Neelie          1022            6               ANZ             2
+127             Satifer         1023            304             ANZ             1
+128             Lessor
+
+</PRE> </CODE>
+
+<A NAME="custnotes"></A>
+In addition to <b>customer</b>, <b>orders</b> and so on, the following
+queries include a hypothetical table named <b>custnotes</b>, containing
+the following columns and data:
+
+<CODE> <PRE>
+
+customer_num    notes
+
+104             sponsors soccer team
+108             customer for 20 years
+115             opening a second store
+118             new customer
+
+</PRE> </CODE>
+
+<A NAME="query6"></A>
+<H2> Query 6 </H2>
+
+This query produces a list of all customers with order number and
+selected notes.
+
+<HR WIDTH=80%>
+<CODE> <PRE>
+SELECT customer.customer_num, orders.order_num, notes
+    FROM customer, OUTER (orders, OUTER custnotes)
+    WHERE customer.customer_num = orders.customer_num
+      AND orders.customer_num = custnotes.customer_num
+</PRE> </CODE>
+<HR WIDTH=80%>
+
+The outer join between <A HREF="#custnotes"><b>custnotes</b></A> and
+<b>orders</b> preserves notes only for customers who also have orders.
+
+<H3> Query 6 Results </H3>
+
+<CODE> <PRE>
+
+customer_num    order_num       notes
+
+101             1002
+102
+103
+104             1001            sponsors soccer team
+104             1003            sponsors soccer team
+104             1011            sponsors soccer team
+104             1013            sponsors soccer team
+105
+106             1004
+106             1014
+107
+108
+109
+110             1008
+110             1015
+111             1009
+112             1006
+113
+114
+115             1010            opening a second store
+116             1005
+117             1007
+117             1012
+118
+119             1016
+120             1017
+121             1018
+122             1019
+123             1020
+124             1021
+125
+126             1022
+127             1023
+128
+
+</PRE> </CODE>
+
+To preserve notes for customers 108 and 118 who do not have orders, you
+must outer-join the <b>custnotes</b> table <i>directly</i> with the
+<b>customer</b> table, as shown in the next query.
+
+<A NAME="query7"></A>
+<H2> Query 7 </H2>
+
+This query outer-joins two tables individually to a third table.  It
+outer joins both <b>orders</b> and <A
+HREF="#custnotes"><b>custnotes</b></A> to <b>customer</b> (the dominant
+table).
+
+<HR WIDTH=80%>
+<CODE> <PRE>
+SELECT customer.customer_num, orders.order_num, notes
+    FROM customer, OUTER orders, OUTER custnotes
+    WHERE customer.customer_num = orders.order_num
+      AND customer.customer_num = custnotes.customer_num
+</PRE> </CODE>
+<HR WIDTH=80%>
+
+Cusomer notes now appear, regardless of whether customers have orders.
+
+<H3> Query 7 Results </H3>
+
+<CODE> <PRE>
+
+customer_num    order_num       notes
+
+101
+102
+103
+104                             sponsors soccer team
+105
+106
+107
+108                             customer for 20 years
+109
+110
+111
+112
+113
+114
+115                             opening a second store
+116
+117
+118                             new customer
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+
+</PRE> </CODE>
+
+<P>
+All of the preceding queries fetch information from one table with
+supplemental information from other tables.  When you need similar
+results, Informix recommends that you use an outer join.  When you do not
+need supplemental information, as is normally the case, use a simple
+join instead.
+</P>
+
+<P>
+Be aware that your choice of an outer join can influence query
+optimization and processing.  You can use the SET EXPLAIN ON statement
+to examine how the query processor of Informix-4GL performs simple
+queries, joins and outer joins.
+</P>
+
+<HR WIDTH=80%>
+<CENTER>
+<SMALL> <I>
+This is the end of Appendix G in the 4.0 manual.
+</I> </SMALL>
+</CENTER>
+
+<HR SIZE=4>
+
+<A NAME="commentary"></A>
+<H1> Commentary </H1>
+
+This section applies the diagramming notation from the 'Complex Outer
+Joins' appendix to the examples in the 'Outer Joins' appendix.
+
+<HR WIDTH=80%>
+<H3> Query 1 </H3>
+
+<CODE><PRE>
+SELECT customer.customer_num, lname, order_num
+    FROM customer, orders
+    WHERE customer.customer_num = orders.order_num
+</PRE></CODE>
+
+<CODE> <PRE>
+customer ---- orders
+</PRE> </CODE>
+
+<HR WIDTH=80%>
+<H3> Query 2 </H3>
+
+<CODE><PRE>
+SELECT customer.customer_num, lname, order_num
+    FROM customer, OUTER orders
+    WHERE customer.customer_num = orders.customer_num
+</PRE></CODE>
+
+
+<CODE> <PRE>
+customer -----@
+              |
+            orders
+</PRE> </CODE>
+
+<HR WIDTH=80%>
+<H3> Query 3 </H3>
+
+<CODE><PRE>
+SELECT customer.customer_num, company, order_num, ship_date
+    FROM customer, OUTER orders
+    WHERE customer.customer_num = orders.customer_num
+</PRE></CODE>
+
+<CODE> <PRE>
+customer -----@
+              |
+            orders
+</PRE> </CODE>
+
+<HR WIDTH=80%>
+<H3> Query 4 </H3>
+
+<CODE><PRE>
+SELECT customer.customer_num, lname, orders.order_num, stock_num, manu_code, quantity
+    FROM customer, OUTER(orders, items)
+    WHERE customer.customer_num = orders.customer_num
+      AND orders.order_num = items.order_num
+      AND manu_code = 'ANZ'
+</PRE></CODE>
+
+
+<CODE> <PRE>
+customer -----@
+              |
+            orders ---- items
+</PRE> </CODE>
+
+<HR WIDTH=80%>
+<H3> Query 5 </H3>
+
+<CODE> <PRE>
+SELECT customer.customer_num, lname, orders.order_num, stock_num, manu_code, quantity
+    FROM customer, OUTER (orders, OUTER items)
+    WHERE customer.customer_num = orders.customer_num
+      AND orders.order_num = items.order_num
+      AND manu_code = 'ANZ'
+</PRE> </CODE>
+
+<CODE> <PRE>
+customer -----@
+              |
+            orders -----@
+                        |
+                      items
+</PRE> </CODE>
+
+<HR WIDTH=80%>
+<H3> Query 6 </H3>
+
+<CODE> <PRE>
+SELECT customer.customer_num, orders.order_num, notes
+    FROM customer, OUTER (orders, OUTER custnotes)
+    WHERE customer.customer_num = orders.customer_num
+      AND orders.customer_num = custnotes.customer_num
+</PRE> </CODE>
+
+<CODE> <PRE>
+customer -----@
+              |
+            orders -----@
+                        |
+                    custnotes
+</PRE> </CODE>
+
+<HR WIDTH=80%>
+<H3> Query 7 </H3>
+
+<CODE> <PRE>
+SELECT customer.customer_num, orders.order_num, notes
+    FROM customer, OUTER orders, OUTER custnotes
+    WHERE customer.customer_num = orders.order_num
+      AND customer.customer_num = custnotes.customer_num
+</PRE> </CODE>
+
+<CODE> <PRE>
+customer -----@---------@
+              |         |
+            orders  custnotes
+</PRE> </CODE>
+
+<HR>
+
+<H2> An Extreme Case </H2>
+
+Once upon a long time ago (are you sitting comfortably?), there was a
+system running on Informix-Turbo (the predecessor to Informix-OnLine).
+The views were rather substantial.  This is the text of a create view
+actually encountered on the Turbo system, prettified for presentation.
+
+<CODE> <PRE>
+CREATE VIEW IBB_V_Project AS
+    SELECT  A.Project_Iref,
+            A.Section_Iref,
+            B.Section_Eref,
+            N.Company_Iref,
+            N.Company_Name,
+            A.Product_Desc,
+            A.Project_Type_Iref,
+            D.Project_Type,
+            A.Person_Iref,
+            F.Full_Name,
+            A.Respon_Iref,
+            G.Post_Location,
+            A.Project_Stat_Iref,
+            E.Project_Status,
+            A.Source_Iref,
+            I.Source,
+            A.Sic_Iref,
+            L.Sic_Eref,
+            A.Op_Activity_Iref,
+            M.Op_Activity_Desc,
+            A.Involve_Iref,
+            K.IBB_Involvement,
+            A.Nature_Iref,
+            C.Nature_Of_Next_Act,
+            A.Internat_Mobile,
+            A.Whether_Cop_Case,
+            A.Closed_Ind,
+            A.Next_Action_Date,
+            A.Creation_Date,
+            A.Last_Edit_Date,
+            A.Last_Editor_Iref,
+            H.Logname
+
+    FROM    IBB_Project A,
+            IBB_Section B,
+            IBB_R_Proj_Type D,
+            IBB_R_Project_Stat E,
+            IBB_Personnel H,
+            OUTER IBB_R_Next_Act C,
+            OUTER IBB_Personnel F,
+            OUTER (IBB_Post_Respon X, OUTER IBB_V_Post_Resp2 G),
+            OUTER IBB_R_Source I,
+            OUTER IBB_R_Involvement K,
+            OUTER IBB_Sic L,
+            OUTER IBB_Op_Act M,
+            OUTER IBB_V_Proj_Co2 N
+
+    WHERE   A.Section_Iref      = B.Section_Iref
+      AND   A.Project_Type_Iref = D.Project_Type_Iref
+      AND   A.Project_Stat_Iref = E.Project_Stat_Iref
+      AND   A.Last_Editor_Iref  = H.Person_Iref
+      AND   A.Nature_Iref       = C.Nature_Iref
+      AND   A.Person_Iref       = F.Person_Iref
+      AND   A.Respon_Iref       = X.Respon_Iref
+      AND   X.Respon_Iref       = G.Person_Iref
+      AND   A.Source_Iref       = I.Source_Iref
+      AND   A.Sic_Iref          = L.Sic_Iref
+      AND   A.Op_Activity_Iref  = M.Op_Activity_Iref
+      AND   A.Project_Iref      = N.Project_Iref
+      AND   A.Involve_Iref      = K.Involve_Iref;
+</PRE> </CODE>
+
+Note that IBB_V_Post_Resp2 and IBB_V_Proj_Co2 are both themselves views.
+In fact, IBB_V_Proj_Co2 was a 3-table view, exact details unknown but of
+the form:
+
+<CODE> <PRE>
+CREATE VIEW IBB_V_Proj_Co2 AS
+    SELECT  A.Project_Iref,
+            A.Some_Other_Col col01,
+            B.Xxxx_Iref,
+            B.Some_Other_Col col02,
+            C.Yyyy_Iref,
+            C.Some_Other_Col col03
+    FROM    IBB_Project A,
+            OUTER (IBB_R_Xxxx B, IBB_R_Yyyy C)
+    WHERE   A.Xxxx_Iref = B.Xxxx_IrEf
+      AND   B.Yyyy_Iref = C.Yyyy_Iref;
+</PRE> </CODE>
+
+This means that the IBB_V_Project view has an outer self-join on
+IBB_Project.  The IBB_V_Post_Resp2 view involved 3 tables too, somewhat
+like:
+
+<CODE> <PRE>
+CREATE VIEW IBB_V_Post_Resp2 AS
+    SELECT  A.Person_Iref,
+            A.Some_Other_Col col01,
+            B.Xxxx_Iref,
+            B.Some_Other_Col col02,
+            C.Yyyy_Iref,
+            C.Some_Other_Col col03
+    FROM    IBB_Personnel A,
+            IBB_R_Xxxx B,
+            IBB_R_Yyyy C
+    WHERE   A.Xxxx_Iref = B.Xxxx_Iref
+      AND   B.Yyyy_Iref = C.Yyyy_Iref;
+</PRE> </CODE>
+
+The Zzzz_Iref columns were either SERIAL or INTEGER foreign keys
+referencing a SERIAL key.
+
+<P>
+The primary view definition refers to 14 tables, with 4 inner joins and 9
+outer joins.  When the cross-referenced views are taken into account, there
+are 18 tables in total, with 7 inner joins and 10 outer joins.
+The view was constructed semi-automatically by a database schema design tool.
+</P>
+
+<HR WIDTH=80%>
+
+The diagrams for these views could be summarized as:
+
+<H3>IBB_V_Project</H3>
+Of necessity, this diagram uses the table aliases rather than the table names.
+<BR>
+<CODE> <PRE>
+A ---- B ---- D ---- E ---- H -----@------@------@------@------@------@------@------@
+                                   |      |      |      |      |      |      |      |
+                            G ---- X      C      F      I      K      L      M      N
+</PRE> </CODE>
+
+<H3>IBB_V_Proj_Co2</H3>
+<BR>
+<CODE> <PRE>
+IBB_Project -----@
+                 |
+             IBB_R_Xxxx -----@
+                             |
+                         IBB_R_Yyyy
+</PRE> </CODE>
+
+<H3>IBB_V_Post_Resp2</H3>
+<BR>
+<CODE> <PRE>
+IBB_Personnel ---- IBB_R_Xxxx ---- IBB_R_Yyyy
+</PRE> </CODE>
+
+<HR>
+Transcribed and annotated by
+<A HREF="mailto:jleffler@us.ibm.com">Jonathan Leffler</A>.
+<BR>
+Last updated: 2007-01-09
+
+</BODY>
+</HTML>

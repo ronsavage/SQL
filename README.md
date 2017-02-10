@@ -104,12 +104,14 @@ _(The Perl scripts should normally be renamed after downloading.)_
 ## Download
 
 You should be able to get the downloadable version of the latest release of this
-repository from the releases area —
-[https://github.com/ronsavage/SQL/releases/latest](https://github.com/ronsavage/SQL/releases/latest)
+repository from the releases area:
+
+* https://github.com/ronsavage/SQL/releases/latest
 
 <hr>
 Please send feedback to Jonathan Leffler:
-<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.
+<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a> _and_
+Ron Savage <a href="mailto:ron@savage.net.au"> 	ron@savage.net.au </a>.
 
 Last modified:
 10th February 2017

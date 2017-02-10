@@ -95,14 +95,9 @@ _(The Perl scripts should normally be renamed after downloading.)_
 
 ## Download
 
-You should be able to get a release of this repository from the releases area
-of this GitHub repository.
-
-<!--
-You can download a gzipped tar file containing the raw grammars, the
-HTML versions of those grammars, and the conversion tools as the gzipped
-tar file <a href="sql-bnf.tgz"> sql-bnf.tgz </a>.
--->
+You should be able to get the downloadable version of the latest release of this
+repository from the releases area —
+[https://github.com/ronsavage/SQL/releases/latest](https://github.com/ronsavage/SQL/releases/latest)
 
 <hr>
 Please send feedback to Jonathan Leffler:

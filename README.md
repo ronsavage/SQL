@@ -2,10 +2,18 @@
 
 This repository contains the BNF (Backus-Naur Form) grammars for three versions of standard SQL — SQL-92, SQL-99 and SQL-2003.
 
-It is still in transition to GitHub.
-The links in this README.md file lead to the pages in GitHub.
+You should be able to find a version of this site with 'active HTML' at:
+
+* https://ronsavage.github.io/SQL/
+
+It may not be the most recent release, but the technical content is mostly valid.
+The download link is not functional — you can obtain the material for the latest
+release from https://github.com/ronsavage/SQL/releases/latest.
+
+*This project is still in transition to GitHub.
+The links in this README.md file lead to the pages in the GitHub source tree.
 Most of them will display the HTML source — not a rendered HTML image.
-There probably are ways around that; we're learning GitHub as we go.
+There probably are ways around that; we're learning GitHub as we go.*
 
 For a long time, this material was hosted by Ron Savage at
 [http://savage.net.au/SQL](http://savage.net.au) — many thanks, Ron! —

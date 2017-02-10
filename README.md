@@ -109,9 +109,9 @@ repository from the releases area:
 * https://github.com/ronsavage/SQL/releases/latest
 
 <hr>
-Please send feedback to Jonathan Leffler:
-<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a> _and_
-Ron Savage <a href="mailto:ron@savage.net.au"> 	ron@savage.net.au </a>.
+Please send feedback to Jonathan Leffler
+(<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>) _and_
+Ron Savage (<a href="mailto:ron@savage.net.au"> ron@savage.net.au </a>).
 
 Last modified:
 10th February 2017

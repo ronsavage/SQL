@@ -1,5 +1,28 @@
 # BNF Grammars for SQL-92, SQL-99 and SQL-2003
 
+This repository contains the BNF (Backus-Naur Form) grammars for three versions of standard SQL — SQL-92, SQL-99 and SQL-2003.
+
+It is still in transition to GitHub.
+The links in this README.md file lead to the pages in GitHub.
+Most of them will display the HTML source — not a rendered HTML image.
+There probably are ways around that; we're learning GitHub as we go.
+
+For a long time, this material was hosted by Ron Savage at
+[http://savage.net.au/SQL](http://savage.net.au) — many thanks, Ron! —
+but that site now points to here.
+
+At the moment, the suggested method of operation is:
+
+* Clone this repository to your machine — e.g. into the `/home/somebody/SQL` directory
+* Point your browser to `file:///home/somebody/SQL/index.html`.
+
+This should give you full HTML access to the material.
+Alternatively, you can download the latest release of this material
+(instead of cloning the repo), and then extract that into a directory
+and point your browser to the `index.html` file in that directory.
+
+Yes: it is sub-optimal.
+Yes: we'll fix it when we know how to fix it.
 
 ## SQL-92
 
@@ -72,13 +95,18 @@ _(The Perl scripts should normally be renamed after downloading.)_
 
 ## Download
 
+You should be able to get a release of this repository from the releases area
+of this GitHub repository.
+
+<!--
 You can download a gzipped tar file containing the raw grammars, the
 HTML versions of those grammars, and the conversion tools as the gzipped
 tar file <a href="sql-bnf.tgz"> sql-bnf.tgz </a>.
+-->
 
 <hr>
 Please send feedback to Jonathan Leffler:
 <a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.
 
 Last modified:
-4th February 2017
+10th February 2017

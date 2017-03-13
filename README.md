@@ -108,10 +108,15 @@ repository from the releases area:
 
 * https://github.com/ronsavage/SQL/releases/latest
 
+## SQL 2016 Released
+
+[ISO/IEC JTC 1/SC 32 Publishes Updated SQL Database Language Standard](https://www.ansi.org/news_publications/news_story?menuid=7&articleid=753a952d-1244-415b-bb92-0010750bb8cd) — SQL 2016.
+
+
 <hr>
 Please send feedback to Jonathan Leffler
 (<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>) _and_
 Ron Savage (<a href="mailto:ron@savage.net.au"> ron@savage.net.au </a>).
 
 Last modified:
-10th February 2017
+13th March 2017

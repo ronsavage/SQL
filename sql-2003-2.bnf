@@ -1,7 +1,7 @@
 BNF Grammar for ISO/IEC 9075-2:2003 - Database Language SQL (SQL-2003) SQL/Foundation
 =====================================================================================
 
-@(#)$Id: sql-2003-2.bnf,v 1.20 2017/10/04 14:57:52 jleffler Exp $
+@(#)$Id: sql-2003-2.bnf,v 1.21 2017/10/04 15:15:18 jleffler Exp $
 
 --p
 Information taken from the Final Committee Draft (FCD) of ISO/IEC 9075-2:2003.
@@ -5084,7 +5084,7 @@ NOTE 402 - This statement has no effect on any SQL-transactions subsequent to th
 If an SQL-transaction is currently active, then set the constraint mode for that SQL-transaction in
 the current SQL-session. If no SQL-transaction is currently active, then set the constraint mode for
 the next SQL-transaction in the current SQL-session for the SQL-agent.
-NOTE 404  This statement has no effect on any SQL-transactions subsequent to this SQL-transaction.
+NOTE 404: This statement has no effect on any SQL-transactions subsequent to this SQL-transaction.
 --/p
 
 <set constraints mode statement> ::= SET CONSTRAINTS <constraint name list> { DEFERRED | IMMEDIATE }

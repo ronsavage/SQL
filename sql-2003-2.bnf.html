@@ -16,9 +16,9 @@
 <br>
 
 <p><font color=green><i><small>
-Derived from file sql-2003-2.bnf version 1.19 dated 2016/07/24 15:30:25
+Derived from file sql-2003-2.bnf version 1.21 dated 2017/10/04 15:15:18
 <br>
-Generated on 2017-01-17 05:18:34+00:00 by file bnf2html.pl version 3.12 dated 2016/04/18 05:13:47
+Generated on 2017-10-04 15:17:56+00:00 by file bnf2html.pl version 3.12 dated 2016/04/18 05:13:47
 </small></i></font></p>
 
 <p>
@@ -739,8 +739,6 @@ grammar.
 <p><a href="#xref-scope clause" name="scope clause"> &lt;scope clause&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-SCOPE"> SCOPE </a>  <a href='#table name'>&lt;table name&gt;</a>
 
 <p><a href="#xref-referenced type" name="referenced type"> &lt;referenced type&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#path-resolved user-defined type name'>&lt;path-resolved user-defined type name&gt;</a>
-
-<p><a href="#xref-path-resolved user-defined type name" name="path-resolved user-defined type name"> &lt;path-resolved user-defined type name&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#user-defined type name'>&lt;user-defined type name&gt;</a>
 
 <p><a href="#xref-path-resolved user-defined type name" name="path-resolved user-defined type name"> &lt;path-resolved user-defined type name&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#user-defined type name'>&lt;user-defined type name&gt;</a>
 
@@ -3844,7 +3842,7 @@ NOTE 402 - This statement has no effect on any SQL-transactions subsequent to th
 If an SQL-transaction is currently active, then set the constraint mode for that SQL-transaction in
 the current SQL-session. If no SQL-transaction is currently active, then set the constraint mode for
 the next SQL-transaction in the current SQL-session for the SQL-agent.
-NOTE 404 – This statement has no effect on any SQL-transactions subsequent to this SQL-transaction.
+NOTE 404: This statement has no effect on any SQL-transactions subsequent to this SQL-transaction.
 </p>
 
 <p><a href="#xref-set constraints mode statement" name="set constraints mode statement"> &lt;set constraints mode statement&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-SET"> SET </a>  <a href="#xref-CONSTRAINTS"> CONSTRAINTS </a>  <a href='#constraint name list'>&lt;constraint name list&gt;</a>  {  <a href="#xref-DEFERRED"> DEFERRED </a>  |  <a href="#xref-IMMEDIATE"> IMMEDIATE </a>  }
@@ -13085,14 +13083,14 @@ X
           <a href="#object name"> &lt;object name&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a name="xref-double"> </a> double </td>
-     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a name="xref-DOUBLE"> </a> DOUBLE </td>
      <td> <a href="#approximate numeric type"> &lt;approximate numeric type&gt; </a>
           <a href="#Fortran type specification"> &lt;Fortran type specification&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-double"> </a> double </td>
+     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-DOUBLE_PRECISION"> </a> DOUBLE_PRECISION </td>

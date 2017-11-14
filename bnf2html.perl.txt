@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# @(#)$Id: bnf2html.pl,v 3.14 2017/11/13 20:42:26 jleffler Exp $
+# @(#)$Id: bnf2html.pl,v 3.16 2017/11/14 06:53:22 jleffler Exp $
 #
 # Convert SQL-92, SQL-99 BNF plain text file into hyperlinked HTML.
 
@@ -226,7 +226,7 @@ while (<$WEBCODE>)
     elsif (/^@.#..Id:/)
     {
         # Convert what(1) string identifier into version information
-        my $id = '$Id: bnf2html.pl,v 3.14 2017/11/13 20:42:26 jleffler Exp $'; 
+        my $id = '$Id: bnf2html.pl,v 3.16 2017/11/14 06:53:22 jleffler Exp $';
         my($v1) = rcs_id($_);
         my $v2 = rcs_id($id);
         print "<p><font color=green><i><small>\n";
@@ -353,7 +353,7 @@ foreach my $rule (sort { uc $a cmp uc $b } keys %rules)
         print qq'$pad<a href="#$ref"> &lt;$ref&gt; </a>\n';
         $pad = "          ";
     }
-    print "     </td>\n</tr>\n"; 
+    print "     </td>\n</tr>\n";
 }
 print "</table>\n";
 print "<br>\n";
@@ -386,7 +386,7 @@ foreach my $keyword (sort { uc $a cmp uc $b } keys %keywords)
         print qq'$pad<a href="#$ref"> &lt;$ref&gt; </a>\n';
         $pad = "          ";
     }
-    print "     </td>\n</tr>\n"; 
+    print "     </td>\n</tr>\n";
 }
 print "</table>\n";
 print "<br>\n";
@@ -394,8 +394,7 @@ top;
 print "<hr>\n";
 }
 
-printf "%s\n", q'Please send feedback to Jonathan Leffler, variously:';
-printf "%s\n", q'<a href="mailto:jonathan.leffler@hcl.com"> jonathan.leffler@hcl.com </a> or';
+printf "%s\n", q'Please send feedback to Jonathan Leffler:';
 printf "%s\n", q'<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.';
 
 print "\n</body>\n</html>\n";

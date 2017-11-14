@@ -1,7 +1,7 @@
 BNF Grammar for ISO/IEC 9075:1999 - Database Language SQL (SQL-99)
 ==================================================================
 
-@(#)$Id: sql-99.bnf,v 2.9 2017/11/14 06:20:28 jleffler Exp $
+@(#)$Id: sql-99.bnf,v 2.10 2017/11/14 06:53:22 jleffler Exp $
 
 --p
 Using Appendix G of "SQL:1999 Understanding Relational Language Components" by J
@@ -1480,7 +1480,7 @@ This probably says something about the <slash> <asterisk> and <asterisk>
 
 --p
 --small
---i 
+--i
 Note that <double colon> must be a pair of characters with no
 intervening space, not a pair of colon symbols separated by arbitrary
 white space.
@@ -3779,7 +3779,7 @@ Much, if not all, of the following material comes from ISO/IEC 9075-5:1999, SQL/
 
 --p
 --small
---i 
+--i
 Note that <double period> must be a pair of period characters with no
 intervening space, not a pair of period symbols separated by arbitrary
 white space.
@@ -4442,7 +4442,7 @@ This module authorization clause definition from 9075-5 (SQL/Bindings)
 is similar to a previous occurrence from 9075-2 (SQL/Foundation) but the
 optional 'FOR STATIC ONLY' and 'FOR STATIC AND DYNAMIC' clauses were not
 present before.
-The earlier definition is commented out. 
+The earlier definition is commented out.
 --/i
 --/small
 --/p

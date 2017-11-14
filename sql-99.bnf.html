@@ -16,9 +16,9 @@
 <br>
 
 <p><font color=green><i><small>
-Derived from file sql-99.bnf version 2.8 dated 2004/07/26 18:00:06
+Derived from file sql-99.bnf version 2.10 dated 2017/11/14 06:53:22
 <br>
-Generated on 2017-01-17 05:18:34+00:00 by file bnf2html.pl version 3.12 dated 2016/04/18 05:13:47
+Generated on 2017-11-14 06:53:25+00:00 by file bnf2html.pl version 3.16 dated 2017/11/14 06:53:22
 </small></i></font></p>
 
 <p>
@@ -427,8 +427,13 @@ The lexical analyzer would normally deal with this sort of issue.
 
 <p><a href="#xref-language name" name="language name"> &lt;language name&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-ADA"> ADA </a>  |  <a href="#xref-C"> C </a>  |  <a href="#xref-COBOL"> COBOL </a>  |  <a href="#xref-FORTRAN"> FORTRAN </a>  |  <a href="#xref-MUMPS"> MUMPS </a>  |  <a href="#xref-PASCAL"> PASCAL </a>  |  <a href="#xref-PLI"> PLI </a>  |  <a href="#xref-SQL"> SQL </a>
 
-<p><a href="#xref-module authorization clause" name="module authorization clause"> &lt;module authorization clause&gt; </a>&nbsp;&nbsp;&nbsp;::=
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCHEMA"> SCHEMA </a>  <a href='#schema name'>&lt;schema name&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-AUTHORIZATION"> AUTHORIZATION </a>  <a href='#module authorization identifier'>&lt;module authorization identifier&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCHEMA"> SCHEMA </a>  <a href='#schema name'>&lt;schema name&gt;</a>  <a href="#xref-AUTHORIZATION"> AUTHORIZATION </a>  <a href='#module authorization identifier'>&lt;module authorization identifier&gt;</a>
+<!-- This module authorization clause is superceded by a variant from 9075-5 SQL/Bindings. -->
+
+<!-- <module authorization clause> ::= -->
+<!-- SCHEMA <schema name> -->
+<!-- |       AUTHORIZATION <module authorization identifier> -->
+<!-- |       SCHEMA <schema name> AUTHORIZATION <module authorization identifier> -->
+
 <p><a href="#xref-module authorization identifier" name="module authorization identifier"> &lt;module authorization identifier&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#authorization identifier'>&lt;authorization identifier&gt;</a>
 
 <p><a href="#xref-authorization identifier" name="authorization identifier"> &lt;authorization identifier&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#role name'>&lt;role name&gt;</a>  |  <a href='#user identifier'>&lt;user identifier&gt;</a>
@@ -1314,7 +1319,8 @@ Normally, the lexical analyzer would return &lt;double colon&gt; as a symbol.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#interval factor'>&lt;interval factor&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#interval term 2'>&lt;interval term 2&gt;</a>  <a href='#asterisk'>&lt;asterisk&gt;</a>  <a href='#factor'>&lt;factor&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#interval term 2'>&lt;interval term 2&gt;</a>  <a href='#solidus'>&lt;solidus&gt;</a>  <a href='#factor'>&lt;factor&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#term'>&lt;term&gt;</a>  <a href='#asterisk'>&lt;asterisk&gt;</a>  <a href='#interval factor'>&lt;interval factor&gt;</a>
 <p><a href="#xref-interval factor" name="interval factor"> &lt;interval factor&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; [  <a href='#sign'>&lt;sign&gt;</a>  ]  <a href='#interval primary'>&lt;interval primary&gt;</a>
 
-<p><a href="#xref-interval primary" name="interval primary"> &lt;interval primary&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#value expression primary'>&lt;value expression primary&gt;</a>  |  <a href='#interval value function'>&lt;interval value function&gt;</a>
+<!-- This definition of interval primary is superceded by the version from 9075-5 SQL/Bindings -->
+<!-- <interval primary> ::= <value expression primary> | <interval value function> -->
 
 <p><a href="#xref-interval value function" name="interval value function"> &lt;interval value function&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#interval absolute value function'>&lt;interval absolute value function&gt;</a>
 
@@ -1763,8 +1769,13 @@ used here.
 
 <p><a href="#xref-triggered action" name="triggered action"> &lt;triggered action&gt; </a>&nbsp;&nbsp;&nbsp;::=
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [  <a href="#xref-FOR"> FOR </a>  <a href="#xref-EACH"> EACH </a>  {  <a href="#xref-ROW"> ROW </a>  |  <a href="#xref-STATEMENT"> STATEMENT </a>  }  ]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [  <a href="#xref-WHEN"> WHEN </a>  <a href='#left paren'>&lt;left paren&gt;</a>  <a href='#search condition'>&lt;search condition&gt;</a>  <a href='#right paren'>&lt;right paren&gt;</a>  ]  <a href='#triggered SQL statement'>&lt;triggered SQL statement&gt;</a>
-<p><a href="#xref-triggered SQL statement" name="triggered SQL statement"> &lt;triggered SQL statement&gt; </a>&nbsp;&nbsp;&nbsp;::=
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#SQL procedure statement'>&lt;SQL procedure statement&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-BEGIN"> BEGIN </a>  <a href="#xref-ATOMIC"> ATOMIC </a>  {  <a href='#SQL procedure statement'>&lt;SQL procedure statement&gt;</a>  <a href='#semicolon'>&lt;semicolon&gt;</a>  }...   <a href="#xref-END"> END </a>
+<!-- This definition of triggered SQL statement is superceded by the -->
+<!-- variant from 9075-4 (SQL/PSM). -->
+<!-- Consequently, this one is commented out. -->
+<!-- <triggered SQL statement> ::= -->
+<!-- <SQL procedure statement> -->
+<!-- |       BEGIN ATOMIC { <SQL procedure statement> <semicolon> }...  END -->
+
 <p><a href="#xref-user-defined type definition" name="user-defined type definition"> &lt;user-defined type definition&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-CREATE"> CREATE </a>  <a href="#xref-TYPE"> TYPE </a>  <a href='#user-defined type body'>&lt;user-defined type body&gt;</a>
 
 <p>
@@ -2618,6 +2629,17 @@ used here.
 
 <p><a href="#xref-drop module statement" name="drop module statement"> &lt;drop module statement&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-DROP"> DROP </a>  <a href="#xref-MODULE"> MODULE </a>  <a href='#SQL-server module name'>&lt;SQL-server module name&gt;</a>  <a href='#drop behavior'>&lt;drop behavior&gt;</a>
 
+<p>
+<small>
+<i>
+This definition of &lt;triggered SQL statement&gt; is from 9075-4 (SQL/PSM)
+and is documented with:
+</i>
+NOTE 13 – The preceding production defining &lt;triggered SQL statement&gt; completely supersedes the
+definition in ISO/IEC 9075-2.
+</small>
+</p>
+
 <p><a href="#xref-triggered SQL statement" name="triggered SQL statement"> &lt;triggered SQL statement&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#SQL procedure statement'>&lt;SQL procedure statement&gt;</a>
 
 <p><a href='#top'>Top</a></p>
@@ -2679,8 +2701,6 @@ Much, if not all, of the following material comes from ISO/IEC 9075-5:1999, SQL/
 <p><a href="#xref-descriptor item name" name="descriptor item name"> &lt;descriptor item name&gt; </a>&nbsp;&nbsp;&nbsp;::=
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-CARDINALITY"> CARDINALITY </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-CHARACTER_SET_CATALOG"> CHARACTER_SET_CATALOG </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-CHARACTER_SET_NAME"> CHARACTER_SET_NAME </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-CHARACTER_SET_SCHEMA"> CHARACTER_SET_SCHEMA </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-COLLATION_CATALOG"> COLLATION_CATALOG </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-COLLATION_NAME"> COLLATION_NAME </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-COLLATION_SCHEMA"> COLLATION_SCHEMA </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-DATA"> DATA </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-DATETIME_INTERVAL_CODE"> DATETIME_INTERVAL_CODE </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-DATETIME_INTERVAL_PRECISION"> DATETIME_INTERVAL_PRECISION </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-DEGREE"> DEGREE </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-INDICATOR"> INDICATOR </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-KEY_MEMBER"> KEY_MEMBER </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-LENGTH"> LENGTH </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-LEVEL"> LEVEL </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-NAME"> NAME </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-NULLABLE"> NULLABLE </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-OCTET_LENGTH"> OCTET_LENGTH </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-PARAMETER_MODE"> PARAMETER_MODE </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-PARAMETER_ORDINAL_POSITION"> PARAMETER_ORDINAL_POSITION </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-PARAMETER_SPECIFIC_CATALOG"> PARAMETER_SPECIFIC_CATALOG </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-PARAMETER_SPECIFIC_NAME"> PARAMETER_SPECIFIC_NAME </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-PARAMETER_SPECIFIC_SCHEMA"> PARAMETER_SPECIFIC_SCHEMA </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-PRECISION"> PRECISION </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-RETURNED_CARDINALITY"> RETURNED_CARDINALITY </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-RETURNED_LENGTH"> RETURNED_LENGTH </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-RETURNED_OCTET_LENGTH"> RETURNED_OCTET_LENGTH </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCALE"> SCALE </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCOPE_CATALOG"> SCOPE_CATALOG </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCOPE_NAME"> SCOPE_NAME </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCOPE_SCHEMA"> SCOPE_SCHEMA </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-TYPE"> TYPE </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-UNNAMED"> UNNAMED </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-USER_DEFINED_TYPE_CATALOG"> USER_DEFINED_TYPE_CATALOG </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-USER_DEFINED_TYPE_NAME"> USER_DEFINED_TYPE_NAME </a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-USER_DEFINED_TYPE_SCHEMA"> USER_DEFINED_TYPE_SCHEMA </a>
 <p><a href="#xref-simple value specification 2" name="simple value specification 2"> &lt;simple value specification 2&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#simple value specification'>&lt;simple value specification&gt;</a>
-
-<p><a href="#xref-item number" name="item number"> &lt;item number&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#simple value specification'>&lt;simple value specification&gt;</a>
 
 <p><a href="#xref-get descriptor statement" name="get descriptor statement"> &lt;get descriptor statement&gt; </a>&nbsp;&nbsp;&nbsp;::=
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-GET"> GET </a>  [  <a href="#xref-SQL"> SQL </a>  ]  <a href="#xref-DESCRIPTOR"> DESCRIPTOR </a>  <a href='#descriptor name'>&lt;descriptor name&gt;</a>  <a href='#get descriptor information'>&lt;get descriptor information&gt;</a>
@@ -3123,8 +3143,31 @@ and &lt;right paren&gt; are not designated more accurately.
 
 <p><a href="#xref-host PL/I label variable" name="host PL/I label variable"> &lt;host PL/I label variable&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;<font color="red"> !! (See the Syntax Rules.) </font>
 
+<p>
+<small>
+<i>
+This interval primary definition from 9075-5 (SQL/Bindings) is very
+similar to a previous occurrence from 9075-2 (SQL/Foundation), but adds
+the optional interval qualifier.
+The earlier definition is commented out.
+</i>
+</small>
+</p>
+
 <p><a href="#xref-interval primary" name="interval primary"> &lt;interval primary&gt; </a>&nbsp;&nbsp;&nbsp;::=
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#value expression primary'>&lt;value expression primary&gt;</a>  [  <a href='#interval qualifier'>&lt;interval qualifier&gt;</a>  ]<br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href='#interval value function'>&lt;interval value function&gt;</a>
+<p>
+<small>
+<i>
+This module authorization clause definition from 9075-5 (SQL/Bindings)
+is similar to a previous occurrence from 9075-2 (SQL/Foundation) but the
+optional 'FOR STATIC ONLY' and 'FOR STATIC AND DYNAMIC' clauses were not
+present before.
+The earlier definition is commented out.
+</i>
+</small>
+</p>
+
 <p><a href="#xref-module authorization clause" name="module authorization clause"> &lt;module authorization clause&gt; </a>&nbsp;&nbsp;&nbsp;::=
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCHEMA"> SCHEMA </a>  <a href='#schema name'>&lt;schema name&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-AUTHORIZATION"> AUTHORIZATION </a>  <a href='#module authorization identifier'>&lt;module authorization identifier&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [  <a href="#xref-FOR"> FOR </a>  <a href="#xref-STATIC"> STATIC </a>  {  <a href="#xref-ONLY"> ONLY </a>  |  <a href="#xref-AND"> AND </a>  <a href="#xref-DYNAMIC"> DYNAMIC </a>  }  ]<br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SCHEMA"> SCHEMA </a>  <a href='#schema name'>&lt;schema name&gt;</a>  <a href="#xref-AUTHORIZATION"> AUTHORIZATION </a>  <a href='#module authorization identifier'>&lt;module authorization identifier&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [  <a href="#xref-FOR"> FOR </a>  <a href="#xref-STATIC"> STATIC </a>  {  <a href="#xref-ONLY"> ONLY </a>  |  <a href="#xref-AND"> AND </a>  <a href="#xref-DYNAMIC"> DYNAMIC </a>  }  ]
 <p><a href="#xref-preparable statement" name="preparable statement"> &lt;preparable statement&gt; </a>&nbsp;&nbsp;&nbsp;::=
@@ -8226,7 +8269,6 @@ Z
           <a href="#terminated local declaration"> &lt;terminated local declaration&gt; </a>
           <a href="#terminated local handler declaration"> &lt;terminated local handler declaration&gt; </a>
           <a href="#terminated SQL statement"> &lt;terminated SQL statement&gt; </a>
-          <a href="#triggered SQL statement"> &lt;triggered SQL statement&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a href="#separator" name="xref-separator"> separator </a> </td>
@@ -9964,7 +10006,6 @@ X
 <tr> <td>  <a name="xref-ATOMIC"> </a> ATOMIC </td>
      <td> <a href="#compound statement"> &lt;compound statement&gt; </a>
           <a href="#non-reserved word"> &lt;non-reserved word&gt; </a>
-          <a href="#triggered SQL statement"> &lt;triggered SQL statement&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-ATTRIBUTE"> </a> ATTRIBUTE </td>
@@ -10000,7 +10041,6 @@ X
           <a href="#embedded SQL begin declare"> &lt;embedded SQL begin declare&gt; </a>
           <a href="#embedded SQL MUMPS declare"> &lt;embedded SQL MUMPS declare&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
-          <a href="#triggered SQL statement"> &lt;triggered SQL statement&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-BETWEEN"> </a> BETWEEN </td>
@@ -10171,6 +10211,10 @@ X
           <a href="#rollback statement"> &lt;rollback statement&gt; </a>
      </td>
 </tr>
+<tr> <td>  <a name="xref-char"> </a> char </td>
+     <td> <a href="#C character type"> &lt;C character type&gt; </a>
+     </td>
+</tr>
 <tr> <td>  <a name="xref-CHAR"> </a> CHAR </td>
      <td> <a href="#Ada qualified type specification"> &lt;Ada qualified type specification&gt; </a>
           <a href="#Ada unqualified type specification"> &lt;Ada unqualified type specification&gt; </a>
@@ -10179,10 +10223,6 @@ X
           <a href="#Pascal type specification"> &lt;Pascal type specification&gt; </a>
           <a href="#PL/I type specification"> &lt;PL/I type specification&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
-     </td>
-</tr>
-<tr> <td>  <a name="xref-char"> </a> char </td>
-     <td> <a href="#C character type"> &lt;C character type&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-CHARACTER"> </a> CHARACTER </td>
@@ -10783,13 +10823,13 @@ X
      <td> <a href="#Part 5 direct yes"> &lt;Part 5 direct yes&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a name="xref-Disconnect"> </a> Disconnect </td>
-     <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a name="xref-DISCONNECT"> </a> DISCONNECT </td>
      <td> <a href="#disconnect statement"> &lt;disconnect statement&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-Disconnect"> </a> Disconnect </td>
+     <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-DISPATCH"> </a> DISPATCH </td>
@@ -10825,14 +10865,14 @@ X
           <a href="#reserved word"> &lt;reserved word&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a name="xref-double"> </a> double </td>
-     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a name="xref-DOUBLE"> </a> DOUBLE </td>
      <td> <a href="#approximate numeric type"> &lt;approximate numeric type&gt; </a>
           <a href="#Fortran type specification"> &lt;Fortran type specification&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-double"> </a> double </td>
+     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-DOUBLE_PRECISION"> </a> DOUBLE_PRECISION </td>
@@ -10964,7 +11004,6 @@ X
           <a href="#simple case"> &lt;simple case&gt; </a>
           <a href="#simple case statement"> &lt;simple case statement&gt; </a>
           <a href="#SQL-server module definition"> &lt;SQL-server module definition&gt; </a>
-          <a href="#triggered SQL statement"> &lt;triggered SQL statement&gt; </a>
           <a href="#while statement"> &lt;while statement&gt; </a>
      </td>
 </tr>
@@ -11018,15 +11057,15 @@ X
      <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a name="xref-Execute"> </a> Execute </td>
-     <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a name="xref-EXECUTE"> </a> EXECUTE </td>
      <td> <a href="#action"> &lt;action&gt; </a>
           <a href="#execute immediate statement"> &lt;execute immediate statement&gt; </a>
           <a href="#execute statement"> &lt;execute statement&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-Execute"> </a> Execute </td>
+     <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-EXISTS"> </a> EXISTS </td>
@@ -11956,15 +11995,6 @@ X
      <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a name="xref-No"> </a> No </td>
-     <td> <a href="#Package PKG(i)"> &lt;Package PKG(i)&gt; </a>
-          <a href="#Part (n) no"> &lt;Part (n) no&gt; </a>
-     </td>
-</tr>
-<tr> <td>  <a name="xref-no"> </a> no </td>
-     <td> <a href="#Part (n)"> &lt;Part (n)&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a name="xref-NO"> </a> NO </td>
      <td> <a href="#commit statement"> &lt;commit statement&gt; </a>
           <a href="#cursor scrollability"> &lt;cursor scrollability&gt; </a>
@@ -11973,6 +12003,15 @@ X
           <a href="#reserved word"> &lt;reserved word&gt; </a>
           <a href="#rollback statement"> &lt;rollback statement&gt; </a>
           <a href="#SQL-data access indication"> &lt;SQL-data access indication&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-no"> </a> no </td>
+     <td> <a href="#Part (n)"> &lt;Part (n)&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-No"> </a> No </td>
+     <td> <a href="#Package PKG(i)"> &lt;Package PKG(i)&gt; </a>
+          <a href="#Part (n) no"> &lt;Part (n) no&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-NONE"> </a> NONE </td>
@@ -12296,14 +12335,14 @@ X
           <a href="#reserved word"> &lt;reserved word&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a name="xref-Prepare"> </a> Prepare </td>
-     <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a name="xref-PREPARE"> </a> PREPARE </td>
      <td> <a href="#deallocate prepared statement"> &lt;deallocate prepared statement&gt; </a>
           <a href="#prepare statement"> &lt;prepare statement&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-Prepare"> </a> Prepare </td>
+     <td> <a href="#CLI generic name"> &lt;CLI generic name&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-PRESERVE"> </a> PRESERVE </td>
@@ -13545,12 +13584,12 @@ X
           <a href="#reserved word"> &lt;reserved word&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a name="xref-Yes"> </a> Yes </td>
-     <td> <a href="#Package PKG(i)"> &lt;Package PKG(i)&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a name="xref-yes"> </a> yes </td>
      <td> <a href="#Part (n)"> &lt;Part (n)&gt; </a>
+     </td>
+</tr>
+<tr> <td>  <a name="xref-Yes"> </a> Yes </td>
+     <td> <a href="#Package PKG(i)"> &lt;Package PKG(i)&gt; </a>
      </td>
 </tr>
 <tr> <td> <a name="keywords-Z"> </a> <a name="xref-ZONE"> </a> ZONE </td>
@@ -13565,8 +13604,7 @@ X
 <p><a href='#top'>Top</a></p>
 
 <hr>
-Please send feedback to Jonathan Leffler, variously:
-<a href="mailto:jleffler@us.ibm.com"> jleffler@us.ibm.com </a> or
+Please send feedback to Jonathan Leffler:
 <a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.
 
 </body>

@@ -1,7 +1,7 @@
 BNF Grammar for ISO/IEC 9075-2:2003 - Database Language SQL (SQL-2003) SQL/Foundation
 =====================================================================================
 
-@(#)$Id: sql-2003-2.bnf,v 1.21 2017/10/04 15:15:18 jleffler Exp $
+@(#)$Id: sql-2003-2.bnf,v 1.23 2017/11/14 06:53:22 jleffler Exp $
 
 --p
 Information taken from the Final Committee Draft (FCD) of ISO/IEC 9075-2:2003.
@@ -231,12 +231,16 @@ Specifying lexical units (tokens and separators) that participate in SQL languag
 --p
 --i
 --small
-Previous standard said:
---br
-<identifier start> ::= <initial alphabetic character> | <ideographic character>
+The previous version of the SQL standard defined an identifier start as
+either an <initial alphabetic character> or an <ideographic character>.
+Neither of the defining terms is defined in SQL 2003 (and the SQL 99
+definitions of those defininng terms referred to the syntax rules), but
+the result of the SQL 2003 syntax rules will be similar to SQL 99 ones
+except with Unicode support added.
 --/small
 --/i
 --/p
+--@@     <identifier start> ::= <initial alphabetic character> | <ideographic character>
 
 <identifier start> ::= !! See the Syntax Rules.
 
@@ -248,7 +252,7 @@ Previous standard said:
 
 <delimited identifier> ::= <double quote> <delimited identifier body> <double quote>
 
-<delimited identifier body> ::= <delimited identifier part>... 
+<delimited identifier body> ::= <delimited identifier part>...
 
 <delimited identifier part> ::= <nondoublequote character> | <doublequote symbol>
 
@@ -263,7 +267,6 @@ The productions for <Unicode delimited identifier> and so on are new in SQL-2003
 <Unicode delimited identifier> ::=
 		U<ampersand><double quote> <Unicode delimiter body> <double quote>
 		<Unicode escape specifier>
-
 
 <Unicode escape specifier> ::= [ UESCAPE <quote> <Unicode escape character> <quote> ]
 
@@ -1441,7 +1444,7 @@ grammar.
 <indicator parameter> ::= [ INDICATOR ] <host parameter name>
 
 <target array element specification> ::=
-		<target array reference> <left bracket or trigraph> <simple value specification> <right bracket or trigraph> 
+		<target array reference> <left bracket or trigraph> <simple value specification> <right bracket or trigraph>
 
 <target array reference> ::= <SQL parameter reference> | <column reference>
 
@@ -1514,7 +1517,6 @@ grammar.
 --hr
 --h3 6.11 <case expression> (p197)
 --/h3
-
 
 <case expression> ::= <case abbreviation> | <case specification>
 
@@ -1661,12 +1663,12 @@ grammar.
 --/h3
 
 <array element reference> ::=
-		<array value expression> <left bracket or trigraph> <numeric value expression> <right bracket or trigraph> 
+		<array value expression> <left bracket or trigraph> <numeric value expression> <right bracket or trigraph>
 
 --hr
 --h3 6.24 <multiset element reference> (p235)
 --/h3
-	
+
 <multiset element reference> ::=
 		ELEMENT <left paren> <multset value expression> <right paren>
 
@@ -1872,7 +1874,7 @@ Specify a function yielding a value of type character string or binary string.
 
 <trim character> ::= <character value expression>
 
-<character overlay function> ::= 
+<character overlay function> ::=
 		OVERLAY <left paren> <character value expression> PLACING <character value expression>
 		FROM <start position> [ FOR <string length> ] [ USING <char length units> ] <right paren>
 
@@ -1954,7 +1956,7 @@ Specify a function yielding a value of type datetime.
 --h3 6.32 <interval value expression> (p271)
 --/h3
 
---p 
+--p
 Specify an interval value.
 --/p
 
@@ -2130,7 +2132,7 @@ Specify a value or list of values to be constructed into a row or partial row.
 --h3 7.2 <row value expression> (p296)
 --/h3
 
---p 
+--p
 Specify a row value.
 --/p
 
@@ -2155,7 +2157,7 @@ Specify a row value.
 --h3 7.3 <table value constructor> (p298)
 --/h3
 
---p 
+--p
 Specify a set of <row value expression>s to be constructed into a table.
 --/p
 
@@ -2170,7 +2172,7 @@ Specify a set of <row value expression>s to be constructed into a table.
 --h3 7.4 <table expression> (p300)
 --/h3
 
---p 
+--p
 Specify a table or a grouped table.
 --/p
 
@@ -2184,7 +2186,7 @@ Specify a table or a grouped table.
 --h3 7.5 <from clause> (p301)
 --/h3
 
---p 
+--p
 Specify a table derived from one or more tables.
 --/p
 
@@ -2195,7 +2197,7 @@ Specify a table derived from one or more tables.
 --h3 7.6 <table reference> (p303)
 --/h3
 
---p 
+--p
 Reference a table.
 --/p
 
@@ -2242,7 +2244,7 @@ Reference a table.
 --h3 7.7 <joined table> (p312)
 --/h3
 
---p 
+--p
 Specify a table derived from a Cartesian product, inner or outer join, or union join.
 --/p
 
@@ -2266,7 +2268,7 @@ Specify a table derived from a Cartesian product, inner or outer join, or union 
 
 <named columns join> ::= USING <left paren> <join column list> <right paren>
 
-<join type> ::= INNER | <outer join type> [ OUTER ] 
+<join type> ::= INNER | <outer join type> [ OUTER ]
 
 <outer join type> ::= LEFT | RIGHT | FULL
 
@@ -2275,7 +2277,7 @@ Specify a table derived from a Cartesian product, inner or outer join, or union 
 --h3 7.8 <where clause> (p319)
 --/h3
 
---p 
+--p
 Specify a table derived by the application of a <search condition> to the result of the preceding
 <from clause>.
 --/p
@@ -2285,7 +2287,7 @@ Specify a table derived by the application of a <search condition> to the result
 --h3 7.9 <group by clause> (p320)
 --/h3
 
---p 
+--p
 Specify a grouped table derived by the application of the <group by clause> to the result of the
 previously specified clause.
 --/p
@@ -2331,7 +2333,7 @@ previously specified clause.
 --h3 7.10 <having clause> (p329)
 --/h3
 
---p 
+--p
 Specify a grouped table derived by the elimination of groups that do not satisfy a <search condition>.
 --/p
 
@@ -2340,7 +2342,7 @@ Specify a grouped table derived by the elimination of groups that do not satisfy
 --h3 7.11 <window clause> (p331)
 --/h3
 
---p 
+--p
 Specify one or more window definitions.
 --/p
 
@@ -2399,7 +2401,7 @@ Specify one or more window definitions.
 --h3 7.12 <query specification> (p341)
 --/h3
 
---p 
+--p
 Specify a table derived from the result of a <table expression>.
 --/p
 
@@ -2428,7 +2430,7 @@ Specify a table derived from the result of a <table expression>.
 --h3 7.13 <query expression> (p350)
 --/h3
 
---p 
+--p
 Specify a table.
 --/p
 
@@ -2475,7 +2477,7 @@ Specify a table.
 --h3 7.14 <search or cycle clause> (p363)
 --/h3
 
---p 
+--p
 Specify the generation of ordering and cycle detection information in the result of recursive query
 expressions.
 --/p
@@ -2514,7 +2516,7 @@ expressions.
 --h3 7.15 <subquery> (p368)
 --/h3
 
---p 
+--p
 Specify a scalar value, a row, or a table derived from a <query expression>.
 --/p
 
@@ -2533,7 +2535,7 @@ Specify a scalar value, a row, or a table derived from a <query expression>.
 --h3 8.1 <predicate> (p371)
 --/h3
 
---p 
+--p
 Specify a condition that can be evaluated to give a boolean value.
 --/p
 
@@ -2559,7 +2561,7 @@ Specify a condition that can be evaluated to give a boolean value.
 --h3 8.2 <comparison predicate> (p373)
 --/h3
 
---p 
+--p
 Specify a comparison of two row values.
 --/p
 
@@ -2578,7 +2580,7 @@ Specify a comparison of two row values.
 --h3 8.3 <between predicate> (p380)
 --/h3
 
---p 
+--p
 Specify a range comparison.
 --/p
 
@@ -2589,11 +2591,11 @@ Specify a range comparison.
 --h3 8.4 <in predicate> (p381)
 --/h3
 
---p 
+--p
 Specify a quantified comparison.
 --/p
 
-<in predicate> ::= <row value predicand> <in predicate part 2> 
+<in predicate> ::= <row value predicand> <in predicate part 2>
 
 <in predicate part 2> ::= [ NOT ] IN <in predicate value>
 
@@ -2606,7 +2608,7 @@ Specify a quantified comparison.
 --h3 8.5 <like predicate> (p383)
 --/h3
 
---p 
+--p
 Specify a pattern-match comparison.
 --/p
 
@@ -2631,7 +2633,7 @@ Specify a pattern-match comparison.
 --h3 8.6 <similar predicate> (p389)
 --/h3
 
---p 
+--p
 Specify a character string similarity by means of a regular expression.
 --/p
 
@@ -2696,18 +2698,18 @@ Specify a character string similarity by means of a regular expression.
 --h3 8.7 <null predicate> (p395)
 --/h3
 
---p 
+--p
 Specify a test for a null value.
 --/p
 
 <null predicate> ::= <row value predicand> <null predicate part 2>
 
-<null predicate part 2> ::= IS [ NOT ] NULL 
+<null predicate part 2> ::= IS [ NOT ] NULL
 
 --h3 8.8 <quantified comparison predicate> (p397)
 --/h3
 
---p 
+--p
 Specify a quantified comparison.
 --/p
 
@@ -2724,7 +2726,7 @@ Specify a quantified comparison.
 --h3 8.9 <exists predicate> (p399)
 --/h3
 
---p 
+--p
 Specify a test for a non-empty set.
 --/p
 
@@ -2742,7 +2744,7 @@ Specify a test for the absence of duplicate rows
 --h3 8.11 <normalized predicate> (p401)
 --/h3
 
---p 
+--p
 Determine whether a character string value is normalized.
 --/p
 
@@ -2751,7 +2753,7 @@ Determine whether a character string value is normalized.
 --h3 8.12 <match predicate> (p402)
 --/h3
 
---p 
+--p
 Specify a test for matching rows.
 --/p
 
@@ -2762,7 +2764,7 @@ Specify a test for matching rows.
 --h3 8.13 <overlaps predicate> (p405)
 --/h3
 
---p 
+--p
 Specify a test for an overlap between two datetime periods.
 --/p
 
@@ -2779,7 +2781,7 @@ Specify a test for an overlap between two datetime periods.
 --h3 8.14 <distinct predicate> (p407)
 --/h3
 
---p 
+--p
 Specify a test of whether two row values are distinct
 --/p
 
@@ -2794,7 +2796,7 @@ Specify a test of whether two row values are distinct
 --h3 8.15 <member predicate> (p409)
 --/h3
 
---p 
+--p
 Specify a test of whether a value is a member of a multiset.
 --/p
 
@@ -2805,7 +2807,7 @@ Specify a test of whether a value is a member of a multiset.
 --h3 8.16 <submultiset predicate> (p411)
 --/h3
 
---p 
+--p
 Specify a test of whether a multiset is a submultiset of another multiset.
 --/p
 
@@ -2816,7 +2818,7 @@ Specify a test of whether a multiset is a submultiset of another multiset.
 --h3 8.17 <set predicate> (p413)
 --/h3
 
---p 
+--p
 Specify a test of whether a multiset is a set (that is, does not contain any duplicates).
 --/p
 
@@ -2827,7 +2829,7 @@ Specify a test of whether a multiset is a set (that is, does not contain any dup
 --h3 8.18 <type predicate> (p414)
 --/h3
 
---p 
+--p
 Specify a type test.
 --/p
 
@@ -2848,7 +2850,7 @@ Specify a type test.
 --h3 8.19 <search condition> (p416)
 --/h3
 
---p 
+--p
 Specify a condition that is True , False , or Unknown , depending on the value of a <boolean value
 expression>.
 --/p
@@ -2935,7 +2937,7 @@ expression>.
 --h3 10.1 <interval qualifier> (p465)
 --/h3
 
---p 
+--p
 Specify the precision of an interval data type.
 --/p
 
@@ -2966,7 +2968,7 @@ Specify the precision of an interval data type.
 --h3 10.2 <language clause> (p469)
 --/h3
 
---p 
+--p
 Specify a standard programming language.
 --/p
 
@@ -2993,7 +2995,7 @@ Table 14 -- Standard programming languages
 --h3 10.3 <path specification> (p471)
 --/h3
 
---p 
+--p
 Specify an order for searching for an SQL-invoked routine.
 --/p
 
@@ -3004,7 +3006,7 @@ Specify an order for searching for an SQL-invoked routine.
 --h3 10.4 <routine invocation> (p472)
 --/h3
 
---p 
+--p
 Invoke an SQL-invoked routine.
 --/p
 
@@ -3024,7 +3026,7 @@ Invoke an SQL-invoked routine.
 --h3 10.5 <character set specification> (p495)
 --/h3
 
---p 
+--p
 Identify a character set.
 --/p
 
@@ -3042,7 +3044,7 @@ Identify a character set.
 --h3 10.6 <specific routine designator> (p497)
 --/h3
 
---p 
+--p
 Specify an SQL-invoked routine.
 --/p
 
@@ -3066,7 +3068,7 @@ Specify an SQL-invoked routine.
 --h3 10.7 <collate clause> (p500)
 --/h3
 
---p 
+--p
 Specify a default collating sequence.
 --/p
 
@@ -3075,7 +3077,7 @@ Specify a default collating sequence.
 --h3 10.8 <constraint name definition> and <constraint characteristics> (p501)
 --/h3
 
---p 
+--p
 Specify the name of a constraint and its characteristics.
 --/p
 
@@ -3090,7 +3092,7 @@ Specify the name of a constraint and its characteristics.
 --h3 10.9 <aggregate function> (p503)
 --/h3
 
---p 
+--p
 Specify a value computed from a collection of rows.
 --/p
 
@@ -3143,7 +3145,7 @@ Specify a value computed from a collection of rows.
 --h3 10.10 <sort specification list> (p515)
 --/h3
 
---p 
+--p
 Specify a sort order.
 --/p
 
@@ -3164,7 +3166,7 @@ Specify a sort order.
 --h3 11.1 <schema definition> (p517)
 --/h3
 
---p 
+--p
 Define a schema.
 --/p
 
@@ -3208,7 +3210,7 @@ Define a schema.
 --h3 11.2 <drop schema statement> (p520)
 --/h3
 
---p 
+--p
 Destroy a schema.
 --/p
 
@@ -3219,7 +3221,7 @@ Destroy a schema.
 --h3 11.3 <table definition> (p523)
 --/h3
 
---p 
+--p
 Define a persistent base table, a created local temporary table, or a global temporary table.
 --/p
 
@@ -3278,7 +3280,7 @@ Define a persistent base table, a created local temporary table, or a global tem
 --h3 11.4 <column definition> (p534)
 --/h3
 
---p 
+--p
 Define a column of a base table.
 --/p
 
@@ -3312,7 +3314,7 @@ Define a column of a base table.
 --h3 11.5 <default clause> (p539)
 --/h3
 
---p 
+--p
 Specify the default for a column, domain, or attribute.
 --/p
 
@@ -3332,7 +3334,7 @@ Specify the default for a column, domain, or attribute.
 --h3 11.6 <table constraint definition> (p543)
 --/h3
 
---p 
+--p
 Specify an integrity constraint.
 --/p
 
@@ -3346,7 +3348,7 @@ Specify an integrity constraint.
 --h3 11.7 <unique constraint definition> (p545)
 --/h3
 
---p 
+--p
 Specify a uniqueness constraint for a table.
 --/p
 
@@ -3361,7 +3363,7 @@ Specify a uniqueness constraint for a table.
 --h3 11.8 <referential constraint definition> (p547)
 --/h3
 
---p 
+--p
 Specify a referential constraint.
 --/p
 
@@ -3388,7 +3390,7 @@ Specify a referential constraint.
 --h3 11.9 <check constraint definition> (p567)
 --/h3
 
---p 
+--p
 Specify a condition for the SQL-data.
 --/p
 
@@ -3397,7 +3399,7 @@ Specify a condition for the SQL-data.
 --h3 11.10 <alter table statement> (p569)
 --/h3
 
---p 
+--p
 Change the definition of a table.
 --/p
 
@@ -3413,7 +3415,7 @@ Change the definition of a table.
 --h3 11.11 <add column definition> (p570)
 --/h3
 
---p 
+--p
 Add a column to a table.
 --/p
 
@@ -3422,7 +3424,7 @@ Add a column to a table.
 --h3 11.12 <alter column definition> (p572)
 --/h3
 
---p 
+--p
 Change a column and its definition.
 --/p
 
@@ -3438,7 +3440,7 @@ Change a column and its definition.
 --h3 11.13 <set column default clause> (p573)
 --/h3
 
---p 
+--p
 Set the default clause for a column.
 --/p
 
@@ -3447,7 +3449,7 @@ Set the default clause for a column.
 --h3 11.14 <drop column default clause> (p574)
 --/h3
 
---p 
+--p
 Drop the default clause from a column.
 --/p
 
@@ -3456,7 +3458,7 @@ Drop the default clause from a column.
 --h3 11.15 <add column scope clause> (p575)
 --/h3
 
---p 
+--p
 Add a non-empty scope for an existing column of data type REF in a base table.
 --/p
 
@@ -3465,7 +3467,7 @@ Add a non-empty scope for an existing column of data type REF in a base table.
 --h3 11.16 <drop column scope clause> (p576)
 --/h3
 
---p 
+--p
 Drop the scope from an existing column of data type REF in a base table.
 --/p
 
@@ -3474,7 +3476,7 @@ Drop the scope from an existing column of data type REF in a base table.
 --h3 11.17 <alter identity column specification> (p578)
 --/h3
 
---p 
+--p
 Change the options specified for an identity column.
 --/p
 
@@ -3487,7 +3489,7 @@ Change the options specified for an identity column.
 --h3 11.18 <drop column definition> (p579)
 --/h3
 
---p 
+--p
 Destroy a column of a base table.
 --/p
 
@@ -3496,7 +3498,7 @@ Destroy a column of a base table.
 --h3 11.19 <add table constraint definition> (p581)
 --/h3
 
---p 
+--p
 Add a constraint to a table.
 --/p
 
@@ -3505,7 +3507,7 @@ Add a constraint to a table.
 --h3 11.20 <drop table constraint definition> (p582)
 --/h3
 
---p 
+--p
 Destroy a constraint on a table.
 --/p
 
@@ -3514,7 +3516,7 @@ Destroy a constraint on a table.
 --h3 11.21 <drop table statement> (p585)
 --/h3
 
---p 
+--p
 Destroy a table.
 --/p
 
@@ -3523,7 +3525,7 @@ Destroy a table.
 --h3 11.22 <view definition> (p588)
 --/h3
 
---p 
+--p
 Define a viewed table.
 --/p
 
@@ -3552,7 +3554,7 @@ Define a viewed table.
 --h3 11.23 <drop view statement> (p598)
 --/h3
 
---p 
+--p
 Destroy a view.
 --/p
 
@@ -3561,7 +3563,7 @@ Destroy a view.
 --h3 11.24 <domain definition> (p601)
 --/h3
 
---p 
+--p
 Define a domain.
 --/p
 
@@ -3574,7 +3576,7 @@ Define a domain.
 --h3 11.25 <alter domain statement> (p603)
 --/h3
 
---p 
+--p
 Change a domain and its definition.
 --/p
 
@@ -3589,7 +3591,7 @@ Change a domain and its definition.
 --h3 11.26 <set domain default clause> (p604)
 --/h3
 
---p 
+--p
 Set the default value in a domain.
 --/p
 
@@ -3598,7 +3600,7 @@ Set the default value in a domain.
 --h3 11.27 <drop domain default clause> (p605)
 --/h3
 
---p 
+--p
 Remove the default clause of a domain.
 --/p
 
@@ -3607,7 +3609,7 @@ Remove the default clause of a domain.
 --h3 11.28 <add domain constraint definition> (p606)
 --/h3
 
---p 
+--p
 Add a constraint to a domain.
 --/p
 
@@ -3616,7 +3618,7 @@ Add a constraint to a domain.
 --h3 11.29 <drop domain constraint definition> (p607)
 --/h3
 
---p 
+--p
 Destroy a constraint on a domain.
 --/p
 
@@ -3625,7 +3627,7 @@ Destroy a constraint on a domain.
 --h3 11.30 <drop domain statement> (p608)
 --/h3
 
---p 
+--p
 Destroy a domain.
 --/p
 
@@ -3634,7 +3636,7 @@ Destroy a domain.
 --h3 11.31 <character set definition> (p610)
 --/h3
 
---p 
+--p
 Define a character set.
 --/p
 
@@ -3646,7 +3648,7 @@ Define a character set.
 --h3 11.32 <drop character set statement> (p612)
 --/h3
 
---p 
+--p
 Destroy a character set.
 --/p
 
@@ -3655,7 +3657,7 @@ Destroy a character set.
 --h3 11.33 <collation definition> (p614)
 --/h3
 
---p 
+--p
 Define a collating sequence.
 --/p
 
@@ -3670,7 +3672,7 @@ Define a collating sequence.
 --h3 11.34 <drop collation statement> (p616)
 --/h3
 
---p 
+--p
 Destroy a collating sequence.
 --/p
 
@@ -3679,7 +3681,7 @@ Destroy a collating sequence.
 --h3 11.35 <transliteration definition> (p618)
 --/h3
 
---p 
+--p
 Define a character transliteration.
 --/p
 
@@ -3700,7 +3702,7 @@ Define a character transliteration.
 --h3 11.36 <drop transliteration statement> (p621)
 --/h3
 
---p 
+--p
 Destroy a character transliteration.
 --/p
 
@@ -3709,7 +3711,7 @@ Destroy a character transliteration.
 --h3 11.37 <assertion definition> (p623)
 --/h3
 
---p 
+--p
 Specify an integrity constraint.
 --/p
 
@@ -3719,7 +3721,7 @@ Specify an integrity constraint.
 --h3 11.38 <drop assertion statement> (p625)
 --/h3
 
---p 
+--p
 Destroy an assertion.
 --/p
 
@@ -3728,7 +3730,7 @@ Destroy an assertion.
 --h3 11.39 <trigger definition> (p627)
 --/h3
 
---p 
+--p
 Define triggered SQL-statements.
 --/p
 
@@ -3771,7 +3773,7 @@ Define triggered SQL-statements.
 --h3 11.40 <drop trigger statement> (p631)
 --/h3
 
---p 
+--p
 Destroy a trigger.
 --/p
 
@@ -3780,7 +3782,7 @@ Destroy a trigger.
 --h3 11.41 <user-defined type definition> (p632)
 --/h3
 
---p 
+--p
 Define a user-defined type.
 --/p
 
@@ -3879,7 +3881,7 @@ Define a user-defined type.
 --h3 11.42 <attribute definition> (p648)
 --/h3
 
---p 
+--p
 Define an attribute of a structured type.
 --/p
 
@@ -3891,7 +3893,7 @@ Define an attribute of a structured type.
 --h3 11.43 <alter type statement> (p650)
 --/h3
 
---p 
+--p
 Change the definition of a user-defined type.
 --/p
 
@@ -3908,7 +3910,7 @@ ALTER TYPE <schema-resolved user-defined type name> <alter type action>
 --h3 11.44 <add attribute definition> (p651)
 --/h3
 
---p 
+--p
 Add an attribute to a user-defined type.
 --/p
 
@@ -3917,7 +3919,7 @@ Add an attribute to a user-defined type.
 --h3 11.45 <drop attribute definition> (p653)
 --/h3
 
---p 
+--p
 Destroy an attribute of a user-defined type.
 --/p
 
@@ -3926,7 +3928,7 @@ Destroy an attribute of a user-defined type.
 --h3 11.46 <add original method specification> (p655)
 --/h3
 
---p 
+--p
 Add an original method specification to a user-defined type.
 --/p
 
@@ -3935,7 +3937,7 @@ Add an original method specification to a user-defined type.
 --h3 11.47 <add overriding method specification> (p661)
 --/h3
 
---p 
+--p
 Add an overriding method specification to a user-defined type.
 --/p
 
@@ -3944,7 +3946,7 @@ Add an overriding method specification to a user-defined type.
 --h3 11.48 <drop method specification> (p666)
 --/h3
 
---p 
+--p
 Remove a method specification from a user-defined type.
 --/p
 
@@ -3955,7 +3957,7 @@ Remove a method specification from a user-defined type.
 --h3 11.49 <drop data type statement> (p670)
 --/h3
 
---p 
+--p
 Destroy a user-defined type.
 --/p
 
@@ -3964,7 +3966,7 @@ Destroy a user-defined type.
 --h3 11.50 <SQL-invoked routine> (p673)
 --/h3
 
---p 
+--p
 Define an SQL-invoked routine.
 --/p
 
@@ -4089,7 +4091,7 @@ Define an SQL-invoked routine.
 --h3 11.51 <alter routine statement> (p698)
 --/h3
 
---p 
+--p
 Alter a characteristic of an SQL-invoked routine.
 --/p
 
@@ -4110,7 +4112,7 @@ Alter a characteristic of an SQL-invoked routine.
 --h3 11.52 <drop routine statement> (p701)
 --/h3
 
---p 
+--p
 Destroy an SQL-invoked routine.
 --/p
 
@@ -4119,7 +4121,7 @@ Destroy an SQL-invoked routine.
 --h3 11.53 <user-defined cast definition> (p703)
 --/h3
 
---p 
+--p
 Define a user-defined cast.
 --/p
 
@@ -4136,7 +4138,7 @@ Define a user-defined cast.
 --h3 11.54 <drop user-defined cast statement> (p705)
 --/h3
 
---p 
+--p
 Destroy a user-defined cast.
 --/p
 
@@ -4146,7 +4148,7 @@ Destroy a user-defined cast.
 --h3 11.55 <user-defined ordering definition> (p707)
 --/h3
 
---p 
+--p
 Define a user-defined ordering for a user-defined type.
 --/p
 
@@ -4174,7 +4176,7 @@ Define a user-defined ordering for a user-defined type.
 --h3 11.56 <drop user-defined ordering statement> (p710)
 --/h3
 
---p 
+--p
 Destroy a user-defined ordering method.
 --/p
 
@@ -4184,7 +4186,7 @@ Destroy a user-defined ordering method.
 --h3 11.57 <transform definition> (p712)
 --/h3
 
---p 
+--p
 Define one or more transform functions for a user-defined type.
 --/p
 
@@ -4209,7 +4211,7 @@ Define one or more transform functions for a user-defined type.
 --h3 11.58 <alter transform statement> (p715)
 --/h3
 
---p 
+--p
 Change the definition of one or more transform groups.
 --/p
 
@@ -4225,7 +4227,7 @@ Change the definition of one or more transform groups.
 --h3 11.59 <add transform element list> (p717)
 --/h3
 
---p 
+--p
 Add a transform element (<to sql> and/or <from sql>) to an existing transform group.
 --/p
 
@@ -4234,7 +4236,7 @@ Add a transform element (<to sql> and/or <from sql>) to an existing transform gr
 --h3 11.60 <drop transform element list> (p719)
 --/h3
 
---p 
+--p
 Remove a transform element (<to sql> and/or <from sql>) from a transform group.
 --/p
 
@@ -4245,7 +4247,7 @@ Remove a transform element (<to sql> and/or <from sql>) from a transform group.
 --h3 11.61 <drop transform statement> (p721)
 --/h3
 
---p 
+--p
 Remove one or more transform functions associated with a transform.
 --/p
 
@@ -4259,7 +4261,7 @@ Remove one or more transform functions associated with a transform.
 --h3 11.62 <sequence generator definition> (p724)
 --/h3
 
---p 
+--p
 Define an external sequence generator.
 --/p
 
@@ -4304,7 +4306,7 @@ Define an external sequence generator.
 --h3 11.63 <alter sequence generator statement> (p726)
 --/h3
 
---p 
+--p
 Change the definition of an external sequence generator.
 --/p
 
@@ -4324,7 +4326,7 @@ Change the definition of an external sequence generator.
 --h3 11.64 <drop sequence generator statement> (p727)
 --/h3
 
---p 
+--p
 Destroy an external sequence generator.
 --/p
 
@@ -4337,7 +4339,7 @@ Destroy an external sequence generator.
 --h3 12.1 <grant statement> (p729)
 --/h3
 
---p 
+--p
 Define privileges and role authorizations.
 --/p
 
@@ -4346,7 +4348,7 @@ Define privileges and role authorizations.
 --h3 12.2 <grant privilege statement> (p734)
 --/h3
 
---p 
+--p
 Define privileges.
 --/p
 
@@ -4357,7 +4359,7 @@ Define privileges.
 --h3 12.3 <privileges> (p737)
 --/h3
 
---p 
+--p
 Specify privileges.
 --/p
 
@@ -4401,7 +4403,7 @@ Specify privileges.
 --h3 12.4 <role definition> (p741)
 --/h3
 
---p 
+--p
 Define a role.
 --/p
 
@@ -4410,7 +4412,7 @@ Define a role.
 --h3 12.5 <grant role statement> (p742)
 --/h3
 
---p 
+--p
 Define role authorizations.
 --/p
 
@@ -4423,7 +4425,7 @@ Define role authorizations.
 --h3 12.6 <drop role statement> (p744)
 --/h3
 
---p 
+--p
 Destroy a role.
 --/p
 
@@ -4432,7 +4434,7 @@ Destroy a role.
 --h3 12.7 <revoke statement> (p745)
 --/h3
 
---p 
+--p
 Destroy privileges and role authorizations.
 --/p
 
@@ -4459,7 +4461,7 @@ Destroy privileges and role authorizations.
 --h3 13.1 <SQL-client module definition> (p763)
 --/h3
 
---p 
+--p
 Define an SQL-client module.
 --/p
 
@@ -4486,6 +4488,17 @@ Define an SQL-client module.
 
 <module collation specification> ::= COLLATION <collation name> [ FOR <character set specification list> ]
 
+--p
+--i
+--small
+There was another definition <character set specification list> in section 18.3.
+That was slightly different in format (simpler) but functionally equivalent.
+It is not clear why it was repeated.
+The alternative definition is now commented out.
+--/small
+--/i
+--/p
+
 <character set specification list> ::= <character set specification> [ { <comma> <character set specification> }... ]
 
 <module contents> ::=
@@ -4496,7 +4509,7 @@ Define an SQL-client module.
 --h3 13.2 <module name clause> (p768)
 --/h3
 
---p 
+--p
 Name an SQL-client module.
 --/p
 
@@ -4508,7 +4521,7 @@ Name an SQL-client module.
 --h3 13.3 <externally-invoked procedure> (p769)
 --/h3
 
---p 
+--p
 Define an externally-invoked procedure.
 --/p
 
@@ -4533,7 +4546,7 @@ Define an externally-invoked procedure.
 --h3 13.5 <SQL procedure statement> (p788)
 --/h3
 
---p 
+--p
 Define all of the SQL-statements that are <SQL procedure statement>s.
 --/p
 
@@ -4746,7 +4759,7 @@ unsigned char should be used.
 --h3 14.1 <declare cursor> (p807)
 --/h3
 
---p 
+--p
 Define a cursor.
 --/p
 
@@ -4762,7 +4775,7 @@ Define a cursor.
 
 <cursor returnability> ::= WITH RETURN | WITHOUT RETURN
 
-<cursor specification> ::= <query expression> [ <order by clause> ] [ <updatability clause> ] 
+<cursor specification> ::= <query expression> [ <order by clause> ] [ <updatability clause> ]
 
 <updatability clause> ::= FOR { READ ONLY | UPDATE [ OF <column name list> ] }
 
@@ -4771,7 +4784,7 @@ Define a cursor.
 --h3 14.2 <open statement> (p813)
 --/h3
 
---p 
+--p
 Open a cursor.
 --/p
 
@@ -4780,7 +4793,7 @@ Open a cursor.
 --h3 14.3 <fetch statement> (p815)
 --/h3
 
---p 
+--p
 Position a cursor on a specified row of a table and retrieve values from that row.
 --/p
 
@@ -4808,7 +4821,7 @@ Close a cursor.
 --h3 14.5 <select statement: single row> (p822)
 --/h3
 
---p 
+--p
 Retrieve values from a specified row of a table.
 --/p
 
@@ -4820,7 +4833,7 @@ Retrieve values from a specified row of a table.
 --h3 14.6 <delete statement: positioned> (p826)
 --/h3
 
---p 
+--p
 Delete a row of a table.
 --/p
 
@@ -4833,7 +4846,7 @@ Delete a row of a table.
 --h3 14.7 <delete statement: searched> (p829)
 --/h3
 
---p 
+--p
 Delete rows of a table.
 --/p
 
@@ -4842,7 +4855,7 @@ Delete rows of a table.
 --h3 14.8 <insert statement> (p832)
 --/h3
 
---p 
+--p
 Create new rows in a table.
 --/p
 
@@ -4869,7 +4882,7 @@ Create new rows in a table.
 --h3 14.9 <merge statement> (p837)
 --/h3
 
---p 
+--p
 Conditionally update rows of a table, or insert new rows into a table, or both.
 --/p
 
@@ -4901,7 +4914,7 @@ Conditionally update rows of a table, or insert new rows into a table, or both.
 --h3 14.10 <update statement: positioned> (p844)
 --/h3
 
---p 
+--p
 Update a row of a table.
 --/p
 
@@ -4910,7 +4923,7 @@ Update a row of a table.
 --h3 14.11 <update statement: searched> (p847)
 --/h3
 
---p 
+--p
 Update rows of a table.
 --/p
 
@@ -4919,7 +4932,7 @@ Update rows of a table.
 --h3 14.12 <set clause list> (p851)
 --/h3
 
---p 
+--p
 Specify a list of updates.
 --/p
 
@@ -4952,7 +4965,7 @@ Specify a list of updates.
 --h3 14.13 <temporary table declaration> (p856)
 --/h3
 
---p 
+--p
 Declare a declared local temporary table.
 --/p
 
@@ -4963,7 +4976,7 @@ Declare a declared local temporary table.
 --h3 14.14 <free locator statement> (p858)
 --/h3
 
---p 
+--p
 Remove the association between a locator variable and the value that is represented by that locator.
 --/p
 
@@ -4974,7 +4987,7 @@ Remove the association between a locator variable and the value that is represen
 --h3 14.15 <hold locator statement> (p859)
 --/h3
 
---p 
+--p
 Mark a locator variable as being holdable.
 --/p
 
@@ -5023,7 +5036,7 @@ Mark a locator variable as being holdable.
 --h3 15.1 <call statement> (p883)
 --/h3
 
---p 
+--p
 Invoke an SQL-invoked routine.
 --/p
 
@@ -5032,7 +5045,7 @@ Invoke an SQL-invoked routine.
 --h3 15.2 <return statement> (p884)
 --/h3
 
---p 
+--p
 Return a value from an SQL function.
 --/p
 
@@ -5047,7 +5060,7 @@ Return a value from an SQL function.
 --h3 16.1 <start transaction statement> (p885)
 --/h3
 
---p 
+--p
 Start an SQL-transaction and set its characteristics.
 --/p
 
@@ -5068,7 +5081,7 @@ Start an SQL-transaction and set its characteristics.
 --h3 16.2 <set transaction statement> (p888)
 --/h3
 
---p 
+--p
 Set the characteristics of the next SQL-transaction for the SQL-agent.
 NOTE 402 - This statement has no effect on any SQL-transactions subsequent to the next SQL-transaction.
 --/p
@@ -5080,7 +5093,7 @@ NOTE 402 - This statement has no effect on any SQL-transactions subsequent to th
 --h3 16.3 <set constraints mode statement> (p890)
 --/h3
 
---p 
+--p
 If an SQL-transaction is currently active, then set the constraint mode for that SQL-transaction in
 the current SQL-session. If no SQL-transaction is currently active, then set the constraint mode for
 the next SQL-transaction in the current SQL-session for the SQL-agent.
@@ -5094,7 +5107,7 @@ NOTE 404: This statement has no effect on any SQL-transactions subsequent to thi
 --h3 16.4 <savepoint statement> (p892)
 --/h3
 
---p 
+--p
 Establish a savepoint.
 --/p
 
@@ -5105,7 +5118,7 @@ Establish a savepoint.
 --h3 16.5 <release savepoint statement> (p893)
 --/h3
 
---p 
+--p
 Destroy a savepoint.
 --/p
 
@@ -5114,7 +5127,7 @@ Destroy a savepoint.
 --h3 16.6 <commit statement> (p894)
 --/h3
 
---p 
+--p
 Terminate the current SQL-transaction with commit.
 --/p
 
@@ -5123,7 +5136,7 @@ Terminate the current SQL-transaction with commit.
 --h3 16.7 <rollback statement> (p896)
 --/h3
 
---p 
+--p
 Terminate the current SQL-transaction with rollback, or rollback all actions affecting SQL-data
 and/or schemas since the establishment of a savepoint.
 --/p
@@ -5139,7 +5152,7 @@ and/or schemas since the establishment of a savepoint.
 --h3 17.1 <connect statement> (p899)
 --/h3
 
---p 
+--p
 Establish an SQL-session.
 --/p
 
@@ -5152,18 +5165,18 @@ Establish an SQL-session.
 --h3 17.2 <set connection statement> (p902)
 --/h3
 
---p 
+--p
 Select an SQL-connection from the available SQL-connections.
 --/p
 
 <set connection statement> ::= SET CONNECTION <connection object>
 
-<connection object> ::= DEFAULT | <connection name> 
+<connection object> ::= DEFAULT | <connection name>
 
 --h3 17.3 <disconnect statement> (p904)
 --/h3
 
---p 
+--p
 Terminate an SQL-connection.
 --/p
 
@@ -5178,7 +5191,7 @@ Terminate an SQL-connection.
 --h3 18.1 <set session characteristics statement> (p907)
 --/h3
 
---p 
+--p
 Set one or more characteristics for the current SQL-session.
 --/p
 
@@ -5191,7 +5204,7 @@ Set one or more characteristics for the current SQL-session.
 --h3 18.2 <set session user identifier statement> (p908)
 --/h3
 
---p 
+--p
 Set the SQL-session user identifier and the current user identifier of the current SQL-session
 context.
 --/p
@@ -5201,7 +5214,7 @@ context.
 --h3 18.3 <set role statement> (p909)
 --/h3
 
---p 
+--p
 Set the current role name for the current SQL-session context.
 --/p
 
@@ -5212,7 +5225,7 @@ Set the current role name for the current SQL-session context.
 --h3 18.4 <set local time zone statement> (p911)
 --/h3
 
---p 
+--p
 Set the default local time zone displacement for the current SQL-session.
 --/p
 
@@ -5223,7 +5236,7 @@ Set the default local time zone displacement for the current SQL-session.
 --h3 18.5 <set catalog statement> (p912)
 --/h3
 
---p 
+--p
 Set the default catalog name for unqualified <schema name>s in <preparable statement>s that
 are prepared in the current SQL-session by an <execute immediate statement> or a <prepare
 statement> and in <direct SQL statement>s that are invoked directly.
@@ -5236,7 +5249,7 @@ statement> and in <direct SQL statement>s that are invoked directly.
 --h3 18.6 <set schema statement> (p913)
 --/h3
 
---p 
+--p
 Set the default schema name for unqualified <schema qualified name>s in <preparable statement>s
 that are prepared in the current SQL-session by an <execute immediate statement> or a <prepare
 statement> and in <direct SQL statement>s that are invoked directly.
@@ -5249,7 +5262,7 @@ statement> and in <direct SQL statement>s that are invoked directly.
 --h3 18.7 <set names statement> (p915)
 --/h3
 
---p 
+--p
 Set the default character set name for <character string literal>s in <preparable statement>s that
 are prepared in the current SQL-session by an <execute immediate statement> or a <prepare
 statement> and in <direct SQL statement>s that are invoked directly.
@@ -5262,7 +5275,7 @@ statement> and in <direct SQL statement>s that are invoked directly.
 --h3 18.8 <set path statement> (p916)
 --/h3
 
---p 
+--p
 Set the SQL-path used to determine the subject routine of <routine invocation>s with unqualified
 <routine name>s in <preparable statement>s that are prepared in the current SQL-session by
 an <execute immediate statement> or a <prepare statement> and in <direct SQL statement>s,
@@ -5277,7 +5290,7 @@ until another SQL-path is successfully set.
 --h3 18.9 <set transform group statement> (p917)
 --/h3
 
---p 
+--p
 Set the group name that identifies the group of transform functions for
 mapping values of userdefined types to predefined data types.
 --/p
@@ -5291,7 +5304,7 @@ mapping values of userdefined types to predefined data types.
 --h3 18.10 <set session collation statement> (p918)
 --/h3
 
---p 
+--p
 Set the SQL-session collation of the SQL-session for one or more
 character sets.  An SQL-session collation remains effective until
 another SQL-session collation for the same character set is successfully
@@ -5302,7 +5315,14 @@ set.
 		SET COLLATION <collation specification> [ FOR <character set specification list> ]
 	|	SET NO COLLATION [ FOR <character set specification list> ]
 
-<character set specification list> ::= <character set specification> [ , <character set specification>... ]
+--@@ This is a second <character set specification list> definition; the first
+--@@ is in section 13.1.
+--@@ It is marginally different in detail from the previous version, but the
+--@@ overall effect is the same &mdash; a comma-separated list of <character
+--@@ set specification> items.
+--@@ It isn't clear why there's a repeat of the rule or the difference in the expansion.
+--@@
+--@@ <character set specification list> ::= <character set specification> [ , <character set specification>... ]
 
 <collation specification> ::= <value specification>
 
@@ -5315,7 +5335,7 @@ set.
 --h3 19.2 <allocate descriptor statement> (p931)
 --/h3
 
---p 
+--p
 Allocate an SQL descriptor area.
 --/p
 
@@ -5326,7 +5346,7 @@ Allocate an SQL descriptor area.
 --h3 19.3 <deallocate descriptor statement> (p933)
 --/h3
 
---p 
+--p
 Deallocate an SQL descriptor area.
 --/p
 
@@ -5335,7 +5355,7 @@ Deallocate an SQL descriptor area.
 --h3 19.4 <get descriptor statement> (p934)
 --/h3
 
---p 
+--p
 Get information from an SQL descriptor area.
 --/p
 
@@ -5350,6 +5370,15 @@ Get information from an SQL descriptor area.
 <header item name> ::= COUNT | KEY_TYPE | DYNAMIC_FUNCTION | DYNAMIC_FUNCTION_CODE | TOP_LEVEL_COUNT
 
 <get item information> ::= <simple target specification 2> <equals operator> <descriptor item name>
+
+--p
+--i
+--small
+The rule for <item number> was repeated verbatim in section 19.5.
+That rule is now omitted.
+--/small
+--/i
+--/p
 
 <item number> ::= <simple value specification>
 
@@ -5399,7 +5428,7 @@ Get information from an SQL descriptor area.
 --h3 19.5 <set descriptor statement> (p937)
 --/h3
 
---p 
+--p
 Set information in an SQL descriptor area.
 --/p
 
@@ -5417,12 +5446,13 @@ Set information in an SQL descriptor area.
 
 <simple value specification 2> ::= <simple value specification>
 
-<item number> ::= <simple value specification>
+--@@ This <item number> is a repeat of the rule in section 19.4
+--@@ <item number> ::= <simple value specification>
 
 --h3 19.6 <prepare statement> (p941)
 --/h3
 
---p 
+--p
 Prepare a statement for execution.
 --/p
 
@@ -5468,7 +5498,7 @@ Prepare a statement for execution.
 --h3 19.7 <cursor attributes> (p953)
 --/h3
 
---p 
+--p
 Specify a list of cursor attributes.
 --/p
 
@@ -5483,7 +5513,7 @@ Specify a list of cursor attributes.
 --h3 19.8 <deallocate prepared statement> (p954)
 --/h3
 
---p 
+--p
 Deallocate SQL-statements that have been prepared with a <prepare statement>.
 --/p
 
@@ -5492,7 +5522,7 @@ Deallocate SQL-statements that have been prepared with a <prepare statement>.
 --h3 19.9 <describe statement> (p955)
 --/h3
 
---p 
+--p
 Obtain information about the <select list> columns or <dynamic parameter specification>s contained
 in a prepared statement or about the columns of the result set associated with a cursor.
 --/p
@@ -5514,7 +5544,7 @@ in a prepared statement or about the columns of the result set associated with a
 --h3 19.10 <input using clause> (p961)
 --/h3
 
---p 
+--p
 Supply input values for an <SQL dynamic statement>.
 --/p
 
@@ -5529,7 +5559,7 @@ Supply input values for an <SQL dynamic statement>.
 --h3 19.11 <output using clause> (p965)
 --/h3
 
---p 
+--p
 Supply output variables for an <SQL dynamic statement>.
 --/p
 
@@ -5544,7 +5574,7 @@ Supply output variables for an <SQL dynamic statement>.
 --h3 19.12 <execute statement> (p970)
 --/h3
 
---p 
+--p
 Associate input SQL parameters and output targets with a prepared statement and execute the
 statement.
 --/p
@@ -5558,7 +5588,7 @@ statement.
 --h3 19.13 <execute immediate statement> (p972)
 --/h3
 
---p 
+--p
 Dynamically prepare and execute a preparable statement.
 --/p
 
@@ -5567,7 +5597,7 @@ Dynamically prepare and execute a preparable statement.
 --h3 19.14 <dynamic declare cursor> (p973)
 --/h3
 
---p 
+--p
 Declare a cursor to be associated with a <statement name>, which may in turn be associated with a
 <cursor specification>.
 --/p
@@ -5579,7 +5609,7 @@ Declare a cursor to be associated with a <statement name>, which may in turn be 
 --h3 19.15 <allocate cursor statement> (p974)
 --/h3
 
---p 
+--p
 Define a cursor based on a prepared statement for a <cursor specification> or assign a cursor to the
 ordered set of result sets returned from an SQL-invoked procedure.
 --/p
@@ -5597,7 +5627,7 @@ ordered set of result sets returned from an SQL-invoked procedure.
 --h3 19.16 <dynamic open statement> (p976)
 --/h3
 
---p 
+--p
 Associate input dynamic parameters with a <cursor specification> and open the cursor.
 --/p
 
@@ -5606,7 +5636,7 @@ Associate input dynamic parameters with a <cursor specification> and open the cu
 --h3 19.17 <dynamic fetch statement> (p977)
 --/h3
 
---p 
+--p
 Fetch a row for a cursor declared with a <dynamic declare cursor>.
 --/p
 
@@ -5615,7 +5645,7 @@ Fetch a row for a cursor declared with a <dynamic declare cursor>.
 --h3 19.18 <dynamic single row select statement> (p978)
 --/h3
 
---p 
+--p
 Retrieve values from a dynamically-specified row of a table.
 --/p
 
@@ -5624,7 +5654,7 @@ Retrieve values from a dynamically-specified row of a table.
 --h3 19.19 <dynamic close statement> (p979)
 --/h3
 
---p 
+--p
 Close a cursor.
 --/p
 
@@ -5633,7 +5663,7 @@ Close a cursor.
 --h3 19.20 <dynamic delete statement: positioned> (p980)
 --/h3
 
---p 
+--p
 Delete a row of a table.
 --/p
 
@@ -5642,7 +5672,7 @@ Delete a row of a table.
 --h3 19.21 <dynamic update statement: positioned> (p982)
 --/h3
 
---p 
+--p
 Update a row of a table.
 --/p
 
@@ -5652,7 +5682,7 @@ Update a row of a table.
 --h3 19.22 <preparable dynamic delete statement: positioned> (p984)
 --/h3
 
---p 
+--p
 Delete a row of a table through a dynamic cursor.
 --/p
 
@@ -5662,7 +5692,7 @@ Delete a row of a table through a dynamic cursor.
 --h3 19.23 <preparable dynamic update statement: positioned> (p986)
 --/h3
 
---p 
+--p
 Update a row of a table through a dynamic cursor.
 --/p
 
@@ -5676,7 +5706,7 @@ Update a row of a table through a dynamic cursor.
 --h3 20.1 <embedded SQL host program> (p989)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL host program>.
 --/p
 
@@ -5759,7 +5789,7 @@ Specify an <embedded SQL host program>.
 --h3 20.2 <embedded exception declaration> (p1001)
 --/h3
 
---p 
+--p
 Specify the action to be taken when an SQL-statement causes a specific class of condition to be
 raised.
 --/p
@@ -5797,7 +5827,7 @@ raised.
 --h3 20.3 <embedded SQL Ada program> (p1005)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL Ada program>.
 --/p
 
@@ -5873,7 +5903,7 @@ Specify an <embedded SQL Ada program>.
 --h3 20.4 <embedded SQL C program> (p1011)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL C program>.
 --/p
 
@@ -5996,7 +6026,7 @@ It is slightly less surprising that the grammar doesn't include C99 keywords suc
 --h3 20.5 <embedded SQL COBOL program> (p1019)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL COBOL program>.
 --/p
 
@@ -6085,7 +6115,7 @@ Specify an <embedded SQL COBOL program>.
 --h3 20.6 <embedded SQL Fortran program> (p1025)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL Fortran program>.
 --/p
 
@@ -6141,7 +6171,7 @@ Specify an <embedded SQL Fortran program>.
 --h3 20.7 <embedded SQL MUMPS program> (p1030)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL MUMPS program>.
 --/p
 
@@ -6201,7 +6231,7 @@ Specify an <embedded SQL MUMPS program>.
 --h3 20.8 <embedded SQL Pascal program> (p1035)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL Pascal program>.
 --/p
 
@@ -6255,7 +6285,7 @@ Specify an <embedded SQL Pascal program>.
 --h3 20.9 <embedded SQL PL/I program> (p1040)
 --/h3
 
---p 
+--p
 Specify an <embedded SQL PL/I program>.
 --/p
 
@@ -6325,7 +6355,7 @@ Specify an <embedded SQL PL/I program>.
 --h3 21.1 <direct SQL statement> (p1047)
 --/h3
 
---p 
+--p
 Specify direct execution of SQL.
 --/p
 
@@ -6352,7 +6382,7 @@ Specify direct execution of SQL.
 --h3 21.2 <direct select statement: multiple rows> (p1051)
 --/h3
 
---p 
+--p
 Specify a statement to retrieve multiple rows from a specified table.
 --/p
 
@@ -6477,7 +6507,6 @@ An implementation-defined completion condition shall be indicated by
 returning an implementation-defined subclass in conjunction with one of
 the classes successful completion, warning, or no data.
 --/p
-
 
 --p
 The 'Category' column has the following meanings: 'S' means that the class value given corresponds
@@ -6652,7 +6681,6 @@ Table 31 - SQLSTATE class and subclass values
 --## <tr><td> X </td><td> with check option violation </td><td> 44 </td><td> (no subclass) </td><td> 000 </td></tr>
 --## </table>
 
-
 --hr
 --h2 24 Conformance
 --/h2
@@ -6665,7 +6693,7 @@ Table 33 - Implied feature relationships
 --/p
 
 --## <table border=1>
---## <tr><th> Feature ID </th><th> Feature Description </th><th> Implied Feature </th><th> ID Implied Feature Description </th></tr> 
+--## <tr><th> Feature ID </th><th> Feature Description </th><th> Implied Feature </th><th> ID Implied Feature Description </th></tr>
 --## <tr><td> B032 </td><td> Extended dynamic SQL </td><td> B031 </td><td> Basic dynamic SQL </td></tr>
 --## <tr><td> B034 </td><td> Dynamic specification of cursor attributes </td><td> B031 </td><td> Basic dynamic SQL </td></tr>
 --## <tr><td> F381 </td><td> Extended schema manipulation </td><td> F491 </td><td> Constraint management </td></tr>
@@ -6710,7 +6738,6 @@ Table 33 - Implied feature relationships
 --## <tr><td> T572 </td><td> Multiset-returning external SQLinvoked functions </td><td> S271 </td><td> Basic multiset support </td></tr>
 --## <tr><td> T612 </td><td> Advanced OLAP operations </td><td> T611 </td><td> Elementary OLAP operations </td></tr>
 --## </table>
-
 
 --hr
 --h2 END OF SQL-2003 Part 2 (SQL/Foundation) GRAMMAR

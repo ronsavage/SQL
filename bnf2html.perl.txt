@@ -1,21 +1,42 @@
 #!/usr/bin/env perl
 #
-# @(#)$Id: bnf2html.pl,v 3.12 2016/04/18 05:13:47 jleffler Exp $
+# @(#)$Id: bnf2html.pl,v 3.16 2017/11/14 06:53:22 jleffler Exp $
 #
 # Convert SQL-92, SQL-99 BNF plain text file into hyperlinked HTML.
 
 use strict;
 use warnings;
 use POSIX qw(strftime);
+#use Data::Dumper;
 
 use constant debug => 0;
 
 my(%rules);     # Indexed by rule names w/o angle-brackets; each entry is a ref to a hash.
 my(%keywords);  # Index by keywords; each entry is a ref to a hash.
+my(%names);     # Indexed by rule names w/o angle-brackets; each entry is a ref to an array of line numbers
 
 sub top
 {
 print "<p><a href='#top'>Top</a></p>\n\n";
+}
+
+# Usage: add_rule_name(\%names, $rulename, $.);
+sub add_rule_name
+{
+    my($reflist, $lhs, $line) = @_;
+    #print "\nrulename = $lhs; line = $line\n";
+    if (defined ${$reflist}{$lhs})
+    {
+        #print Data::Dumper->Dump([ ${$reflist}{$lhs} ], qw[ ${$reflist}{$lhs} ]);
+        #print Data::Dumper->Dump([ \@{${$reflist}{$lhs}} ], qw[ \@{${$reflist}{$lhs}} ]);
+        my @lines = @{${$reflist}{$lhs}};
+        print STDERR "\n$0: Rule <$lhs> at line $line already seen at line(s) ", join(", ", @lines), "\n\n";
+    }
+    else
+    {
+        ${$reflist}{$lhs} = [];
+    }
+    push @{${$reflist}{$lhs}}, $line;
 }
 
 # Usage: add_entry(\%keywords, $keyword, $rule);
@@ -169,6 +190,15 @@ sub print_tail
     return($tcount);
 }
 
+sub undo_web_coding
+{
+    my($line) = @_;
+    $line =~ s%&gt;%>%g;
+    $line =~ s%&lt;%<%g;
+    $line =~ s%&amp;%&%g;
+    return $line;
+}
+
 my $hr_count = 0;
 my $tcount = 0;                 # Ick!
 my $def;                        # Current rule
@@ -188,10 +218,15 @@ while (<$WEBCODE>)
     {
         print "<hr>\n";
     }
+    elsif (/^--@@\s*(.*)$/)
+    {
+        my $comment = undo_web_coding($1);
+        print "<!-- $comment -->\n";
+    }
     elsif (/^@.#..Id:/)
     {
         # Convert what(1) string identifier into version information
-        my $id = '$Id: bnf2html.pl,v 3.12 2016/04/18 05:13:47 jleffler Exp $'; 
+        my $id = '$Id: bnf2html.pl,v 3.16 2017/11/14 06:53:22 jleffler Exp $';
         my($v1) = rcs_id($_);
         my $v2 = rcs_id($id);
         print "<p><font color=green><i><small>\n";
@@ -201,7 +236,7 @@ while (<$WEBCODE>)
         print "Generated on $today by $v2\n";
         print "</small></i></font></p>\n";
     }
-    elsif (/ ::=/)
+    elsif (/\s+::=/)
     {
         # Definition line
         $def = $_;
@@ -210,6 +245,7 @@ while (<$WEBCODE>)
         $tail =~ s%.*::=\s*%%;
         print qq'<p><a href="#xref-$def" name="$def"> &lt;$def&gt; </a>&nbsp;&nbsp;&nbsp;::=';
         $tcount = 0;
+        add_rule_name(\%names, $def, $.);
         if ($def eq "vertical bar")
         {
             # Needs special case attention to avoid a /* Nothing */ comment appearing.
@@ -244,10 +280,7 @@ while (<$WEBCODE>)
     }
     elsif (m%^--##%)
     {
-        # Undo web-coding
-        s%&gt;%>%g;
-        s%&lt;%<%g;
-        s%&amp;%&%g;
+        $_ = undo_web_coding($_);
         s%^--##\s*%%;
         print "$_\n";
     }
@@ -320,7 +353,7 @@ foreach my $rule (sort { uc $a cmp uc $b } keys %rules)
         print qq'$pad<a href="#$ref"> &lt;$ref&gt; </a>\n';
         $pad = "          ";
     }
-    print "     </td>\n</tr>\n"; 
+    print "     </td>\n</tr>\n";
 }
 print "</table>\n";
 print "<br>\n";
@@ -353,7 +386,7 @@ foreach my $keyword (sort { uc $a cmp uc $b } keys %keywords)
         print qq'$pad<a href="#$ref"> &lt;$ref&gt; </a>\n';
         $pad = "          ";
     }
-    print "     </td>\n</tr>\n"; 
+    print "     </td>\n</tr>\n";
 }
 print "</table>\n";
 print "<br>\n";
@@ -361,8 +394,7 @@ top;
 print "<hr>\n";
 }
 
-printf "%s\n", q'Please send feedback to Jonathan Leffler, variously:';
-printf "%s\n", q'<a href="mailto:jleffler@us.ibm.com"> jleffler@us.ibm.com </a> or';
+printf "%s\n", q'Please send feedback to Jonathan Leffler:';
 printf "%s\n", q'<a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.';
 
 print "\n</body>\n</html>\n";
@@ -427,6 +459,6 @@ Any other line is passed through verbatim.
 
 =head1 AUTHOR
 
-Jonathan Leffler <jleffler@us.ibm.com> <jonathan.leffler@gmail.com>
+Jonathan Leffler <jonathan.leffler@gmail.com>
 
 =cut

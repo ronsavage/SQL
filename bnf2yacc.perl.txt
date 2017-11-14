@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #
-# @(#)$Id: bnf2yacc.pl,v 1.15 2009/02/02 04:15:04 jleffler Exp $
+# @(#)$Id: bnf2yacc.pl,v 1.16 2017/11/14 06:53:22 jleffler Exp $
 #
 # Convert SQL-92, SQL-99 BNF plain text file into YACC grammar.
 
@@ -378,7 +378,7 @@ sub process_rhs
         }
     }
     print "==== process_rhs: @rule\n" if debug;
-    record_rule($lhs, 0, @rule); 
+    record_rule($lhs, 0, @rule);
     print "<<== process_rhs\n" if debug;
 }
 
@@ -429,7 +429,7 @@ while (<INPUT>)
         elsif (/^--##/)
         {
             print "/* $_ */\n";
-        } 
+        }
         else
         {
             print "/* Unrecognized 2: $_ */\n";

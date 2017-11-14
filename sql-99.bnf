@@ -1,7 +1,7 @@
 BNF Grammar for ISO/IEC 9075:1999 - Database Language SQL (SQL-99)
 ==================================================================
 
-@(#)$Id: sql-99.bnf,v 2.8 2004/07/26 18:00:06 jleffler Exp $
+@(#)$Id: sql-99.bnf,v 2.9 2017/11/14 06:20:28 jleffler Exp $
 
 --p
 Using Appendix G of "SQL:1999 Understanding Relational Language Components" by J
@@ -461,10 +461,12 @@ The lexical analyzer would normally deal with this sort of issue.
 
 <language name> ::= ADA | C | COBOL | FORTRAN | MUMPS | PASCAL | PLI | SQL
 
-<module authorization clause> ::=
-		SCHEMA <schema name>
-	|	AUTHORIZATION <module authorization identifier>
-	|	SCHEMA <schema name> AUTHORIZATION <module authorization identifier>
+--@@ This module authorization clause is superceded by a variant from 9075-5 SQL/Bindings.
+
+--@@ <module authorization clause> ::=
+--@@ 		SCHEMA <schema name>
+--@@ 	|	AUTHORIZATION <module authorization identifier>
+--@@ 	|	SCHEMA <schema name> AUTHORIZATION <module authorization identifier>
 
 <module authorization identifier> ::= <authorization identifier>
 
@@ -1647,7 +1649,8 @@ Normally, the lexical analyzer would return <double colon> as a symbol.
 
 <interval factor> ::= [ <sign> ] <interval primary>
 
-<interval primary> ::= <value expression primary> | <interval value function>
+--@@ This definition of interval primary is superceded by the version from 9075-5 SQL/Bindings
+--@@ <interval primary> ::= <value expression primary> | <interval value function>
 
 <interval value function> ::= <interval absolute value function>
 
@@ -2238,9 +2241,12 @@ used here.
 		[ FOR EACH { ROW | STATEMENT } ]
 		[ WHEN <left paren> <search condition> <right paren> ] <triggered SQL statement>
 
-<triggered SQL statement> ::=
-		<SQL procedure statement>
-	|	BEGIN ATOMIC { <SQL procedure statement> <semicolon> }...  END
+--@@ This definition of triggered SQL statement is superceded by the
+--@@ variant from 9075-4 (SQL/PSM).
+--@@ Consequently, this one is commented out.
+--@@ <triggered SQL statement> ::=
+--@@ 		<SQL procedure statement>
+--@@ 	|	BEGIN ATOMIC { <SQL procedure statement> <semicolon> }...  END
 
 <user-defined type definition> ::= CREATE TYPE <user-defined type body>
 
@@ -3524,6 +3530,17 @@ used here.
 
 <drop module statement> ::= DROP MODULE <SQL-server module name> <drop behavior>
 
+--p
+--small
+--i
+This definition of <triggered SQL statement> is from 9075-4 (SQL/PSM)
+and is documented with:
+--/i
+NOTE 13 – The preceding production defining <triggered SQL statement> completely supersedes the
+definition in ISO/IEC 9075-2.
+--/small
+--/p
+
 <triggered SQL statement> ::= <SQL procedure statement>
 
 --hr
@@ -3644,8 +3661,6 @@ Much, if not all, of the following material comes from ISO/IEC 9075-5:1999, SQL/
 	|	USER_DEFINED_TYPE_SCHEMA
 
 <simple value specification 2> ::= <simple value specification>
-
-<item number> ::= <simple value specification>
 
 <get descriptor statement> ::=
 		GET [ SQL ] DESCRIPTOR <descriptor name> <get descriptor information>
@@ -4405,9 +4420,32 @@ and <right paren> are not designated more accurately.
 
 <host PL/I label variable> ::= !! (See the Syntax Rules.)
 
+--p
+--small
+--i
+This interval primary definition from 9075-5 (SQL/Bindings) is very
+similar to a previous occurrence from 9075-2 (SQL/Foundation), but adds
+the optional interval qualifier.
+The earlier definition is commented out.
+--/i
+--/small
+--/p
+
 <interval primary> ::=
 		<value expression primary> [ <interval qualifier> ]
 	|	<interval value function>
+
+--p
+--small
+--i
+This module authorization clause definition from 9075-5 (SQL/Bindings)
+is similar to a previous occurrence from 9075-2 (SQL/Foundation) but the
+optional 'FOR STATIC ONLY' and 'FOR STATIC AND DYNAMIC' clauses were not
+present before.
+The earlier definition is commented out. 
+--/i
+--/small
+--/p
 
 <module authorization clause> ::=
 		SCHEMA <schema name>

@@ -1,7 +1,7 @@
 BNF Grammar for ISO/IEC 9075-2:2003 - Database Language SQL (SQL-2003) SQL/Foundation
 =====================================================================================
 
-@(#)$Id: sql-2003-2.bnf,v 1.21 2017/10/04 15:15:18 jleffler Exp $
+@(#)$Id: sql-2003-2.bnf,v 1.22 2017/11/14 05:32:12 jleffler Exp $
 
 --p
 Information taken from the Final Committee Draft (FCD) of ISO/IEC 9075-2:2003.
@@ -231,12 +231,16 @@ Specifying lexical units (tokens and separators) that participate in SQL languag
 --p
 --i
 --small
-Previous standard said:
---br
-<identifier start> ::= <initial alphabetic character> | <ideographic character>
+The previous version of the SQL standard defined an identifier start as
+either an <initial alphabetic character> or an <ideographic character>.
+Neither of the defining terms is defined in SQL 2003 (and the SQL 99
+definitions of those defininng terms referred to the syntax rules), but
+the result of the SQL 2003 syntax rules will be similar to SQL 99 ones
+except with Unicode support added.
 --/small
 --/i
 --/p
+--@@     <identifier start> ::= <initial alphabetic character> | <ideographic character>
 
 <identifier start> ::= !! See the Syntax Rules.
 
@@ -263,7 +267,6 @@ The productions for <Unicode delimited identifier> and so on are new in SQL-2003
 <Unicode delimited identifier> ::=
 		U<ampersand><double quote> <Unicode delimiter body> <double quote>
 		<Unicode escape specifier>
-
 
 <Unicode escape specifier> ::= [ UESCAPE <quote> <Unicode escape character> <quote> ]
 
@@ -1514,7 +1517,6 @@ grammar.
 --hr
 --h3 6.11 <case expression> (p197)
 --/h3
-
 
 <case expression> ::= <case abbreviation> | <case specification>
 
@@ -4486,6 +4488,17 @@ Define an SQL-client module.
 
 <module collation specification> ::= COLLATION <collation name> [ FOR <character set specification list> ]
 
+--p
+--i
+--small
+There was another definition <character set specification list> in section 18.3.
+That was slightly different in format (simpler) but functionally equivalent.
+It is not clear why it was repeated.
+The alternative definition is now commented out.
+--/small
+--/i
+--/p
+
 <character set specification list> ::= <character set specification> [ { <comma> <character set specification> }... ]
 
 <module contents> ::=
@@ -5302,7 +5315,14 @@ set.
 		SET COLLATION <collation specification> [ FOR <character set specification list> ]
 	|	SET NO COLLATION [ FOR <character set specification list> ]
 
-<character set specification list> ::= <character set specification> [ , <character set specification>... ]
+--@@ This is a second <character set specification list> definition; the first
+--@@ is in section 13.1.
+--@@ It is marginally different in detail from the previous version, but the
+--@@ overall effect is the same &mdash; a comma-separated list of <character
+--@@ set specification> items.
+--@@ It isn't clear why there's a repeat of the rule or the difference in the expansion.
+--@@
+--@@ <character set specification list> ::= <character set specification> [ , <character set specification>... ]
 
 <collation specification> ::= <value specification>
 
@@ -5350,6 +5370,15 @@ Get information from an SQL descriptor area.
 <header item name> ::= COUNT | KEY_TYPE | DYNAMIC_FUNCTION | DYNAMIC_FUNCTION_CODE | TOP_LEVEL_COUNT
 
 <get item information> ::= <simple target specification 2> <equals operator> <descriptor item name>
+
+--p
+--i
+--small
+The rule for <item number> was repeated verbatim in section 19.5.
+That rule is now omitted.
+--/small
+--/i
+--/p
 
 <item number> ::= <simple value specification>
 
@@ -5417,7 +5446,8 @@ Set information in an SQL descriptor area.
 
 <simple value specification 2> ::= <simple value specification>
 
-<item number> ::= <simple value specification>
+--@@ This <item number> is a repeat of the rule in section 19.4
+--@@ <item number> ::= <simple value specification>
 
 --h3 19.6 <prepare statement> (p941)
 --/h3
@@ -6478,7 +6508,6 @@ returning an implementation-defined subclass in conjunction with one of
 the classes successful completion, warning, or no data.
 --/p
 
-
 --p
 The 'Category' column has the following meanings: 'S' means that the class value given corresponds
 to successful completion and is a completion condition; 'W' means that the class value given
@@ -6652,7 +6681,6 @@ Table 31 - SQLSTATE class and subclass values
 --## <tr><td> X </td><td> with check option violation </td><td> 44 </td><td> (no subclass) </td><td> 000 </td></tr>
 --## </table>
 
-
 --hr
 --h2 24 Conformance
 --/h2
@@ -6710,7 +6738,6 @@ Table 33 - Implied feature relationships
 --## <tr><td> T572 </td><td> Multiset-returning external SQLinvoked functions </td><td> S271 </td><td> Basic multiset support </td></tr>
 --## <tr><td> T612 </td><td> Advanced OLAP operations </td><td> T611 </td><td> Elementary OLAP operations </td></tr>
 --## </table>
-
 
 --hr
 --h2 END OF SQL-2003 Part 2 (SQL/Foundation) GRAMMAR

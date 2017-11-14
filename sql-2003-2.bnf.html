@@ -16,9 +16,9 @@
 <br>
 
 <p><font color=green><i><small>
-Derived from file sql-2003-2.bnf version 1.21 dated 2017/10/04 15:15:18
+Derived from file sql-2003-2.bnf version 1.22 dated 2017/11/14 05:32:12
 <br>
-Generated on 2017-10-04 15:17:56+00:00 by file bnf2html.pl version 3.12 dated 2016/04/18 05:13:47
+Generated on 2017-11-14 05:32:24+00:00 by file bnf2html.pl version 3.14 dated 2017/11/13 20:42:26
 </small></i></font></p>
 
 <p>
@@ -217,12 +217,16 @@ Specifying lexical units (tokens and separators) that participate in SQL languag
 <p>
 <i>
 <small>
-Previous standard said:
-<br>
-<p><a href="#xref-identifier start" name="identifier start"> &lt;identifier start&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#initial alphabetic character'>&lt;initial alphabetic character&gt;</a>  |  <a href='#ideographic character'>&lt;ideographic character&gt;</a>
+The previous version of the SQL standard defined an identifier start as
+either an &lt;initial alphabetic character&gt; or an &lt;ideographic character&gt;.
+Neither of the defining terms is defined in SQL 2003 (and the SQL 99
+definitions of those defininng terms referred to the syntax rules), but
+the result of the SQL 2003 syntax rules will be similar to SQL 99 ones
+except with Unicode support added.
 </small>
 </i>
 </p>
+<!-- <identifier start> ::= <initial alphabetic character> | <ideographic character> -->
 
 <p><a href="#xref-identifier start" name="identifier start"> &lt;identifier start&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp;<font color="red"> !! See the Syntax Rules. </font>
 
@@ -248,7 +252,6 @@ The productions for &lt;Unicode delimited identifier&gt; and so on are new in SQ
 
 <p><a href="#xref-Unicode delimited identifier" name="Unicode delimited identifier"> &lt;Unicode delimited identifier&gt; </a>&nbsp;&nbsp;&nbsp;::=
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-U"> U </a> <a href='#ampersand'>&lt;ampersand&gt;</a> <a href='#double quote'>&lt;double quote&gt;</a>  <a href='#Unicode delimiter body'>&lt;Unicode delimiter body&gt;</a>  <a href='#double quote'>&lt;double quote&gt;</a><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href='#Unicode escape specifier'>&lt;Unicode escape specifier&gt;</a>
-
 <p><a href="#xref-Unicode escape specifier" name="Unicode escape specifier"> &lt;Unicode escape specifier&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; [  <a href="#xref-UESCAPE"> UESCAPE </a>  <a href='#quote'>&lt;quote&gt;</a>  <a href='#Unicode escape character'>&lt;Unicode escape character&gt;</a>  <a href='#quote'>&lt;quote&gt;</a>  ]
 
 <p><a href="#xref-Unicode delimiter body" name="Unicode delimiter body"> &lt;Unicode delimiter body&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#Unicode identifier part'>&lt;Unicode identifier part&gt;</a> ...
@@ -875,7 +878,6 @@ grammar.
 <hr>
 <h3> 6.11 <a href='#case expression'>&lt;case expression&gt;</a> (p197)
 </h3>
-
 
 <p><a href="#xref-case expression" name="case expression"> &lt;case expression&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#case abbreviation'>&lt;case abbreviation&gt;</a>  |  <a href='#case specification'>&lt;case specification&gt;</a>
 
@@ -3374,6 +3376,17 @@ Define an SQL-client module.
 
 <p><a href="#xref-module collation specification" name="module collation specification"> &lt;module collation specification&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href="#xref-COLLATION"> COLLATION </a>  <a href='#collation name'>&lt;collation name&gt;</a>  [  <a href="#xref-FOR"> FOR </a>  <a href='#character set specification list'>&lt;character set specification list&gt;</a>  ]
 
+<p>
+<i>
+<small>
+There was another definition &lt;character set specification list&gt; in section 18.3.
+That was slightly different in format (simpler) but functionally equivalent.
+It is not clear why it was repeated.
+The alternative definition is now commented out.
+</small>
+</i>
+</p>
+
 <p><a href="#xref-character set specification list" name="character set specification list"> &lt;character set specification list&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#character set specification'>&lt;character set specification&gt;</a>  [  {  <a href='#comma'>&lt;comma&gt;</a>  <a href='#character set specification'>&lt;character set specification&gt;</a>  }...  ]
 
 <p><a href="#xref-module contents" name="module contents"> &lt;module contents&gt; </a>&nbsp;&nbsp;&nbsp;::=
@@ -4058,7 +4071,14 @@ set.
 
 <p><a href="#xref-set session collation statement" name="set session collation statement"> &lt;set session collation statement&gt; </a>&nbsp;&nbsp;&nbsp;::=
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SET"> SET </a>  <a href="#xref-COLLATION"> COLLATION </a>  <a href='#collation specification'>&lt;collation specification&gt;</a>  [  <a href="#xref-FOR"> FOR </a>  <a href='#character set specification list'>&lt;character set specification list&gt;</a>  ]<br>&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp; <a href="#xref-SET"> SET </a>  <a href="#xref-NO"> NO </a>  <a href="#xref-COLLATION"> COLLATION </a>  [  <a href="#xref-FOR"> FOR </a>  <a href='#character set specification list'>&lt;character set specification list&gt;</a>  ]
-<p><a href="#xref-character set specification list" name="character set specification list"> &lt;character set specification list&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#character set specification'>&lt;character set specification&gt;</a>  [  ,  <a href='#character set specification'>&lt;character set specification&gt;</a> ...  ]
+<!-- This is a second <character set specification list> definition; the first -->
+<!-- is in section 13.1. -->
+<!-- It is marginally different in detail from the previous version, but the -->
+<!-- overall effect is the same &mdash; a comma-separated list of <character -->
+<!-- set specification> items. -->
+<!-- It isn't clear why there's a repeat of the rule or the difference in the expansion. -->
+<!--  -->
+<!-- <character set specification list> ::= <character set specification> [ , <character set specification>... ] -->
 
 <p><a href="#xref-collation specification" name="collation specification"> &lt;collation specification&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#value specification'>&lt;value specification&gt;</a>
 
@@ -4107,6 +4127,15 @@ Get information from an SQL descriptor area.
 
 <p><a href="#xref-get item information" name="get item information"> &lt;get item information&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#simple target specification 2'>&lt;simple target specification 2&gt;</a>  <a href='#equals operator'>&lt;equals operator&gt;</a>  <a href='#descriptor item name'>&lt;descriptor item name&gt;</a>
 
+<p>
+<i>
+<small>
+The rule for &lt;item number&gt; was repeated verbatim in section 19.5.
+That rule is now omitted.
+</small>
+</i>
+</p>
+
 <p><a href="#xref-item number" name="item number"> &lt;item number&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#simple value specification'>&lt;simple value specification&gt;</a>
 
 <p><a href="#xref-simple target specification 1" name="simple target specification 1"> &lt;simple target specification 1&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#simple target specification'>&lt;simple target specification&gt;</a>
@@ -4134,7 +4163,8 @@ Set information in an SQL descriptor area.
 
 <p><a href="#xref-simple value specification 2" name="simple value specification 2"> &lt;simple value specification 2&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#simple value specification'>&lt;simple value specification&gt;</a>
 
-<p><a href="#xref-item number" name="item number"> &lt;item number&gt; </a>&nbsp;&nbsp;&nbsp;::=&nbsp;&nbsp; <a href='#simple value specification'>&lt;simple value specification&gt;</a>
+<!-- This <item number> is a repeat of the rule in section 19.4 -->
+<!-- <item number> ::= <simple value specification> -->
 
 <h3> 19.6 <a href='#prepare statement'>&lt;prepare statement&gt;</a> (p941)
 </h3>
@@ -4869,7 +4899,6 @@ returning an implementation-defined subclass in conjunction with one of
 the classes successful completion, warning, or no data.
 </p>
 
-
 <p>
 The 'Category' column has the following meanings: 'S' means that the class value given corresponds
 to successful completion and is a completion condition; 'W' means that the class value given
@@ -5043,7 +5072,6 @@ Table 31 - SQLSTATE class and subclass values
 <tr><td> X </td><td> with check option violation </td><td> 44 </td><td> (no subclass) </td><td> 000 </td></tr>
 </table>
 
-
 <p><a href='#top'>Top</a></p>
 
 <hr>
@@ -5103,7 +5131,6 @@ Table 33 - Implied feature relationships
 <tr><td> T572 </td><td> Multiset-returning external SQLinvoked functions </td><td> S271 </td><td> Basic multiset support </td></tr>
 <tr><td> T612 </td><td> Advanced OLAP operations </td><td> T611 </td><td> Elementary OLAP operations </td></tr>
 </table>
-
 
 <p><a href='#top'>Top</a></p>
 
@@ -7859,10 +7886,6 @@ Z
      <td> <a href="#like options"> &lt;like options&gt; </a>
      </td>
 </tr>
-<tr> <td>  <a href="#ideographic character" name="xref-ideographic character"> ideographic character </a> </td>
-     <td> <a href="#identifier start"> &lt;identifier start&gt; </a>
-     </td>
-</tr>
 <tr> <td>  <a href="#implementation-defined character set name" name="xref-implementation-defined character set name"> implementation-defined character set name </a> </td>
      <td> <a href="#character set specification"> &lt;character set specification&gt; </a>
      </td>
@@ -7908,10 +7931,6 @@ Z
 </tr>
 <tr> <td>  <a href="#indicator variable" name="xref-indicator variable"> indicator variable </a> </td>
      <td> <a href="#embedded variable specification"> &lt;embedded variable specification&gt; </a>
-     </td>
-</tr>
-<tr> <td>  <a href="#initial alphabetic character" name="xref-initial alphabetic character"> initial alphabetic character </a> </td>
-     <td> <a href="#identifier start"> &lt;identifier start&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a href="#input using clause" name="xref-input using clause"> input using clause </a> </td>
@@ -13083,14 +13102,14 @@ X
           <a href="#object name"> &lt;object name&gt; </a>
      </td>
 </tr>
+<tr> <td>  <a name="xref-double"> </a> double </td>
+     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
+     </td>
+</tr>
 <tr> <td>  <a name="xref-DOUBLE"> </a> DOUBLE </td>
      <td> <a href="#approximate numeric type"> &lt;approximate numeric type&gt; </a>
           <a href="#Fortran type specification"> &lt;Fortran type specification&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
-     </td>
-</tr>
-<tr> <td>  <a name="xref-double"> </a> double </td>
-     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-DOUBLE_PRECISION"> </a> DOUBLE_PRECISION </td>
@@ -13288,14 +13307,14 @@ X
           <a href="#PL/I type fixed decimal"> &lt;PL/I type fixed decimal&gt; </a>
      </td>
 </tr>
+<tr> <td>  <a name="xref-float"> </a> float </td>
+     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
+     </td>
+</tr>
 <tr> <td>  <a name="xref-FLOAT"> </a> FLOAT </td>
      <td> <a href="#approximate numeric type"> &lt;approximate numeric type&gt; </a>
           <a href="#PL/I type float binary"> &lt;PL/I type float binary&gt; </a>
           <a href="#reserved word"> &lt;reserved word&gt; </a>
-     </td>
-</tr>
-<tr> <td>  <a name="xref-float"> </a> float </td>
-     <td> <a href="#C numeric variable"> &lt;C numeric variable&gt; </a>
      </td>
 </tr>
 <tr> <td>  <a name="xref-FLOOR"> </a> FLOOR </td>
@@ -15784,7 +15803,7 @@ X
 
 <hr>
 Please send feedback to Jonathan Leffler, variously:
-<a href="mailto:jleffler@us.ibm.com"> jleffler@us.ibm.com </a> or
+<a href="mailto:jonathan.leffler@hcl.com"> jonathan.leffler@hcl.com </a> or
 <a href="mailto:jonathan.leffler@gmail.com"> jonathan.leffler@gmail.com </a>.
 
 </body>

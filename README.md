@@ -80,7 +80,7 @@ Also available:
 ## Informix OUTER Join Syntax
 
 The file [`outer-joins.html`](outer-joins.html) is an explanation of the
-non-standar Informix OUTER join syntax and semantics.
+non-standard Informix OUTER join syntax and semantics.
 
 ## Conversion tools
 

@@ -10,6 +10,13 @@ It may not be the most recent release, but the technical content is mostly valid
 The download link is not functional — you can obtain the material for the latest
 release from https://github.com/ronsavage/SQL/releases/latest.
 
+** !! Syntax Rules
+
+Regarding the text '!! See the Syntax Rules': That is literally what it says in the PDF
+containing the standard.
+
+For an extract of the standard about these rules see the file 'Syntax.rules.txt'.
+
 *This project is still in transition to GitHub.
 The links in this README.md file lead to the pages in the GitHub source tree.
 Most of them will display the HTML source — not a rendered HTML image.

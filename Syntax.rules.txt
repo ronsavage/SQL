@@ -1,0 +1,411 @@
+That (!! See the Syntax Rules) is literally what it says in the PDF
+containing the standard. And the Syntax Rules are one part of the verbiage
+in the standard supporting the grammar — specifying what it means. The
+first such place where it occurs is:
+
+<space> <#xref-space> ::= !! See the Syntax Rules.
+
+And if I go to the full pDF, I find 5.1 <SQL terminal character> says:
+
+Information technology — Database languages — SQL — Part 2: Foundation
+(SQL/Foundation)
+
+Syntax Rules
+
+1) Every character set shall contain a <space> character that is equivalent
+to U+0020.
+
+Access Rules
+
+None.
+
+General Rules
+
+1) There is a one-to-one correspondence between the symbols contained in
+<simple Latin upper case letter> and the symbols contained in <simple Latin
+lower case letter> such that, for all i, the symbol defined as the i-th
+alternative for <simple Latin upper case letter> corresponds to the symbol
+defined as the i-th alternative for <simple Latin lower case letter>.
+
+Conformance Rules
+
+None.
+And, in this case, that's all it has to say. Each section of the standard
+has sub-headings 'Function', 'Format' (containing the BNF), 'Syntax Rules',
+'Access Rules', 'General Rules' (usually the biggest section), and
+'Conformance Rules'. The next pair of occurrences are:
+
+<identifier part> ::=
+
+<identifier start>
+
+| <identifier extend>
+
+<identifier start> ::= !! See the Syntax Rules
+
+<identifier extend> ::= !! See the Syntax Rules
+
+
+
+That's pulled from the PDF, not the HTML. This time, we find:
+
+Syntax Rules
+
+1) An <identifier start> is any character in the Unicode General Category
+classes "Lu", "Ll", "Lt", "Lm",
+
+"Lo", or "Nl".
+
+NOTE 58 — The Unicode General Category classes "Lu", "Ll", "Lt", "Lm",
+"Lo", and "Nl" are assigned to Unicode characters
+
+that are, respectively, upper-case letters, lower-case letters, title-case
+letters, modifier letters, other letters, and letter numbers.
+
+2) An <identifier extend> is U+00B7, "Middle Dot", or any character in the
+Unicode General Category classes
+
+"Mn", "Mc", "Nd", "Pc", or "Cf".
+
+NOTE 59 — The Unicode General Category classes "Mn", "Mc", "Nd", "Pc", and
+"Cf" are assigned to Unicode characters that
+
+are, respectively, nonspacing marks, spacing combining marks, decimal
+numbers, connector punctuations, and formatting codes.
+
+Very detailed specification stuff — but not something you can easily put
+into the BNF. It belongs in the lexical analyzer, probably.
+
+Another example — not to do with characters this time:
+<preparable implementation-defined statement> <#xref-preparable
+implementation-defined statement> ::= !! See the Syntax Rules.
+
+Here the further information is:
+
+3) The Format and Syntax Rules for <preparable implementation-defined
+statement> are implementation-defined.
+
+And another pair of them:
+
+<SQLSTATE class value> <#xref-SQLSTATE class value> ::= <SQLSTATE char>
+<#SQLSTATE char> <SQLSTATE char> <#SQLSTATE char> !! See the Syntax Rules.
+
+<SQLSTATE subclass value> <#xref-SQLSTATE subclass value> ::= <SQLSTATE
+char> <#SQLSTATE char> <SQLSTATE char> <#SQLSTATE char> <SQLSTATE char>
+<#SQLSTATE char> !! See the Syntax Rules.
+The Syntax Rules say:
+
+3) In the values of <SQLSTATE class value> and <SQLSTATE subclass value>,
+there shall be no <separator>
+
+between the <SQLSTATE char>s.
+
+4) The values of <SQLSTATE class value> and <SQLSTATE subclass value> shall
+correspond to class values
+
+and subclass values, respectively, specified in Table 32, "SQLSTATE class
+and subclass values".
+
+Expanding on this last example, here is the copy'n'paste of the Syntax
+Rules through the end of the section:
+
+Syntax Rules
+
+1) SQLWARNING, NOT FOUND, and SQLEXCEPTION correspond to SQLSTATE class
+values corresponding
+
+to categories W, N, and X in Table 32, "SQLSTATE class and subclass values",
+respectively.
+
+©ISO/IEC 2003 – All rights reserved Embedded SQL 1001
+
+ISO/IEC 9075-2:2003 (E)
+
+20.2 <embedded exception declaration>
+
+2) An <embedded exception declaration> contained in an <embedded SQL host
+program> applies to an <SQL
+
+procedure statement> contained in that <embedded SQL host program> if and
+only if the <SQL procedure
+
+statement> appears after the <embedded exception declaration> that has
+condition C in the text sequence
+
+of the <embedded SQL host program> and no other <embedded exception
+declaration> E that satisfies one
+
+of the following conditions appears between the <embedded exception
+declaration> and the <SQL procedure
+
+statement> in the text sequence of the <embedded SQL host program>.
+
+Let D be the <condition> contained in E.
+
+a) D is the same as C.
+
+b) D is a <major category> and belongs to the same class to which C belongs.
+
+c) D contains an <SQLSTATE class value>, but does not contain an <SQLSTATE
+subclass value>, and
+
+E contains the same <SQLSTATE class value> that C contains.
+
+d) D contains the <SQLSTATE class value> that corresponds to integrity
+constraint violation and C
+
+contains CONSTRAINT.
+
+3) In the values of <SQLSTATE class value> and <SQLSTATE subclass value>,
+there shall be no <separator>
+
+between the <SQLSTATE char>s.
+
+4) The values of <SQLSTATE class value> and <SQLSTATE subclass value> shall
+correspond to class values
+
+and subclass values, respectively, specified in Table 32, "SQLSTATE class
+and subclass values".
+
+5) If an <embedded exception declaration> specifies a <go to>, then the
+<host label identifier>, <host PL/I
+
+label variable>, or <unsigned integer> of the <go to> shall be such that a
+host language GO TO statement
+
+specifying that <host label identifier>, <host PL/I label variable>, or
+<unsigned integer> is valid at every
+
+<SQL procedure statement> to which the <embedded exception declaration>
+applies.
+
+NOTE 445 —
+
+If an <embedded exception declaration> is contained in an <embedded SQL Ada
+program>, then the <goto target> of a <go
+
+to> should specify a <host label identifier> that is a label_name in the
+containing <embedded SQL Ada program>.
+
+If an <embedded exception declaration> is contained in an <embedded SQL C
+program>, then the <goto target> of a <go to>
+
+should specify a <host label identifier> that is a label in the containing
+<embedded SQL C program>.
+
+If an <embedded exception declaration> is contained in an <embedded SQL
+COBOL program>, then the <goto target> of a
+
+<go to> should specify a <host label identifier> that is a section-name or
+an unqualified paragraph-name in the containing
+
+<embedded SQL COBOL program>.
+
+If an <embedded exception declaration> is contained in an <embedded SQL
+Fortran program>, then the <goto target> of a <go
+
+to> should be an <unsigned integer> that is the statement label of an
+executable statement that appears in the same program
+
+unit as the <go to>.
+
+If an <embedded exception declaration> is contained in an <embedded SQL
+MUMPS program>, then the <goto target> of a
+
+<go to> should be a gotoargument that is the statement label of an
+executable statement that appears in the same <embedded
+
+SQL MUMPS program>.
+
+If an <embedded exception declaration> is contained in an <embedded SQL
+Pascal program>, then the <goto target> of a <go
+
+to> should be an <unsigned integer> that is a label.
+
+If an <embedded exception declaration> is contained in an <embedded SQL
+PL/I program>, then the <goto target> of a <go
+
+to> should specify either a <host label identifier> or a <host PL/I label
+variable>.
+
+Case:
+
+— If <host label identifier> is specified, then the <host label identifier>
+should be a label constant in the containing
+
+<embedded SQL PL/I program>.
+
+ISO/IEC 9075-2:2003 (E)
+
+20.2 <embedded exception declaration>
+
+1002 Foundation (SQL/Foundation) ©ISO/IEC 2003 – All rights reserved
+
+— If <host PL/I label variable> is specified, then the <host PL/I label
+variable> should be a PL/I label variable declared in
+
+the containing <embedded SQL PL/I program>.
+
+Access Rules
+
+None.
+
+General Rules
+
+1) Immediately after the execution of an <SQL procedure statement> STMT in
+an <embedded SQL host program>
+
+that returns an SQLSTATE value other than successful completion:
+
+a) Let E be the set of <embedded exception declaration>s that are contained
+in the <embedded SQL host
+
+program> containing STMT, that applies to STMT, and that specifies a
+<condition action> that is <go
+
+to>.
+
+b) Let CV and SCV be respectively the values of the class and subclass of
+the SQLSTATE value that
+
+indicates the result of the <SQL procedure statement>.
+
+c) If the execution of the <SQL procedure statement> caused the violation
+of one or more constraints or
+
+assertions, then:
+
+i) Let ECN be the set of <embedded exception declaration>s in E that
+specify CONSTRAINT and
+
+the <constraint name> of a constraint that was violated by execution of
+STMT.
+
+ii) If ECN contains more than one <embedded exception declaration>, then an
+implementationdependent
+
+<embedded exception declaration> is chosen from ECN; otherwise, the single
+
+<embedded exception declaration> in ECN is chosen.
+
+iii) A GO TO statement of the host language is performed, specifying the
+<host label identifier>,
+
+<host PL/I label variable>, or <unsigned integer> of the <go to> specified
+in the <embedded
+
+exception declaration> chosen from ECN.
+
+d) Otherwise:
+
+i) Let ECS be the set of <embedded exception declaration>s in E that
+specify SQLSTATE, an
+
+<SQLSTATE class value>, and an <SQLSTATE subclass value>.
+
+ii) If ECS contains an <embedded exception declaration> EY that specifies
+an <SQLSTATE class
+
+value> identical to CV and an <SQLSTATE subclass value> identical to SCV,
+then a GO TO
+
+statement of the host language is performed, specifying the <host label
+identifier>, <host PL/I
+
+label variable>, or <unsigned integer> of the <go to> specified in the
+<embedded exception
+
+declaration> EY.
+
+iii) Otherwise:
+
+1) Let EC be the set of <embedded exception declaration>s in E that specify
+SQLSTATE and
+
+an <SQLSTATE class value> without an <SQLSTATE subclass value>.
+
+2) If EC contains an <embedded exception declaration> EY that specifies an
+<SQLSTATE
+
+class value> identical to CV, then a GO TO statement of the host language
+is performed,
+
+©ISO/IEC 2003 – All rights reserved Embedded SQL 1003
+
+ISO/IEC 9075-2:2003 (E)
+
+20.2 <embedded exception declaration>
+
+specifying the <host label identifier>, <host PL/I label variable>, or
+<unsigned integer> of
+
+the <go to> specified in the <embedded exception declaration> EY.
+
+3) Otherwise:
+
+A) Let EX be the set of <embedded exception declaration>s in E that specify
+SQLEXCEPTION.
+
+B) If EX contains an <embedded exception declaration> EY and CV belongs to
+Category
+
+X in Table 32, "SQLSTATE class and subclass values", then a GO TO statement
+of the
+
+host language is performed, specifying the <host label identifier>, <host
+PL/I label
+
+variable>, or <unsigned integer> of the <go to> specified in the <embedded
+exception
+
+declaration> EY.
+
+C) Otherwise:
+
+I) Let EW be the set of <embedded exception declaration>s in E that specify
+SQLWARNING.
+
+II) If EW contains an <embedded exception declaration> EY and CV belongs to
+
+Category W in Table 32, "SQLSTATE class and subclass values", then a GO
+
+TO statement of the host language is performed, specifying the <host label
+
+identifier>, <host PL/I label variable>, or <unsigned integer> of the <go
+to>
+
+specified in the <embedded exception declaration> EY.
+
+III) Otherwise, let ENF be the set of <embedded exception declaration>s in
+E that
+
+specify NOT FOUND. If ENF contains an <embedded exception declaration>
+
+EY and CV belongs to Category N in Table 32, "SQLSTATE class and subclass
+
+values", then a GO TO statement of the host language is performed,
+specifying
+
+the <host label identifier>, <host PL/I label variable>, or <unsigned
+integer> of
+
+the <go to> specified in the <embedded exception declaration> EY.
+
+Conformance Rules
+
+1) Without Feature B041, "Extensions to embedded SQL exception
+declarations", conforming SQL language
+
+shall not contain an <SQL condition> that contains either SQLSTATE or
+CONSTRAINT.
+
+2) Without Feature F491, "Constraint management", conforming SQL language
+shall not contain an <SQL
+
+condition> that contains a <constraint name>.
+
+ISO/IEC 9075-2:2003 (E)
+
+20.2 <embedded exception declaration>
+
+1004

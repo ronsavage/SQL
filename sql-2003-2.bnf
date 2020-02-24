@@ -3898,7 +3898,7 @@ Change the definition of a user-defined type.
 --/p
 
 <alter type statement> ::=
-ALTER TYPE <schema-resolved user-defined type name> <alter type action>
+	ALTER TYPE <schema-resolved user-defined type name> <alter type action>
 
 <alter type action> ::=
 		<add attribute definition>

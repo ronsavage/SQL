@@ -71,9 +71,9 @@ the SQL object identifier claims to provide the package.
 
 <high> ::= 2 | High <left paren> 2 <right paren>
 
-<1999> ::= 3| edition1999 <left paren> 3 <right paren>
+<1999> ::= 3 | edition1999 <left paren> 3 <right paren>
 
-<2003> ::= 4| edition2003 <left paren> 4 <right paren>
+<2003> ::= 4 | edition2003 <left paren> 4 <right paren>
 
 <bindings> ::= <module> <embedded> <direct> <invoked routine languages>
 

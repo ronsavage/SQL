@@ -226,6 +226,7 @@ language as specified in the SQL Feature Taxonomy Annex of the various parts of 
 --## <tr> <td> Feature F411 </td> <td> Time zone specification </td> </tr>
 --## <tr> <td> Feature F555 </td> <td> Enhanced seconds precision </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2
@@ -249,6 +250,7 @@ language as specified in the SQL Feature Taxonomy Annex of the various parts of 
 --## <tr> <td> Feature T212 </td> <td> Enhanced trigger capability </td> </tr>
 --## <tr> <td> Feature T191 </td> <td> Referential action RESTRICT </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2 B.3 PSM
@@ -266,6 +268,7 @@ SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
 --## <tr> <td> Feature P002 </td> <td> Computational completeness </td> </tr>
 --## <tr> <td> Feature P003 </td> <td> Information Schema views </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2 B.4 CLI
@@ -286,6 +289,7 @@ SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
 --## <tr> <td> Feature C071 </td> <td> Scroll Concurrency </td> </tr>
 --## <tr> <td> Feature C081 </td> <td> Read-only data source </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2 B.5 Basic object support
@@ -304,6 +308,7 @@ specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075
 --## <tr> <td> Feature S151 </td> <td> Type predicate </td> </tr>
 --## <tr> <td> Feature T041 </td> <td> Basic LOB data type support </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2 B.6 Enhanced object support
@@ -327,6 +332,7 @@ Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
 --## <tr> <td> Feature S231 </td> <td> Structured type locators </td> </tr>
 --## <tr> <td> Feature S241 </td> <td> Transform functions </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2 B.7 Active database
@@ -341,6 +347,7 @@ specified in the SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075
 --## <table border=1>
 --## <tr> <td> Feature T211 </td> <td> Basic trigger capability </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2 B.8 OLAP
@@ -356,6 +363,7 @@ SQL Feature Taxonomy Annex of the various parts of ISO/IEC 9075.
 --## <tr> <td> Feature T431 </td> <td> Extended grouping capabilities </td> </tr>
 --## <tr> <td> Feature T611 </td> <td> Elementary OLAP operators </td> </tr>
 --## </table>
+--/p
 
 --hr
 --h2 END OF SQL-2003-1 GRAMMAR

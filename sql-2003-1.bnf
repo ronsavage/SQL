@@ -45,7 +45,7 @@ the SQL object identifier claims to provide the package.
 
 <SQL variant> ::= <SQL edition> <SQL conformance>
 
-<SQL edition> ::= <1987> | <1989> | <1992> | <1999> | <200n>
+<SQL edition> ::= <1987> | <1989> | <1992> | <1999> | <2003>
 
 <1987> ::= 0 | edition1987 <left paren> 0 <right paren>
 

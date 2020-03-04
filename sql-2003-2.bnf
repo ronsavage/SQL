@@ -5328,6 +5328,7 @@ set.
 
 --hr
 --h2 19 Dynamic SQL
+--/h2
 
 --h3 19.1 Description of SQL descriptor areas (p921)
 --/h3
@@ -6390,6 +6391,7 @@ Specify a statement to retrieve multiple rows from a specified table.
 
 --hr
 --h2 22 Diagnostics management
+--/h2
 --h3 22.1 <get diagnostics statement> (p1053)
 --/h3
 

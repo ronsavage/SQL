@@ -1670,7 +1670,7 @@ grammar.
 --/h3
 
 <multiset element reference> ::=
-		ELEMENT <left paren> <multset value expression> <right paren>
+		ELEMENT <left paren> <multiset value expression> <right paren>
 
 --h3 6.25 <value expression> (p236)
 --/h3

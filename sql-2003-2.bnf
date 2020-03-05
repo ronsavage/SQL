@@ -1670,7 +1670,7 @@ grammar.
 --/h3
 
 <multiset element reference> ::=
-		ELEMENT <left paren> <multset value expression> <right paren>
+		ELEMENT <left paren> <multiset value expression> <right paren>
 
 --h3 6.25 <value expression> (p236)
 --/h3
@@ -5328,7 +5328,6 @@ set.
 
 --hr
 --h2 19 Dynamic SQL
---/h2
 
 --h3 19.1 Description of SQL descriptor areas (p921)
 --/h3
@@ -6391,7 +6390,6 @@ Specify a statement to retrieve multiple rows from a specified table.
 
 --hr
 --h2 22 Diagnostics management
---/h2
 --h3 22.1 <get diagnostics statement> (p1053)
 --/h3
 

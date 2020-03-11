@@ -4484,7 +4484,7 @@ Define an SQL-client module.
 
 <module transform group specification> ::= <transform group specification>
 
-<module collations> ::= <module collation specification>...
+<module collation> ::= <module collation specification>...
 
 <module collation specification> ::= COLLATION <collation name> [ FOR <character set specification list> ]
 
@@ -5751,7 +5751,7 @@ Specify an <embedded SQL host program>.
 
 <embedded transform group specification> ::= <transform group specification>
 
-<embedded collation specification> ::= <module collations>
+<embedded collation specification> ::= <module collation>
 
 <embedded SQL declare section> ::=
 		<embedded SQL begin declare> [ <embedded character set declaration> ] [ <host variable definition>... ] <embedded SQL end declare>

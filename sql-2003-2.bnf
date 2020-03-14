@@ -1536,7 +1536,7 @@ grammar.
 
 <else clause> ::= ELSE <result>
 
-<case operand> ::= <row value predicand> | <overlaps predicate part>
+<case operand> ::= <row value predicand> | <overlaps predicate>
 
 <when operand> ::=
 		<row value predicand>

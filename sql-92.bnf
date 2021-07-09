@@ -550,7 +550,7 @@ The plain text version of this grammar is
 
 <single datetime field> ::=
 		<non-second datetime field> [ <left paren> <interval leading field precision> <right paren> ]
-	|   SECOND [ <left paren> <interval leading field precision> [ <comma> <left paren> <interval fractional seconds precision> ] <right paren> ]
+	|   SECOND [ <left paren> <interval leading field precision> [ <comma> <interval fractional seconds precision> ] <right paren> ]
 
 <domain name> ::= <qualified name>
 

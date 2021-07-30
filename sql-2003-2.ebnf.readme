@@ -1,0 +1,16 @@
+How to use sql-2003-2.ebnf
+==========================
+This file was extracted manually from sql-2003-2.bnf by Domingo Alvarez Duarte.
+Many thanx Domingo!
+
+It is the latter file as pure ebnf, i.e. with the original markup stripped.
+
+It can be rendered as railroad diagrams on the website https://www.bottlecaps.de/rr/ui.
+Just copy it into the Edit Grammar tab, and click View Diagram. Then wait a moment :-).
+
+Domingo notes:
+1. Non reserved words appear with * as suffix, ex: SUBSTRING -> SUBSTRING*.
+
+2. You can navigate through the grammar by clicking the rectangular boxes.
+
+Finally, you can download the rendered railroad as either XHTML + SVG or HTML + PNG.

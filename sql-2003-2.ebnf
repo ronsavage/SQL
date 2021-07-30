@@ -1,0 +1,6223 @@
+//BNF Grammar for ISO/IEC 9075-2:2003 - Database Language SQL (SQL-2003)
+SQL/Foundation
+
+//21 Direct invocation of SQL
+//21.1 direct_SQL_statement (p1047)
+//Specify direct execution of SQL.
+
+direct_SQL_statement    ::=   directly_executable_statement semicolon
+
+directly_executable_statement    ::=
+         direct_SQL_data_statement
+     | SQL_schema_statement
+     | SQL_transaction_statement
+     | SQL_connection_statement
+     | SQL_session_statement
+     | direct_implementation_defined_statement
+
+direct_SQL_data_statement    ::=
+         delete_statement__searched
+     | direct_select_statement__multiple_rows
+     | insert_statement
+     | update_statement__searched
+     | merge_statement
+     | temporary_table_declaration
+
+//5 Lexical Elements
+//Basic definitions of characters used, tokens, symbols, etc. Most of
+this section would normally be handled within the lexical analyzer
+rather than in the grammar proper. Further, the original document does
+not quote the various single characters, which makes it hard to process
+automatically.
+
+//5.1 SQL_terminal_character (p151)
+SQL_terminal_character    ::=   SQL_language_character
+
+SQL_language_character    ::=   simple_Latin_letter | digit |
+SQL_special_character
+
+simple_Latin_letter    ::=   simple_Latin_upper_case_letter |
+simple_Latin_lower_case_letter
+
+simple_Latin_upper_case_letter    ::=
+         'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K'
+| 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W'
+| 'X' | 'Y' | 'Z'
+
+simple_Latin_lower_case_letter    ::=
+         'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'
+| 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w'
+| 'x' | 'y' | 'z'
+
+digit    ::=   '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+
+SQL_special_character    ::=
+         space
+     | double_quote
+     | percent
+     | ampersand
+     | quote
+     | left_paren
+     | right_paren
+     | asterisk
+     | plus_sign
+     | comma
+     | minus_sign
+     | period
+     | solidus
+     | colon
+     | semicolon
+     | less_than_operator
+     | equals_operator
+     | greater_than_operator
+     | question_mark
+     | left_bracket
+     | right_bracket
+     | circumflex
+     | underscore
+     | vertical_bar
+     | left_brace
+     | right_brace
+
+space    ::=   //!! See the Syntax Rules.
+
+double_quote    ::=  '"'
+
+percent    ::=  '%'
+
+ampersand    ::=  '&'
+
+quote    ::=  "'"
+
+left_paren    ::=  '('
+
+right_paren    ::=  ')'
+
+asterisk    ::=  '*'
+
+plus_sign    ::=  '+'
+
+comma    ::=  ','
+
+minus_sign    ::=  '-'
+
+period    ::=  '.'
+
+solidus    ::=  '/'
+
+colon    ::=  ':'
+
+semicolon    ::=  ';'
+
+less_than_operator    ::=  '<'
+
+equals_operator    ::=  '='
+
+greater_than_operator    ::=  '>'
+
+question_mark    ::=  '?'
+
+//The trigraphs are new in SQL-2003.
+
+left_bracket_or_trigraph    ::=   left_bracket | left_bracket_trigraph
+
+right_bracket_or_trigraph    ::=   right_bracket |
+right_bracket_trigraph
+
+left_bracket    ::=  '['
+
+left_bracket_trigraph    ::=   "??("
+
+right_bracket    ::=  ']'
+
+right_bracket_trigraph    ::=   "??)"
+
+circumflex    ::=  '^'
+
+underscore    ::=  '_'
+
+vertical_bar    ::=  '|'
+
+left_brace    ::=  '{'
+
+right_brace    ::=  '}'
+
+//5.2 token and separator (p134)
+//Specifying lexical units (tokens and separators) that participate in
+SQL language.
+
+token    ::=   nondelimiter_token | delimiter_token
+
+nondelimiter_token    ::=
+         regular_identifier
+     | key_word
+     | unsigned_numeric_literal
+     | national_character_string_literal
+     | bit_string_literal
+     | hex_string_literal
+     | large_object_length_token
+     | multiplier
+
+regular_identifier    ::=   identifier_body
+
+identifier_body    ::=   identifier_start identifier_part?
+
+identifier_part    ::=   identifier_start | identifier_extend
+
+//The previous version of the SQL standard defined an identifier start
+as either an initial_alphabetic_character or an ideographic_character.
+Neither of the defining terms is defined in SQL 2003 (and the SQL 99
+definitions of those defininng terms referred to the syntax rules), but
+the result of the SQL 2003 syntax rules will be similar to SQL 99 ones
+except with Unicode support added.
+
+identifier_start    ::=   //!! See the Syntax Rules.
+
+identifier_extend    ::=   //!! See the Syntax Rules.
+
+large_object_length_token    ::=   digit ... multiplier
+
+multiplier    ::=   'K' | 'M' | 'G'
+
+delimited_identifier    ::=   double_quote delimited_identifier_body
+double_quote
+
+delimited_identifier_body    ::=   delimited_identifier_part ...
+
+delimited_identifier_part    ::=   nondoublequote_character |
+doublequote_symbol
+
+//The productions for Unicode_delimited_identifier and so on are new in
+SQL-2003.
+
+Unicode_delimited_identifier    ::=
+         U ampersand double_quote Unicode_delimiter_body double_quote
+         Unicode_escape_specifier
+
+Unicode_escape_specifier    ::=   ( UESCAPE quote
+Unicode_escape_character quote )?
+
+Unicode_delimiter_body    ::=   Unicode_identifier_part ...
+
+Unicode_identifier_part    ::=   delimited_identifier_part |
+Unicode_escape_value
+
+Unicode_escape_value    ::=
+         Unicode_4_digit_escape_value
+     | Unicode_6_digit_escape_value
+     | Unicode_character_escape_value
+
+//Syntax rule 20:
+Unicode_4_digit_escape_value'Unicode_escape_character+xyzw' is
+equivalent to the Unicode code point specified by U+xyzw.
+
+Unicode_4_digit_escape_value    ::=   Unicode_escape_character hexit
+hexit hexit hexit
+
+//Syntax rule 21:
+Unicode_6_digit_escape_value'Unicode_escape_character+xyzwrs' is
+equivalent to the Unicode code point specified by U+xyzwrs.
+
+//NOTE 64: The 6-hexit notation is derived by taking the UCS-4 notation
+defined by ISO/IEC 10646-1 and removing the leading two hexits, whose
+values are always 0 (zero).
+
+Unicode_6_digit_escape_value    ::=
+         Unicode_escape_character plus_sign hexit hexit hexit hexit
+hexit hexit
+
+//Syntax rule 22: Unicode_character_escape_value is equivalent to a
+single instance of Unicode_escape_character.
+
+Unicode_character_escape_value    ::=   Unicode_escape_character
+Unicode_escape_character
+
+//Syntax rule 15: Unicode_escape_character shall be a single character
+from the source language character set other than a hexit, plus_sign, or
+white_space.
+
+//Syntax rule 16: If the source language character set contains
+reverse_solidus, then let DEC be reverse_solidus; otherwise, let DEC be
+an implementation-defined character from the source language character
+set that is not a hexit, plus_sign, double_quote, or white_space.
+
+//Syntax rule 17: If a Unicode_escape_specifier does not contain
+Unicode_escape_character, then "UESCAPE quoteDECquote" is implicit.
+
+//Syntax rule 18: In a Unicode_escape_value there shall be no separator
+between the Unicode_escape_character and the first hexit, nor between
+any of the hexits.
+
+Unicode_escape_character    ::=   //!! See the Syntax Rules (15-18
+above).
+
+//Syntax rule 6: A nondoublequote_character is any character of the
+source language character set other than a double_quote.
+
+nondoublequote_character    ::=   //!! See the Syntax Rules.
+
+//The rule for doublequote_symbol in the standard uses two adjacent
+literal double quotes rather than referencing double_quote; the reasons
+are not clear. It is annotated '//!! two consecutive double quote
+characters'.
+
+doublequote_symbol    ::=   double_quote double_quote
+
+delimiter_token    ::=
+         character_string_literal
+     | date_string
+     | time_string
+     | timestamp_string
+     | interval_string
+     | delimited_identifier
+     | Unicode_delimited_identifier
+     | SQL_special_character
+     | not_equals_operator
+     | greater_than_or_equals_operator
+     | less_than_or_equals_operator
+     | concatenation_operator
+     | right_arrow
+     | left_bracket_trigraph
+     | right_bracket_trigraph
+     | double_colon
+     | double_period
+
+//The rules for not_equals_operator etc in the standard uses two
+adjacent literal characters rather than referencing less_than and
+greater_than; the reasons are not clear. Note that two characters must
+be adjacent with no intervening space, not a pair of characters
+separated by arbitrary white space.
+
+not_equals_operator    ::=   "<>" //less_than_operator
+greater_than_operator
+
+greater_than_or_equals_operator    ::=   ">=" //greater_than_operator
+equals_operator
+
+less_than_or_equals_operator    ::=   "<=" //less_than_operator
+equals_operator
+
+concatenation_operator    ::=   "||" //vertical_bar vertical_bar
+
+right_arrow    ::=   "->" //minus_sign greater_than_operator
+
+double_colon    ::=   "::" //colon colon
+
+double_period    ::=   ".." //period period
+
+separator    ::=   ( comment | white_space )*
+
+comment    ::=   simple_comment | bracketed_comment
+
+simple_comment    ::=   simple_comment_introducer comment_character*
+newline
+
+simple_comment_introducer    ::=   minus_sign minus_sign  minus_sign*
+
+//The bracketed_comment rule included '//!! See the Syntax Rules'. This
+probably says something about the slash asterisk and asterisk slash
+needing to be adjacent characters rather than adjacent tokens.
+
+bracketed_comment    ::=
+         bracketed_comment_introducer bracketed_comment_contents
+bracketed_comment_terminator
+
+bracketed_comment_introducer    ::=   slash asterisk
+
+bracketed_comment_terminator    ::=   asterisk slash
+
+bracketed_comment_contents    ::=   ( comment_character | separator )*
+
+comment_character    ::=   nonquote_character | quote
+
+newline    ::=   //!! See the Syntax Rules.
+
+//There was a surprising amount of movement of keywords between the
+reserved and non-reserved word classes between SQL-99 and SQL-2003-2 FCD
+and again between SQL 2003-2 FCD and SQL 2003-2 IS. There is also room
+to think that much of the host language support moved out of Part 2
+(SQL/Foundation).
+
+key_word    ::=   reserved_word | non_reserved_word
+
+non_reserved_word    ::=
+     A
+    | ABS
+    | ABSOLUTE
+    | ACTION
+    | ADA
+    | ADMIN
+    | AFTER
+    | ALWAYS
+    | ASC
+    | ASSERTION
+    | ASSIGNMENT
+    | ATTRIBUTE
+    | ATTRIBUTES
+    | AVG
+    | BEFORE
+    | BERNOULLI
+    | BREADTH
+    | C
+    | CARDINALITY
+    | CASCADE
+    | CATALOG
+    | CATALOG_NAME
+    | CEIL
+    | CEILING
+    | CHAIN
+    | CHARACTERISTICS
+    | CHARACTERS
+    | CHARACTER_LENGTH
+    | CHARACTER_SET_CATALOG
+    | CHARACTER_SET_NAME
+    | CHARACTER_SET_SCHEMA
+    | CHAR_LENGTH
+    | CHECKED
+    | CLASS_ORIGIN
+    | COALESCE
+    | COBOL
+    | CODE_UNITS
+    | COLLATION
+    | COLLATION_CATALOG
+    | COLLATION_NAME
+    | COLLATION_SCHEMA
+    | COLLECT
+    | COLUMN_NAME
+    | COMMAND_FUNCTION
+    | COMMAND_FUNCTION_CODE
+    | COMMITTED
+    | CONDITION
+    | CONDITION_NUMBER
+    | CONNECTION_NAME
+    | CONSTRAINTS
+    | CONSTRAINT_CATALOG
+    | CONSTRAINT_NAME
+    | CONSTRAINT_SCHEMA
+    | CONSTRUCTORS
+    | CONTAINS
+    | CONVERT
+    | CORR
+    | COUNT
+    | COVAR_POP
+    | COVAR_SAMP
+    | CUME_DIST
+    | CURRENT_COLLATION
+    | CURSOR_NAME
+    | DATA
+    | DATETIME_INTERVAL_CODE
+    | DATETIME_INTERVAL_PRECISION
+    | DEFAULTS
+    | DEFERRABLE
+    | DEFERRED
+    | DEFINED
+    | DEFINER
+    | DEGREE
+    | DENSE_RANK
+    | DEPTH
+    | DERIVED
+    | DESC
+    | DESCRIPTOR
+    | DIAGNOSTICS
+    | DISPATCH
+    | DOMAIN
+    | DYNAMIC_FUNCTION
+    | DYNAMIC_FUNCTION_CODE
+    | EQUALS
+    | EVERY
+    | EXCEPTION
+    | EXCLUDE
+    | EXCLUDING
+    | EXP
+    | EXTRACT
+    | FINAL
+    | FIRST
+    | FLOOR
+    | FOLLOWING
+    | FORTRAN
+    | FOUND
+    | FUSION
+    | G
+    | GENERAL
+    | GO
+    | GOTO
+    | GRANTED
+    | HIERARCHY
+    | IMPLEMENTATION
+    | INCLUDING
+    | INCREMENT
+    | INITIALLY
+    | INSTANCE
+    | INSTANTIABLE
+    | INTERSECTION
+    | INVOKER
+    | ISOLATION
+    | K
+    | KEY
+    | KEY_MEMBER
+    | KEY_TYPE
+    | LAST
+    | LENGTH
+    | LEVEL
+    | LN
+    | LOCATOR
+    | LOWER
+    | M
+    | MAP
+    | MATCHED
+    | MAX
+    | MAXVALUE
+    | MESSAGE_LENGTH
+    | MESSAGE_OCTET_LENGTH
+    | MESSAGE_TEXT
+    | MIN
+    | MINVALUE
+    | MOD
+    | MORE
+    | MUMPS
+    | NAME
+    | NAMES
+    | NESTING
+    | NEXT
+    | NORMALIZE
+    | NORMALIZED
+    | NULLABLE
+    | NULLIF
+    | NULLS
+    | NUMBER
+    | OBJECT
+    | OCTETS
+    | OCTET_LENGTH
+    | OPTION
+    | OPTIONS
+    | ORDERING
+    | ORDINALITY
+    | OTHERS
+    | OVERLAY
+    | OVERRIDING
+    | PAD
+    | PARAMETER_MODE
+    | PARAMETER_NAME
+    | PARAMETER_ORDINAL_POSITION
+    | PARAMETER_SPECIFIC_CATALOG
+    | PARAMETER_SPECIFIC_NAME
+    | PARAMETER_SPECIFIC_SCHEMA
+    | PARTIAL
+    | PASCAL
+    | PATH
+    | PERCENTILE_CONT
+    | PERCENTILE_DISC
+    | PERCENT_RANK
+    | PLACING
+    | PLI
+    | POSITION
+    | POWER
+    | PRECEDING
+    | PRESERVE
+    | PRIOR
+    | PRIVILEGES
+    | PUBLIC
+    | RANK
+    | READ
+    | RELATIVE
+    | REPEATABLE
+    | RESTART
+    | RETURNED_CARDINALITY
+    | RETURNED_LENGTH
+    | RETURNED_OCTET_LENGTH
+    | RETURNED_SQLSTATE
+    | ROLE
+    | ROUTINE
+    | ROUTINE_CATALOG
+    | ROUTINE_NAME
+    | ROUTINE_SCHEMA
+    | ROW_COUNT
+    | ROW_NUMBER
+    | SCALE
+    | SCHEMA
+    | SCHEMA_NAME
+    | SCOPE_CATALOG
+    | SCOPE_NAME
+    | SCOPE_SCHEMA
+    | SECTION
+    | SECURITY
+    | SELF
+    | SEQUENCE
+    | SERIALIZABLE
+    | SERVER_NAME
+    | SESSION
+    | SETS
+    | SIMPLE
+    | SIZE
+    | SOURCE
+    | SPACE
+    | SPECIFIC_NAME
+    | SQRT
+    | STATE
+    | STATEMENT
+    | STDDEV_POP
+    | STDDEV_SAMP
+    | STRUCTURE
+    | STYLE
+    | SUBCLASS_ORIGIN
+    | SUBSTRING
+    | SUM
+    | TABLESAMPLE
+    | TABLE_NAME
+    | TEMPORARY
+    | TIES
+    | TOP_LEVEL_COUNT
+    | TRANSACTION
+    | TRANSACTIONS_COMMITTED
+    | TRANSACTIONS_ROLLED_BACK
+    | TRANSACTION_ACTIVE
+    | TRANSFORM
+    | TRANSFORMS
+    | TRANSLATE
+    | TRIGGER_CATALOG
+    | TRIGGER_NAME
+    | TRIGGER_SCHEMA
+    | TRIM
+    | TYPE
+    | UNBOUNDED
+    | UNCOMMITTED
+    | UNDER
+    | UNNAMED
+    | USAGE
+    | USER_DEFINED_TYPE_CATALOG
+    | USER_DEFINED_TYPE_CODE
+    | USER_DEFINED_TYPE_NAME
+    | USER_DEFINED_TYPE_SCHEMA
+    | VIEW
+    | WORK
+    | WRITE
+    | ZONE
+
+reserved_word    ::=
+    ADD
+    | ALL
+    | ALLOCATE
+    | ALTER
+    | AND
+    | ANY
+    | ARE
+    | ARRAY
+    | AS
+    | ASENSITIVE
+    | ASYMMETRIC
+    | AT
+    | ATOMIC
+    | AUTHORIZATION
+    | BEGIN
+    | BETWEEN
+    | BIGINT
+    | BINARY
+    | BLOB
+    | BOOLEAN
+    | BOTH
+    | BY
+    | CALL
+    | CALLED
+    | CASCADED
+    | CASE
+    | CAST
+    | CHAR
+    | CHARACTER
+    | CHECK
+    | CLOB
+    | CLOSE
+    | COLLATE
+    | COLUMN
+    | COMMIT
+    | CONNECT
+    | CONSTRAINT
+    | CONTINUE
+    | CORRESPONDING
+    | CREATE
+    | CROSS
+    | CUBE
+    | CURRENT
+    | CURRENT_DATE
+    | CURRENT_DEFAULT_TRANSFORM_GROUP
+    | CURRENT_PATH
+    | CURRENT_ROLE
+    | CURRENT_TIME
+    | CURRENT_TIMESTAMP
+    | CURRENT_TRANSFORM_GROUP_FOR_TYPE
+    | CURRENT_USER
+    | CURSOR
+    | CYCLE
+    | DATE
+    | DAY
+    | DEALLOCATE
+    | DEC
+    | DECIMAL
+    | DECLARE
+    | DEFAULT
+    | DELETE
+    | DEREF
+    | DESCRIBE
+    | DETERMINISTIC
+    | DISCONNECT
+    | DISTINCT
+    | DOUBLE
+    | DROP
+    | DYNAMIC
+    | EACH
+    | ELEMENT
+    | ELSE
+    | END
+    | END-EXEC
+    | ESCAPE
+    | EXCEPT
+    | EXEC
+    | EXECUTE
+    | EXISTS
+    | EXTERNAL
+    | FALSE
+    | FETCH
+    | FILTER
+    | FLOAT
+    | FOR
+    | FOREIGN
+    | FREE
+    | FROM
+    | FULL
+    | FUNCTION
+    | GET
+    | GLOBAL
+    | GRANT
+    | GROUP
+    | GROUPING
+    | HAVING
+    | HOLD
+    | HOUR
+    | IDENTITY
+    | IMMEDIATE
+    | IN
+    | INDICATOR
+    | INNER
+    | INOUT
+    | INPUT
+    | INSENSITIVE
+    | INSERT
+    | INT
+    | INTEGER
+    | INTERSECT
+    | INTERVAL
+    | INTO
+    | IS
+    | ISOLATION
+    | JOIN
+    | LANGUAGE
+    | LARGE
+    | LATERAL
+    | LEADING
+    | LEFT
+    | LIKE
+    | LOCAL
+    | LOCALTIME
+    | LOCALTIMESTAMP
+    | MATCH
+    | MEMBER
+    | MERGE
+    | METHOD
+    | MINUTE
+    | MODIFIES
+    | MODULE
+    | MONTH
+    | MULTISET
+    | NATIONAL
+    | NATURAL
+    | NCHAR
+    | NCLOB
+    | NEW
+    | NO
+    | NONE
+    | NOT
+    | NULL
+    | NUMERIC
+    | OF
+    | OLD
+    | ON
+    | ONLY
+    | OPEN
+    | OR
+    | ORDER
+    | OUT
+    | OUTER
+    | OUTPUT
+    | OVER
+    | OVERLAPS
+    | PARAMETER
+    | PARTITION
+    | PRECISION
+    | PREPARE
+    | PRIMARY
+    | PROCEDURE
+    | RANGE
+    | READS
+    | REAL
+    | RECURSIVE
+    | REF
+    | REFERENCES
+    | REFERENCING
+    | REGR_AVGX
+    | REGR_AVGY
+    | REGR_COUNT
+    | REGR_INTERCEPT
+    | REGR_R2
+    | REGR_SLOPE
+    | REGR_SXX
+    | REGR_SXY
+    | REGR_SYY
+    | RELEASE
+    | RESULT
+    | RETURN
+    | RETURNS
+    | REVOKE
+    | RIGHT
+    | ROLLBACK
+    | ROLLUP
+    | ROW
+    | ROWS
+    | SAVEPOINT
+    | SCROLL
+    | SEARCH
+    | SECOND
+    | SELECT
+    | SENSITIVE
+    | SESSION_USER
+    | SET
+    | SIMILAR
+    | SMALLINT
+    | SOME
+    | SPECIFIC
+    | SPECIFICTYPE
+    | SQL
+    | SQLEXCEPTION
+    | SQLSTATE
+    | SQLWARNING
+    | START
+    | STATIC
+    | SUBMULTISET
+    | SYMMETRIC
+    | SYSTEM
+    | SYSTEM_USER
+    | TABLE
+    | THEN
+    | TIME
+    | TIMESTAMP
+    | TIMEZONE_HOUR
+    | TIMEZONE_MINUTE
+    | TO
+    | TRAILING
+    | TRANSLATION
+    | TREAT
+    | TRIGGER
+    | TRUE
+    | UESCAPE
+    | UNION
+    | UNIQUE
+    | UNKNOWN
+    | UNNEST
+    | UPDATE
+    | UPPER
+    | USER
+    | USING
+    | VALUE
+    | VALUES
+    | VAR_POP
+    | VAR_SAMP
+    | VARCHAR
+    | VARYING
+    | WHEN
+    | WHENEVER
+    | WHERE
+    | WIDTH_BUCKET
+    | WINDOW
+    | WITH
+    | WITHIN
+    | WITHOUT
+    | YEAR
+
+//5.3 literal (p143)
+literal    ::=   signed_numeric_literal | general_literal
+
+unsigned_literal    ::=   unsigned_numeric_literal | general_literal
+
+general_literal    ::=
+         character_string_literal
+     | national_character_string_literal
+     | Unicode_character_string_literal
+     | binary_string_literal
+     | datetime_literal
+     | interval_literal
+     | boolean_literal
+
+character_string_literal    ::=
+         ( introducer character_set_specification )?
+         quote ( character_representation )? quote
+         ( separator quote ( character_representation )? quote )*
+
+introducer    ::=   underscore
+
+character_representation    ::=   nonquote_character | quote_symbol
+
+nonquote_character    ::=   //!! See the Syntax Rules.
+
+//The quote_symbol rule consists of two immediately adjacent quote marks
+with no spaces. As usual, this would be best handled in the lexical
+analyzer, not in the grammar.
+
+quote_symbol    ::=   quote quote
+
+national_character_string_literal    ::=
+         N quote character_representation* quote
+         ( separator quote character_representation* quote )*
+
+Unicode_character_string_literal    ::=
+         ( introducer character_set_specification )?
+         U ampersand quote Unicode_representation? quote
+         ( separator quote Unicode_representation? quote )*
+         ( ESCAPE escape_character )?
+
+Unicode_representation    ::=   character_representation |
+Unicode_escape_value
+
+binary_string_literal    ::=
+         X quote ( hexit hexit )* quote
+         ( separator quote ( hexit hexit )* quote )*
+         ( ESCAPE escape_character )?
+
+hexit    ::=   digit | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'a' | 'b' |
+'c' | 'd' | 'e' | 'f'
+
+signed_numeric_literal    ::=   sign? unsigned_numeric_literal
+
+unsigned_numeric_literal    ::=   exact_numeric_literal |
+approximate_numeric_literal
+
+exact_numeric_literal    ::=
+         unsigned_integer ( period unsigned_integer? )?
+     | period unsigned_integer
+
+sign    ::=   plus_sign | minus_sign
+
+approximate_numeric_literal    ::=   mantissa E exponent
+
+mantissa    ::=   exact_numeric_literal
+
+exponent    ::=   signed_integer
+
+signed_integer    ::=    sign? unsigned_integer
+
+unsigned_integer    ::=   digit ...
+
+datetime_literal    ::=   date_literal | time_literal |
+timestamp_literal
+
+date_literal    ::=   DATE date_string
+
+time_literal    ::=   TIME time_string
+
+timestamp_literal    ::=   TIMESTAMP timestamp_string
+
+date_string    ::=   quote unquoted_date_string quote
+
+time_string    ::=   quote unquoted_time_string quote
+
+timestamp_string    ::=   quote unquoted_timestamp_string quote
+
+time_zone_interval    ::=   sign hours_value colon minutes_value
+
+date_value    ::=   years_value minus_sign months_value minus_sign
+days_value
+
+time_value    ::=   hours_value colon minutes_value colon seconds_value
+
+interval_literal    ::=   INTERVAL sign? interval_string
+interval_qualifier
+
+interval_string    ::=   quote unquoted_interval_string quote
+
+unquoted_date_string    ::=   date_value
+
+unquoted_time_string    ::=   time_value time_zone_interval?
+
+unquoted_timestamp_string    ::=   unquoted_date_string space
+unquoted_time_string
+
+unquoted_interval_string    ::=   sign? ( year_month_literal |
+day_time_literal )
+
+year_month_literal    ::=   years_value | years_value minus_sign?
+months_value
+
+day_time_literal    ::=   day_time_interval | time_interval
+
+day_time_interval    ::=
+         days_value ( space hours_value ( colon minutes_value ( colon
+seconds_value )? )? )?
+
+time_interval    ::=
+         hours_value ( colon minutes_value ( colon seconds_value )? )?
+     | minutes_value ( colon seconds_value )?
+     | seconds_value
+
+years_value    ::=   datetime_value
+
+months_value    ::=   datetime_value
+
+days_value    ::=   datetime_value
+
+hours_value    ::=   datetime_value
+
+minutes_value    ::=   datetime_value
+
+seconds_value    ::=   seconds_integer_value ( period ( seconds_fraction
+)? )?
+
+seconds_integer_value    ::=   unsigned_integer
+
+seconds_fraction    ::=   unsigned_integer
+
+datetime_value    ::=   unsigned_integer
+
+boolean_literal    ::=   TRUE | FALSE | UNKNOWN
+
+//5.4 Names and identifiers (p151)
+identifier    ::=   actual_identifier
+
+actual_identifier    ::=   regular_identifier | delimited_identifier
+
+SQL_language_identifier    ::=
+         SQL_language_identifier_start ( underscore |
+SQL_language_identifier_part )*
+
+SQL_language_identifier_start    ::=   simple_Latin_letter
+
+SQL_language_identifier_part    ::=   simple_Latin_letter | digit
+
+authorization_identifier    ::=   role_name | user_identifier
+
+table_name    ::=   local_or_schema_qualified_name
+
+domain_name    ::=   schema_qualified_name
+
+schema_name    ::=   ( catalog_name period )? unqualified_schema_name
+
+catalog_name    ::=   identifier
+
+schema_qualified_name    ::=   ( schema_name period )?
+qualified_identifier
+
+local_or_schema_qualified_name    ::=   ( local_or_schema_qualifier
+period )? qualified_identifier
+
+local_or_schema_qualifier    ::=   schema_name | MODULE
+
+qualified_identifier    ::=   identifier
+
+column_name    ::=   identifier
+
+correlation_name    ::=   identifier
+
+query_name    ::=   identifier
+
+SQL_client_module_name    ::=   identifier
+
+procedure_name    ::=   identifier
+
+schema_qualified_routine_name    ::=   schema_qualified_name
+
+method_name    ::=   identifier
+
+specific_name    ::=   schema_qualified_name
+
+cursor_name    ::=   local_qualified_name
+
+local_qualified_name    ::=   ( local_qualifier period )?
+qualified_identifier
+
+local_qualifier    ::=   MODULE
+
+host_parameter_name    ::=   colon identifier
+
+SQL_parameter_name    ::=   identifier
+
+constraint_name    ::=   schema_qualified_name
+
+external_routine_name    ::=   identifier | character_string_literal
+
+trigger_name    ::=   schema_qualified_name
+
+collation_name    ::=   schema_qualified_name
+
+character_set_name    ::=   ( schema_name period )?
+SQL_language_identifier
+
+transliteration_name    ::=   schema_qualified_name
+
+transcoding_name    ::=   schema_qualified_name
+
+user_defined_type_name    ::=   schema_qualified_type_name
+
+schema_resolved_user_defined_type_name    ::=   user_defined_type_name
+
+schema_qualified_type_name    ::=   ( schema_name period )?
+qualified_identifier
+
+attribute_name    ::=   identifier
+
+field_name    ::=   identifier
+
+savepoint_name    ::=   identifier
+
+sequence_generator_name    ::=   schema_qualified_name
+
+role_name    ::=   identifier
+
+user_identifier    ::=   identifier
+
+connection_name    ::=   simple_value_specification
+
+SQL_server_name    ::=   simple_value_specification
+
+connection_user_name    ::=   simple_value_specification
+
+SQL_statement_name    ::=   statement_name | extended_statement_name
+
+statement_name    ::=   identifier
+
+extended_statement_name    ::=   ( scope_option )?
+simple_value_specification
+
+dynamic_cursor_name    ::=   cursor_name | extended_cursor_name
+
+extended_cursor_name    ::=   ( scope_option )?
+simple_value_specification
+
+descriptor_name    ::=   ( scope_option )? simple_value_specification
+
+scope_option    ::=   GLOBAL | LOCAL
+
+window_name    ::=   identifier
+
+//6 Scalar expressions
+//6.1 data_type (p161)
+data_type    ::=
+         predefined_type
+     | row_type
+     | path_resolved_user_defined_type_name
+     | reference_type
+     | collection_type
+
+predefined_type    ::=
+         character_string_type ( CHARACTER SET
+character_set_specification )? collate_clause?
+     | national_character_string_type collate_clause?
+     | binary_large_object_string_type
+     | numeric_type
+     | boolean_type
+     | datetime_type
+     | interval_type
+
+character_string_type    ::=
+         CHARACTER ( left_paren length right_paren )?
+     | CHAR ( left_paren length right_paren )?
+     | CHARACTER VARYING left_paren length right_paren
+     | CHAR VARYING left_paren length right_paren
+     | VARCHAR left_paren length right_paren
+     | CHARACTER LARGE OBJECT ( left_paren large_object_length
+right_paren )?
+     | CHAR LARGE OBJECT ( left_paren large_object_length right_paren )?
+     | CLOB ( left_paren large_object_length right_paren )?
+
+national_character_string_type    ::=
+         NATIONAL CHARACTER ( left_paren length right_paren )?
+     | NATIONAL CHAR ( left_paren length right_paren )?
+     | NCHAR ( left_paren length right_paren )?
+     | NATIONAL CHARACTER VARYING left_paren length right_paren
+     | NATIONAL CHAR VARYING left_paren length right_paren
+     | NCHAR VARYING left_paren length right_paren
+     | NATIONAL CHARACTER LARGE OBJECT ( left_paren large_object_length
+right_paren )?
+     | NCHAR LARGE OBJECT ( left_paren large_object_length right_paren
+)?
+     | NCLOB ( left_paren large_object_length right_paren )?
+
+binary_large_object_string_type    ::=
+         BINARY LARGE OBJECT ( left_paren large_object_length
+right_paren )?
+     | BLOB ( left_paren large_object_length right_paren )?
+
+numeric_type    ::=   exact_numeric_type | approximate_numeric_type
+
+exact_numeric_type    ::=
+         NUMERIC ( left_paren precision ( comma scale )? right_paren )?
+     | DECIMAL ( left_paren precision ( comma scale )? right_paren )?
+     | DEC ( left_paren precision ( comma scale )? right_paren )?
+     | SMALLINT
+     | INTEGER
+     | INT
+     | BIGINT
+
+approximate_numeric_type    ::=
+         FLOAT ( left_paren precision right_paren )?
+     | REAL
+     | DOUBLE PRECISION
+
+length    ::=   unsigned_integer
+
+large_object_length    ::=
+         unsigned_integer  multiplier? char_length_units?
+     | large_object_length_token char_length_units?
+
+char_length_units    ::=   CHARACTERS | CODE_UNITS | OCTETS
+
+precision    ::=   unsigned_integer
+
+scale    ::=   unsigned_integer
+
+boolean_type    ::=   BOOLEAN
+
+datetime_type    ::=
+         DATE
+     | TIME ( left_paren time_precision right_paren )?
+with_or_without_time_zone?
+     | TIMESTAMP ( left_paren timestamp_precision right_paren )?
+with_or_without_time_zone?
+
+with_or_without_time_zone    ::=   WITH TIME ZONE | WITHOUT TIME ZONE
+
+time_precision    ::=   time_fractional_seconds_precision
+
+timestamp_precision    ::=   time_fractional_seconds_precision
+
+time_fractional_seconds_precision    ::=   unsigned_integer
+
+interval_type    ::=   INTERVAL interval_qualifier
+
+row_type    ::=   ROW row_type_body
+
+row_type_body    ::=   left_paren field_definition ( comma
+field_definition )* right_paren
+
+reference_type    ::=   REF left_paren referenced_type right_paren
+scope_clause?
+
+scope_clause    ::=   SCOPE table_name
+
+referenced_type    ::=   path_resolved_user_defined_type_name
+
+path_resolved_user_defined_type_name    ::=   user_defined_type_name
+
+collection_type    ::=   array_type | multiset_type
+
+array_type    ::=   data_type ARRAY ( left_bracket_or_trigraph
+unsigned_integer right_bracket_or_trigraph )?
+
+multiset_type    ::=   data_type MULTISET
+
+//6.2 field_definition (p173)
+field_definition    ::=   field_name data_type ( reference_scope_check
+)?
+
+//6.3 value_expression_primary (p174)
+value_expression_primary    ::=
+         parenthesized_value_expression
+     | nonparenthesized_value_expression_primary
+
+parenthesized_value_expression    ::=   left_paren value_expression
+right_paren
+
+nonparenthesized_value_expression_primary    ::=
+         unsigned_value_specification
+     | column_reference
+     | set_function_specification
+     | window_function
+     | scalar_subquery
+     | case_expression
+     | cast_specification
+     | field_reference
+     | subtype_treatment
+     | method_invocation
+     | static_method_invocation
+     | new_specification
+     | attribute_or_method_reference
+     | reference_resolution
+     | collection_value_constructor
+     | array_element_reference
+     | multiset_element_reference
+     | routine_invocation
+     | next_value_expression
+
+//6.4 value_specification and target_specification (p176)
+value_specification    ::=   literal | general_value_specification
+
+unsigned_value_specification    ::=   unsigned_literal |
+general_value_specification
+
+general_value_specification    ::=
+         host_parameter_specification
+     | SQL_parameter_reference
+     | dynamic_parameter_specification
+     | embedded_variable_specification
+     | current_collation_specification
+     | CURRENT_DEFAULT_TRANSFORM_GROUP
+     | CURRENT_PATH
+     | CURRENT_ROLE
+     | CURRENT_TRANSFORM_GROUP_FOR_TYPE
+path_resolved_user_defined_type_name
+     | CURRENT_USER
+     | SESSION_USER
+     | SYSTEM_USER
+     | USER
+     | VALUE
+
+simple_value_specification    ::=
+         literal
+     | host_parameter_name
+     | SQL_parameter_reference
+     | embedded_variable_name
+
+target_specification    ::=
+         host_parameter_specification
+     | SQL_parameter_reference
+     | column_reference
+     | target_array_element_specification
+     | dynamic_parameter_specification
+     | embedded_variable_specification
+
+simple_target_specification    ::=
+         host_parameter_specification
+     | SQL_parameter_reference
+     | column_reference
+     | embedded_variable_name
+
+host_parameter_specification    ::=   host_parameter_name
+indicator_parameter?
+
+dynamic_parameter_specification    ::=   question_mark
+
+embedded_variable_specification    ::=   embedded_variable_name
+indicator_variable?
+
+indicator_variable    ::=   INDICATOR? embedded_variable_name
+
+indicator_parameter    ::=   INDICATOR? host_parameter_name
+
+target_array_element_specification    ::=
+         target_array_reference left_bracket_or_trigraph
+simple_value_specification right_bracket_or_trigraph
+
+target_array_reference    ::=   SQL_parameter_reference |
+column_reference
+
+current_collation_specification    ::=   CURRENT_COLLATION left_paren
+string_value_expression right_paren
+
+//6.5 contextually_typed_value_specification (p181)
+contextually_typed_value_specification    ::=
+         implicitly_typed_value_specification | default_specification
+
+implicitly_typed_value_specification    ::=   null_specification |
+empty_specification
+
+null_specification    ::=   NULL
+
+empty_specification    ::=
+         ARRAY left_bracket_or_trigraph right_bracket_or_trigraph
+     | MULTISET left_bracket_or_trigraph right_bracket_or_trigraph
+
+default_specification    ::=   DEFAULT
+
+//6.6 identifier_chain (p183)
+identifier_chain    ::=   identifier ( period identifier )*
+
+basic_identifier_chain    ::=   identifier_chain
+
+//6.7 column_reference (p187)
+column_reference    ::=
+         basic_identifier_chain
+     | MODULE period qualified_identifier period column_name
+
+//6.8 SQL_parameter_reference (p190)
+SQL_parameter_reference    ::=   basic_identifier_chain
+
+//6.9 set_function_specification (p191)
+set_function_specification    ::=   aggregate_function |
+grouping_operation
+
+grouping_operation    ::=   GROUPING left_paren column_reference ( comma
+column_reference )* right_paren
+
+//6.10 window_function (p193)
+window_function    ::=   window_function_type OVER
+window_name_or_specification
+
+window_function_type    ::=
+         rank_function_type left_paren right_paren
+     | ROW_NUMBER left_paren right_paren
+     | aggregate_function
+
+rank_function_type    ::=   RANK | DENSE_RANK | PERCENT_RANK | CUME_DIST
+
+window_name_or_specification    ::=   window_name |
+in_line_window_specification
+
+in_line_window_specification    ::=   window_specification
+
+//6.11 case_expression (p197)
+case_expression    ::=   case_abbreviation | case_specification
+
+case_abbreviation    ::=
+         NULLIF left_paren value_expression comma value_expression
+right_paren
+     | COALESCE left_paren value_expression ( comma value_expression )*
+right_paren
+
+case_specification    ::=   simple_case | searched_case
+
+simple_case    ::=   CASE case_operand simple_when_clause  ( else_clause
+)? END
+
+searched_case    ::=   CASE searched_when_clause  ( else_clause )? END
+
+simple_when_clause    ::=   WHEN when_operand THEN result
+
+searched_when_clause    ::=   WHEN search_condition THEN result
+
+else_clause    ::=   ELSE result
+
+case_operand    ::=   row_value_predicand | overlaps_predicate
+
+when_operand    ::=
+         row_value_predicand
+     | comparison_predicate_part_2
+     | between_predicate_part_2
+     | in_predicate_part_2
+     | character_like_predicate_part_2
+     | octet_like_predicate_part_2
+     | similar_predicate_part_2
+     | null_predicate_part_2
+     | quantified_comparison_predicate_part_2
+     | match_predicate_part_2
+     | overlaps_predicate_part_2
+     | distinct_predicate_part_2
+     | member_predicate_part_2
+     | submultiset_predicate_part_2
+     | set_predicate_part_2
+     | type_predicate_part_2
+
+result    ::=   result_expression | NULL
+
+result_expression    ::=   value_expression
+
+//6.12 cast_specification (p200)
+cast_specification    ::=   CAST left_paren cast_operand AS cast_target
+right_paren
+
+cast_operand    ::=   value_expression |
+implicitly_typed_value_specification
+
+cast_target    ::=   domain_name | data_type
+
+//6.13 next_value_expression (p216)
+next_value_expression    ::=   NEXT VALUE FOR sequence_generator_name
+
+//6.14 field_reference (p218)
+field_reference    ::=   value_expression_primary period field_name
+
+//6.15 subtype_treatment (p219)
+subtype_treatment    ::=
+         TREAT left_paren subtype_operand AS target_subtype right_paren
+
+subtype_operand    ::=   value_expression
+
+target_subtype    ::=
+         path_resolved_user_defined_type_name
+     | reference_type
+
+//6.16 method_invocation (p221)
+method_invocation    ::=   direct_invocation | generalized_invocation
+
+direct_invocation    ::=
+         value_expression_primary period method_name  SQL_argument_list?
+
+generalized_invocation    ::=
+         left_paren value_expression_primary AS data_type right_paren
+period method_name
+         SQL_argument_list?
+
+method_selection    ::=   routine_invocation
+
+constructor_method_selection    ::=   routine_invocation
+
+//6.17 static_method_invocation (p223)
+static_method_invocation    ::=
+         path_resolved_user_defined_type_name double_colon method_name
+SQL_argument_list?
+
+static_method_selection    ::=   routine_invocation
+
+//6.18 new_specification (p225)
+new_specification    ::=   NEW routine_invocation
+
+new_invocation    ::=   method_invocation | routine_invocation
+
+//6.19 attribute_or_method_reference (p227)
+attribute_or_method_reference    ::=
+         value_expression_primary dereference_operator
+qualified_identifier
+         SQL_argument_list?
+
+dereference_operator    ::=   right_arrow
+
+//6.20 dereference_operation (p229)
+dereference_operation    ::=   reference_value_expression
+dereference_operator attribute_name
+
+//6.21 method_reference (p230)
+method_reference    ::=
+         value_expression_primary dereference_operator method_name
+SQL_argument_list
+
+//6.22 reference_resolution (p232)
+reference_resolution    ::=   DEREF left_paren
+reference_value_expression right_paren
+
+//6.23 array_element_reference (p234)
+array_element_reference    ::=
+         array_value_expression left_bracket_or_trigraph
+numeric_value_expression right_bracket_or_trigraph
+
+//6.24 multiset_element_reference (p235)
+multiset_element_reference    ::=
+         ELEMENT left_paren multiset_value_expression right_paren
+
+//6.25 value_expression (p236)
+//Specify a value.
+
+value_expression    ::=
+         common_value_expression
+     | boolean_value_expression
+     | row_value_expression
+
+common_value_expression    ::=
+         numeric_value_expression
+     | string_value_expression
+     | datetime_value_expression
+     | interval_value_expression
+     | user_defined_type_value_expression
+     | reference_value_expression
+     | collection_value_expression
+
+user_defined_type_value_expression    ::=   value_expression_primary
+
+reference_value_expression    ::=   value_expression_primary
+
+collection_value_expression    ::=   array_value_expression |
+multiset_value_expression
+
+collection_value_constructor    ::=   array_value_constructor |
+multiset_value_constructor
+
+//6.26 numeric_value_expression (p240)
+//Specify a numeric value.
+
+numeric_value_expression    ::=
+         term
+     | numeric_value_expression plus_sign term
+     | numeric_value_expression minus_sign term
+
+term    ::=
+         factor
+     | term asterisk factor
+     | term solidus factor
+
+factor    ::=   sign? numeric_primary
+
+numeric_primary    ::=
+         value_expression_primary
+     | numeric_value_function
+
+//6.27 numeric_value_function (p242)
+//Specify a function yielding a value of type numeric.
+
+numeric_value_function    ::=
+         position_expression
+     | extract_expression
+     | length_expression
+     | cardinality_expression
+     | absolute_value_expression
+     | modulus_expression
+     | natural_logarithm
+     | exponential_function
+     | power_function
+     | square_root
+     | floor_function
+     | ceiling_function
+     | width_bucket_function
+
+position_expression    ::=
+         string_position_expression
+     | blob_position_expression
+
+string_position_expression    ::=
+         POSITION left_paren string_value_expression IN
+string_value_expression ( USING char_length_units )? right_paren
+
+blob_position_expression    ::=
+         POSITION left_paren blob_value_expression IN
+blob_value_expression right_paren
+
+length_expression    ::=
+         char_length_expression
+     | octet_length_expression
+
+char_length_expression    ::=
+         ( CHAR_LENGTH | CHARACTER_LENGTH ) left_paren
+string_value_expression ( USING char_length_units )? right_paren
+
+octet_length_expression    ::=   OCTET_LENGTH left_paren
+string_value_expression right_paren
+
+extract_expression    ::=   EXTRACT left_paren extract_field FROM
+extract_source right_paren
+
+extract_field    ::=   primary_datetime_field | time_zone_field
+
+time_zone_field    ::=   TIMEZONE_HOUR | TIMEZONE_MINUTE
+
+extract_source    ::=   datetime_value_expression |
+interval_value_expression
+
+cardinality_expression    ::=   CARDINALITY left_paren
+collection_value_expression right_paren
+
+absolute_value_expression    ::=   ABS left_paren
+numeric_value_expression right_paren
+
+modulus_expression    ::=   MOD left_paren
+numeric_value_expression_dividend comma numeric_value_expression_divisor
+right_paren
+
+natural_logarithm    ::=   LN left_paren numeric_value_expression
+right_paren
+
+exponential_function    ::=   EXP left_paren numeric_value_expression
+right_paren
+
+power_function    ::=   POWER left_paren numeric_value_expression_base
+comma numeric_value_expression_exponent right_paren
+
+numeric_value_expression_base    ::=   numeric_value_expression
+
+numeric_value_expression_exponent    ::=   numeric_value_expression
+
+square_root    ::=   SQRT left_paren numeric_value_expression
+right_paren
+
+floor_function    ::=   FLOOR left_paren numeric_value_expression
+right_paren
+
+ceiling_function    ::=   ( CEIL | CEILING ) left_paren
+numeric_value_expression right_paren
+
+width_bucket_function    ::=   WIDTH_BUCKET left_paren
+width_bucket_operand comma width_bucket_bound_1 comma
+width_bucket_bound_2 comma width_bucket_count right_paren
+
+width_bucket_operand    ::=   numeric_value_expression
+
+width_bucket_bound_1    ::=   numeric_value_expression
+
+width_bucket_bound_2    ::=   numeric_value_expression
+
+width_bucket_count    ::=   numeric_value_expression
+
+//6.28 string_value_expression (p251)
+//Specify a character string value or a binary string value.
+
+string_value_expression    ::=   character_value_expression |
+blob_value_expression
+
+character_value_expression    ::=   concatenation | character_factor
+
+concatenation    ::=   character_value_expression concatenation_operator
+character_factor
+
+character_factor    ::=   character_primary collate_clause?
+
+character_primary    ::=   value_expression_primary |
+string_value_function
+
+blob_value_expression    ::=   blob_concatenation | blob_factor
+
+blob_factor    ::=   blob_primary
+
+blob_primary    ::=   value_expression_primary | string_value_function
+
+blob_concatenation    ::=   blob_value_expression concatenation_operator
+blob_factor
+
+//6.29 string_value_function (p255)
+//Specify a function yielding a value of type character string or binary
+string.
+
+string_value_function    ::=   character_value_function |
+blob_value_function
+
+character_value_function    ::=
+         character_substring_function
+     | regular_expression_substring_function
+     | fold
+     | transcoding
+     | character_transliteration
+     | trim_function
+     | character_overlay_function
+     | normalize_function
+     | specific_type_method
+
+character_substring_function    ::=
+         SUBSTRING left_paren character_value_expression FROM
+start_position
+         ( FOR string_length )? ( USING char_length_units )? right_paren
+
+regular_expression_substring_function    ::=
+         SUBSTRING left_paren character_value_expression
+         SIMILAR character_value_expression ESCAPE escape_character
+right_paren
+
+fold    ::=   ( UPPER | LOWER ) left_paren character_value_expression
+right_paren
+
+transcoding    ::=   CONVERT left_paren character_value_expression USING
+transcoding_name right_paren
+
+character_transliteration    ::=   TRANSLATE left_paren
+character_value_expression USING transliteration_name right_paren
+
+trim_function    ::=   TRIM left_paren trim_operands right_paren
+
+trim_operands    ::=   ( ( trim_specification )? ( trim_character )?
+FROM )? trim_source
+
+trim_source    ::=   character_value_expression
+
+trim_specification    ::=   LEADING | TRAILING | BOTH
+
+trim_character    ::=   character_value_expression
+
+character_overlay_function    ::=
+         OVERLAY left_paren character_value_expression PLACING
+character_value_expression
+         FROM start_position ( FOR string_length )? ( USING
+char_length_units )? right_paren
+
+normalize_function    ::=   NORMALIZE left_paren
+character_value_expression right_paren
+
+specific_type_method    ::=   user_defined_type_value_expression period
+SPECIFICTYPE
+
+blob_value_function    ::=
+         blob_substring_function
+     | blob_trim_function
+     | blob_overlay_function
+
+blob_substring_function    ::=
+         SUBSTRING left_paren blob_value_expression FROM start_position
+( FOR string_length )? right_paren
+
+blob_trim_function    ::=   TRIM left_paren blob_trim_operands
+right_paren
+
+blob_trim_operands    ::=   ( ( trim_specification )? ( trim_octet )?
+FROM )? blob_trim_source
+
+blob_trim_source    ::=   blob_value_expression
+
+trim_octet    ::=   blob_value_expression
+
+blob_overlay_function    ::=
+         OVERLAY left_paren blob_value_expression PLACING
+blob_value_expression
+         FROM start_position ( FOR string_length )? right_paren
+
+start_position    ::=   numeric_value_expression
+
+string_length    ::=   numeric_value_expression
+
+//6.30 datetime_value_expression (p266)
+//Specify a datetime value.
+
+datetime_value_expression    ::=
+         datetime_term
+     | interval_value_expression plus_sign datetime_term
+     | datetime_value_expression plus_sign interval_term
+     | datetime_value_expression minus_sign interval_term
+
+datetime_term    ::=   datetime_factor
+
+datetime_factor    ::=   datetime_primary time_zone?
+
+datetime_primary    ::=   value_expression_primary |
+datetime_value_function
+
+time_zone    ::=   AT time_zone_specifier
+
+time_zone_specifier    ::=   LOCAL | TIME ZONE interval_primary
+
+//6.31 datetime_value_function (p269)
+//Specify a function yielding a value of type datetime.
+
+datetime_value_function    ::=
+         current_date_value_function
+     | current_time_value_function
+     | current_timestamp_value_function
+     | current_local_time_value_function
+     | current_local_timestamp_value_function
+
+current_date_value_function    ::=   CURRENT_DATE
+
+current_time_value_function    ::=   CURRENT_TIME ( left_paren
+time_precision right_paren )?
+
+current_local_time_value_function    ::=   LOCALTIME ( left_paren
+time_precision right_paren )?
+
+current_timestamp_value_function    ::=   CURRENT_TIMESTAMP ( left_paren
+timestamp_precision right_paren )?
+
+current_local_timestamp_value_function    ::=   LOCALTIMESTAMP (
+left_paren timestamp_precision right_paren )?
+
+//6.32 interval_value_expression (p271)
+//Specify an interval value.
+
+interval_value_expression    ::=
+         interval_term
+     | interval_value_expression_1 plus_sign interval_term_1
+     | interval_value_expression_1 minus_sign interval_term_1
+     | left_paren datetime_value_expression minus_sign datetime_term
+right_paren interval_qualifier
+
+interval_term    ::=
+         interval_factor
+     | interval_term_2 asterisk factor
+     | interval_term_2 solidus factor
+     | term asterisk interval_factor
+
+interval_factor    ::=   sign? interval_primary
+
+interval_primary    ::=
+         value_expression_primary interval_qualifier?
+     | interval_value_function
+
+interval_value_expression_1    ::=   interval_value_expression
+
+interval_term_1    ::=   interval_term
+
+interval_term_2    ::=   interval_term
+
+//6.33 interval_value_function (p276)
+interval_value_function    ::=   interval_absolute_value_function
+
+interval_absolute_value_function    ::=   ABS left_paren
+interval_value_expression right_paren
+
+//6.34 boolean_value_expression (p277)
+boolean_value_expression    ::=
+         boolean_term
+     | boolean_value_expression OR boolean_term
+
+boolean_term    ::=
+         boolean_factor
+     | boolean_term AND boolean_factor
+
+boolean_factor    ::=   NOT? boolean_test
+
+boolean_test    ::=   boolean_primary ( IS NOT? truth_value )?
+
+truth_value    ::=   TRUE | FALSE | UNKNOWN
+
+boolean_primary    ::=   predicate | boolean_predicand
+
+boolean_predicand    ::=
+         parenthesized_boolean_value_expression
+     | nonparenthesized_value_expression_primary
+
+parenthesized_boolean_value_expression    ::=   left_paren
+boolean_value_expression right_paren
+
+//6.35 array_value_expression (p284)
+array_value_expression    ::=   array_concatenation | array_factor
+
+array_concatenation    ::=   array_value_expression_1
+concatenation_operator array_factor
+
+array_value_expression_1    ::=   array_value_expression
+
+array_factor    ::=   value_expression_primary
+
+//6.36 array_value_constructor (p284)
+array_value_constructor    ::=
+         array_value_constructor_by_enumeration
+     | array_value_constructor_by_query
+
+array_value_constructor_by_enumeration    ::=
+         ARRAY left_bracket_or_trigraph array_element_list
+right_bracket_or_trigraph
+
+array_element_list    ::=   array_element ( comma array_element )*
+
+array_element    ::=   value_expression
+
+array_value_constructor_by_query    ::=
+         ARRAY left_paren query_expression order_by_clause? right_paren
+
+//6.37 multiset_value_expression (p286)
+multiset_value_expression    ::=
+         multiset_term
+     | multiset_value_expression MULTISET UNION ( ALL | DISTINCT )?
+multiset_term
+     | multiset_value_expression MULTISET EXCEPT ( ALL | DISTINCT )?
+multiset_term
+
+multiset_term    ::=
+         multiset_primary
+     | multiset_term MULTISET INTERSECT ( ALL | DISTINCT )?
+multiset_primary
+
+multiset_primary    ::=   multiset_value_function |
+value_expression_primary
+
+//6.38 multiset_value_function (p289)
+multiset_value_function    ::=   multiset_set_function
+
+multiset_set_function    ::=   SET left_paren multiset_value_expression
+right_paren
+
+//6.39 multiset_value_constructor (p290)
+multiset_value_constructor    ::=
+         multiset_value_constructor_by_enumeration
+     | multiset_value_constructor_by_query
+     | table_value_constructor_by_query
+
+multiset_value_constructor_by_enumeration    ::=   MULTISET
+left_bracket_or_trigraph multiset_element_list right_bracket_or_trigraph
+
+multiset_element_list    ::=   multiset_element ( comma multiset_element
+)*
+
+multiset_element    ::=   value_expression
+
+multiset_value_constructor_by_query    ::=   MULTISET left_paren
+query_expression right_paren
+
+table_value_constructor_by_query    ::=   TABLE left_paren
+query_expression right_paren
+
+//7 Query expressions
+//7.1 row_value_constructor (p293)
+//Specify a value or list of values to be constructed into a row or
+partial row.
+
+row_value_constructor    ::=
+         common_value_expression
+     | boolean_value_expression
+     | explicit_row_value_constructor
+
+explicit_row_value_constructor    ::=
+         left_paren row_value_constructor_element comma
+row_value_constructor_element_list right_paren
+     | ROW left_paren row_value_constructor_element_list right_paren
+     | row_subquery
+
+row_value_constructor_element_list    ::=
+         row_value_constructor_element ( comma
+row_value_constructor_element )*
+
+row_value_constructor_element    ::=   value_expression
+
+contextually_typed_row_value_constructor    ::=
+         common_value_expression
+     | boolean_value_expression
+     | contextually_typed_value_specification
+     | left_paren contextually_typed_row_value_constructor_element comma
+contextually_typed_row_value_constructor_element_list right_paren
+     | ROW left_paren
+contextually_typed_row_value_constructor_element_list right_paren
+
+contextually_typed_row_value_constructor_element_list    ::=
+         contextually_typed_row_value_constructor_element
+         ( comma contextually_typed_row_value_constructor_element )*
+
+contextually_typed_row_value_constructor_element    ::=
+         value_expression
+     | contextually_typed_value_specification
+
+row_value_constructor_predicand    ::=
+         common_value_expression
+     | boolean_predicand
+     | explicit_row_value_constructor
+
+//7.2 row_value_expression (p296)
+//Specify a row value.
+
+row_value_expression    ::=
+         row_value_special_case
+     | explicit_row_value_constructor
+
+table_row_value_expression    ::=
+         row_value_special_case
+     | row_value_constructor
+
+contextually_typed_row_value_expression    ::=
+         row_value_special_case
+     | contextually_typed_row_value_constructor
+
+row_value_predicand    ::=
+         row_value_special_case
+     | row_value_constructor_predicand
+
+row_value_special_case    ::=
+nonparenthesized_value_expression_primary
+
+//7.3 table_value_constructor (p298)
+//Specify a set of row_value_expressions to be constructed into a table.
+
+table_value_constructor    ::=   VALUES row_value_expression_list
+
+row_value_expression_list    ::=   table_row_value_expression ( comma
+table_row_value_expression )*
+
+contextually_typed_table_value_constructor    ::=   VALUES
+contextually_typed_row_value_expression_list
+
+contextually_typed_row_value_expression_list    ::=
+contextually_typed_row_value_expression ( comma
+contextually_typed_row_value_expression )*
+
+//7.4 table_expression (p300)
+//Specify a table or a grouped table.
+
+table_expression    ::=
+         from_clause
+         where_clause?
+         group_by_clause?
+         having_clause?
+         window_clause?
+
+//7.5 from_clause (p301)
+//Specify a table derived from one or more tables.
+
+from_clause    ::=   FROM table_reference_list
+
+table_reference_list    ::=   table_reference ( comma table_reference )*
+
+//7.6 table_reference (p303)
+//Reference a table.
+
+table_reference    ::=   table_primary_or_joined_table sample_clause?
+
+table_primary_or_joined_table    ::=   table_primary | joined_table
+
+sample_clause    ::=
+         TABLESAMPLE sample_method left_paren sample_percentage
+right_paren repeatable_clause?
+
+sample_method    ::=   BERNOULLI | SYSTEM
+
+repeatable_clause    ::=   REPEATABLE left_paren repeat_argument
+right_paren
+
+sample_percentage    ::=   numeric_value_expression
+
+repeat_argument    ::=   numeric_value_expression
+
+table_primary    ::=
+         table_or_query_name ( AS? correlation_name ( left_paren
+derived_column_list right_paren )? )?
+     | derived_table AS? correlation_name ( left_paren
+derived_column_list right_paren )?
+     | lateral_derived_table AS?     correlation_name ( left_paren
+derived_column_list right_paren )?
+     | collection_derived_table AS? correlation_name ( left_paren
+derived_column_list right_paren )?
+     | table_function_derived_table AS? correlation_name ( left_paren
+derived_column_list right_paren )?
+     | only_spec ( AS? correlation_name ( left_paren derived_column_list
+right_paren )? )?
+     | left_paren joined_table right_paren
+
+only_spec    ::=   ONLY left_paren table_or_query_name right_paren
+
+lateral_derived_table    ::=   LATERAL table_subquery
+
+collection_derived_table    ::=   UNNEST left_paren
+collection_value_expression right_paren ( WITH ORDINALITY )?
+
+table_function_derived_table    ::=   TABLE left_paren
+collection_value_expression right_paren
+
+derived_table    ::=   table_subquery
+
+table_or_query_name    ::=   table_name | query_name
+
+derived_column_list    ::=   column_name_list
+
+column_name_list    ::=   column_name ( comma column_name )*
+
+//7.7 joined_table (p312)
+//Specify a table derived from a Cartesian product, inner or outer join,
+or union join.
+
+joined_table    ::=
+         cross_join
+     | qualified_join
+     | natural_join
+     | union_join
+
+cross_join    ::=   table_reference CROSS JOIN table_primary
+
+qualified_join    ::=   table_reference join_type? JOIN table_reference
+join_specification
+
+natural_join    ::=   table_reference NATURAL join_type? JOIN
+table_primary
+
+union_join    ::=   table_reference UNION JOIN table_primary
+
+join_specification    ::=   join_condition | named_columns_join
+
+join_condition    ::=   ON search_condition
+
+named_columns_join    ::=   USING left_paren join_column_list
+right_paren
+
+join_type    ::=   INNER | outer_join_type OUTER?
+
+outer_join_type    ::=   LEFT | RIGHT | FULL
+
+join_column_list    ::=   column_name_list
+
+//7.8 where_clause (p319)
+//Specify a table derived by the application of a search_condition to
+the result of the preceding from_clause.
+
+where_clause    ::=   WHERE search_condition
+
+//7.9 group_by_clause (p320)
+//Specify a grouped table derived by the application of the
+group_by_clause to the result of the previously specified clause.
+
+group_by_clause    ::=   GROUP BY set_quantifier? grouping_element_list
+
+grouping_element_list    ::=   grouping_element ( comma grouping_element
+)*
+
+grouping_element    ::=
+         ordinary_grouping_set
+     | rollup_list
+     | cube_list
+     | grouping_sets_specification
+     | empty_grouping_set
+
+ordinary_grouping_set    ::=
+         grouping_column_reference
+     | left_paren grouping_column_reference_list right_paren
+
+grouping_column_reference    ::=   column_reference collate_clause?
+
+grouping_column_reference_list    ::=   grouping_column_reference (
+comma grouping_column_reference )*
+
+rollup_list    ::=   ROLLUP left_paren ordinary_grouping_set_list
+right_paren
+
+ordinary_grouping_set_list    ::=   ordinary_grouping_set ( comma
+ordinary_grouping_set )*
+
+cube_list    ::=   CUBE left_paren ordinary_grouping_set_list
+right_paren
+
+grouping_sets_specification    ::=   GROUPING SETS left_paren
+grouping_set_list right_paren
+
+grouping_set_list    ::=   grouping_set ( comma grouping_set )*
+
+grouping_set    ::=
+         ordinary_grouping_set
+     | rollup_list
+     | cube_list
+     | grouping_sets_specification
+     | empty_grouping_set
+
+empty_grouping_set    ::=   left_paren right_paren
+
+//7.10 having_clause (p329)
+//Specify a grouped table derived by the elimination of groups that do
+not satisfy a search_condition.
+
+having_clause    ::=   HAVING search_condition
+
+//7.11 window_clause (p331)
+//Specify one or more window definitions.
+
+window_clause    ::=   WINDOW window_definition_list
+
+window_definition_list    ::=   window_definition ( comma
+window_definition )*
+
+window_definition    ::=   new_window_name AS window_specification
+
+new_window_name    ::=   window_name
+
+window_specification    ::=   left_paren window_specification_details
+right_paren
+
+window_specification_details    ::=
+         existing_window_name? window_partition_clause?
+window_order_clause? window_frame_clause?
+
+existing_window_name    ::=   window_name
+
+window_partition_clause    ::=   PARTITION BY
+window_partition_column_reference_list
+
+window_partition_column_reference_list    ::=
+window_partition_column_reference ( comma
+window_partition_column_reference )*
+
+window_partition_column_reference    ::=   column_reference
+collate_clause?
+
+window_order_clause    ::=   ORDER BY sort_specification_list
+
+window_frame_clause    ::=   window_frame_units window_frame_extent
+window_frame_exclusion?
+
+window_frame_units    ::=   ROWS | RANGE
+
+window_frame_extent    ::=   window_frame_start | window_frame_between
+
+window_frame_start    ::=   UNBOUNDED PRECEDING | window_frame_preceding
+| CURRENT ROW
+
+window_frame_preceding    ::=   unsigned_value_specification PRECEDING
+
+window_frame_between    ::=   BETWEEN window_frame_bound_1 AND
+window_frame_bound_2
+
+window_frame_bound_1    ::=   window_frame_bound
+
+window_frame_bound_2    ::=   window_frame_bound
+
+window_frame_bound    ::=
+         window_frame_start
+     | UNBOUNDED FOLLOWING
+     | window_frame_following
+
+window_frame_following    ::=   unsigned_value_specification FOLLOWING
+
+window_frame_exclusion    ::=
+         EXCLUDE CURRENT ROW
+     | EXCLUDE GROUP
+     | EXCLUDE TIES
+     | EXCLUDE NO OTHERS
+
+//7.12 query_specification (p341)
+//Specify a table derived from the result of a table_expression.
+
+query_specification    ::=   SELECT set_quantifier? select_list
+table_expression
+
+select_list    ::=   asterisk | select_sublist ( comma select_sublist )*
+
+select_sublist    ::=   derived_column | qualified_asterisk
+
+qualified_asterisk    ::=
+         asterisked_identifier_chain period asterisk
+     | all_fields_reference
+
+asterisked_identifier_chain    ::=   asterisked_identifier ( period
+asterisked_identifier )*
+
+asterisked_identifier    ::=   identifier
+
+derived_column    ::=   value_expression as_clause?
+
+as_clause    ::=   AS? column_name
+
+all_fields_reference    ::=   value_expression_primary period asterisk (
+AS left_paren all_fields_column_name_list right_paren )?
+
+all_fields_column_name_list    ::=   column_name_list
+
+//7.13 query_expression (p350)
+//Specify a table.
+
+query_expression    ::=   with_clause? query_expression_body
+
+with_clause    ::=   WITH RECURSIVE? with_list
+
+with_list    ::=   with_list_element ( comma with_list_element )*
+
+with_list_element    ::=
+         query_name ( left_paren with_column_list right_paren )?
+         AS left_paren query_expression right_paren
+search_or_cycle_clause?
+
+with_column_list    ::=   column_name_list
+
+query_expression_body    ::=   non_join_query_expression | joined_table
+
+non_join_query_expression    ::=
+         non_join_query_term
+     | query_expression_body UNION ( ALL | DISTINCT )?
+corresponding_spec? query_term
+     | query_expression_body EXCEPT ( ALL | DISTINCT )?
+corresponding_spec? query_term
+
+query_term    ::=   non_join_query_term | joined_table
+
+non_join_query_term    ::=
+         non_join_query_primary
+     | query_term INTERSECT ( ALL | DISTINCT ) corresponding_spec?
+query_primary
+
+query_primary    ::=   non_join_query_primary | joined_table
+
+non_join_query_primary    ::=   simple_table | left_paren
+non_join_query_expression right_paren
+
+simple_table    ::=
+         query_specification
+     | table_value_constructor
+     | explicit_table
+
+explicit_table    ::=   TABLE table_or_query_name
+
+corresponding_spec    ::=   CORRESPONDING ( BY left_paren
+corresponding_column_list right_paren )?
+
+corresponding_column_list    ::=   column_name_list
+
+//7.14 search_or_cycle_clause (p363)
+//Specify the generation of ordering and cycle detection information in
+the result of recursive query expressions.
+
+search_or_cycle_clause    ::=
+         search_clause
+     | cycle_clause
+     | search_clause cycle_clause
+
+search_clause    ::=   SEARCH recursive_search_order SET sequence_column
+
+recursive_search_order    ::=
+         DEPTH FIRST BY sort_specification_list
+     | BREADTH FIRST BY sort_specification_list
+
+sequence_column    ::=   column_name
+
+cycle_clause    ::=
+         CYCLE cycle_column_list
+         SET cycle_mark_column TO cycle_mark_value
+         DEFAULT non_cycle_mark_value
+         USING path_column
+
+cycle_column_list    ::=   cycle_column ( comma cycle_column )*
+
+cycle_column    ::=   column_name
+
+cycle_mark_column    ::=   column_name
+
+path_column    ::=   column_name
+
+cycle_mark_value    ::=   value_expression
+
+non_cycle_mark_value    ::=   value_expression
+
+//7.15 subquery (p368)
+//Specify a scalar value, a row, or a table derived from a
+query_expression.
+
+scalar_subquery    ::=   subquery
+
+row_subquery    ::=   subquery
+
+table_subquery    ::=   subquery
+
+subquery    ::=   left_paren query_expression right_paren
+
+//8 Predicates
+//8.1 predicate (p371)
+//Specify a condition that can be evaluated to give a boolean value.
+
+predicate    ::=
+         comparison_predicate
+     | between_predicate
+     | in_predicate
+     | like_predicate
+     | similar_predicate
+     | null_predicate
+     | quantified_comparison_predicate
+     | exists_predicate
+     | unique_predicate
+     | normalized_predicate
+     | match_predicate
+     | overlaps_predicate
+     | distinct_predicate
+     | member_predicate
+     | submultiset_predicate
+     | set_predicate
+     | type_predicate
+
+//8.2 comparison_predicate (p373)
+//Specify a comparison of two row values.
+
+comparison_predicate    ::=   row_value_predicand
+comparison_predicate_part_2
+
+comparison_predicate_part_2    ::=   comp_op row_value_predicand
+
+comp_op    ::=
+         equals_operator
+     | not_equals_operator
+     | less_than_operator
+     | greater_than_operator
+     | less_than_or_equals_operator
+     | greater_than_or_equals_operator
+
+//8.3 between_predicate (p380)
+//Specify a range comparison.
+
+between_predicate    ::=   row_value_predicand between_predicate_part_2
+
+between_predicate_part_2    ::=   NOT? BETWEEN ( ASYMMETRIC | SYMMETRIC
+)? row_value_predicand AND row_value_predicand
+
+//8.4 in_predicate (p381)
+//Specify a quantified comparison.
+
+in_predicate    ::=   row_value_predicand in_predicate_part_2
+
+in_predicate_part_2    ::=   NOT? IN in_predicate_value
+
+in_predicate_value    ::=
+         table_subquery
+     | left_paren in_value_list right_paren
+
+in_value_list    ::=   row_value_expression ( comma row_value_expression
+)*
+
+//8.5 like_predicate (p383)
+//Specify a pattern-match comparison.
+
+like_predicate    ::=   character_like_predicate | octet_like_predicate
+
+character_like_predicate    ::=   row_value_predicand
+character_like_predicate_part_2
+
+character_like_predicate_part_2    ::=   NOT? LIKE character_pattern (
+ESCAPE escape_character )?
+
+character_pattern    ::=   character_value_expression
+
+escape_character    ::=   character_value_expression
+
+octet_like_predicate    ::=   row_value_predicand
+octet_like_predicate_part_2
+
+octet_like_predicate_part_2    ::=   NOT? LIKE octet_pattern ( ESCAPE
+escape_octet )?
+
+octet_pattern    ::=   blob_value_expression
+
+escape_octet    ::=   blob_value_expression
+
+//8.6 similar_predicate (p389)
+//Specify a character string similarity by means of a regular
+expression.
+
+similar_predicate    ::=   row_value_predicand similar_predicate_part_2
+
+similar_predicate_part_2    ::=   NOT? SIMILAR TO similar_pattern (
+ESCAPE escape_character )?
+
+similar_pattern    ::=   character_value_expression
+
+regular_expression    ::=
+         regular_term
+     | regular_expression vertical_bar regular_term
+
+regular_term    ::=
+         regular_factor
+     | regular_term regular_factor
+
+regular_factor    ::=
+         regular_primary
+     | regular_primary asterisk
+     | regular_primary plus_sign
+     | regular_primary question_mark
+     | regular_primary repeat_factor
+
+repeat_factor    ::=   left_brace low_value upper_limit? right_brace
+
+upper_limit    ::=   comma high_value?
+
+low_value    ::=   unsigned_integer
+
+high_value    ::=   unsigned_integer
+
+regular_primary    ::=
+         character_specifier
+     | percent
+     | regular_character_set
+     | left_paren regular_expression right_paren
+
+character_specifier    ::=   non_escaped_character | escaped_character
+
+non_escaped_character    ::=   //!! See the Syntax Rules.
+
+escaped_character    ::=   //!! See the Syntax Rules.
+
+regular_character_set    ::=
+         underscore
+     | left_bracket character_enumeration ... right_bracket
+     | left_bracket circumflex character_enumeration ... right_bracket
+     | left_bracket character_enumeration_include ... circumflex
+character_enumeration_exclude ... right_bracket
+
+character_enumeration_include    ::=   character_enumeration
+
+character_enumeration_exclude    ::=   character_enumeration
+
+character_enumeration    ::=
+         character_specifier
+     | character_specifier minus_sign character_specifier
+     | left_bracket colon regular_character_set_identifier colon
+right_bracket
+
+regular_character_set_identifier    ::=   identifier
+
+//8.7 null_predicate (p395)
+//Specify a test for a null value.
+
+null_predicate    ::=   row_value_predicand null_predicate_part_2
+
+null_predicate_part_2    ::=   IS NOT? NULL
+
+//8.8 quantified_comparison_predicate (p397)
+//Specify a quantified comparison.
+
+quantified_comparison_predicate    ::=   row_value_predicand
+quantified_comparison_predicate_part_2
+
+quantified_comparison_predicate_part_2    ::=   comp_op quantifier
+table_subquery
+
+quantifier    ::=   all | some
+
+all    ::=   ALL
+
+some    ::=   SOME | ANY
+
+//8.9 exists_predicate (p399)
+//Specify a test for a non-empty set.
+
+exists_predicate    ::=   EXISTS table_subquery
+
+//8.10 unique_predicate (p400)
+//Specify a test for the absence of duplicate rows
+
+unique_predicate    ::=   UNIQUE table_subquery
+
+//8.11 normalized_predicate (p401)
+//Determine whether a character string value is normalized.
+
+normalized_predicate    ::=   string_value_expression IS NOT? NORMALIZED
+
+//8.12 match_predicate (p402)
+//Specify a test for matching rows.
+
+match_predicate    ::=   row_value_predicand match_predicate_part_2
+
+match_predicate_part_2    ::=   MATCH UNIQUE?( SIMPLE | PARTIAL | FULL
+)? table_subquery
+
+//8.13 overlaps_predicate (p405)
+//Specify a test for an overlap between two datetime periods.
+
+overlaps_predicate    ::=   overlaps_predicate_part_1
+overlaps_predicate_part_2
+
+overlaps_predicate_part_1    ::=   row_value_predicand_1
+
+overlaps_predicate_part_2    ::=   OVERLAPS row_value_predicand_2
+
+row_value_predicand_1    ::=   row_value_predicand
+
+row_value_predicand_2    ::=   row_value_predicand
+
+//8.14 distinct_predicate (p407)
+//Specify a test of whether two row values are distinct
+
+distinct_predicate    ::=   row_value_predicand_3
+distinct_predicate_part_2
+
+distinct_predicate_part_2    ::=   IS DISTINCT FROM
+row_value_predicand_4
+
+row_value_predicand_3    ::=   row_value_predicand
+
+row_value_predicand_4    ::=   row_value_predicand
+
+//8.15 member_predicate (p409)
+//Specify a test of whether a value is a member of a multiset.
+
+member_predicate    ::=   row_value_predicand member_predicate_part_2
+
+member_predicate_part_2    ::=   NOT? MEMBER OF?
+multiset_value_expression
+
+//8.16 submultiset_predicate (p411)
+//Specify a test of whether a multiset is a submultiset of another
+multiset.
+
+submultiset_predicate    ::=   row_value_predicand
+submultiset_predicate_part_2
+
+submultiset_predicate_part_2    ::=   NOT? SUBMULTISET OF?
+multiset_value_expression
+
+//8.17 set_predicate (p413)
+//Specify a test of whether a multiset is a set (that is, does not
+contain any duplicates).
+
+set_predicate    ::=   row_value_predicand set_predicate_part_2
+
+set_predicate_part_2    ::=   IS NOT? A SET
+
+//8.18 type_predicate (p414)
+//Specify a type test.
+
+type_predicate    ::=   row_value_predicand type_predicate_part_2
+
+type_predicate_part_2    ::=   IS NOT? OF left_paren type_list
+right_paren
+
+type_list    ::=   user_defined_type_specification ( comma
+user_defined_type_specification )*
+
+user_defined_type_specification    ::=
+         inclusive_user_defined_type_specification
+     | exclusive_user_defined_type_specification
+
+inclusive_user_defined_type_specification    ::=
+path_resolved_user_defined_type_name
+
+exclusive_user_defined_type_specification    ::=   ONLY
+path_resolved_user_defined_type_name
+
+//8.19 search_condition (p416)
+//Specify a condition that is True , False , or Unknown , depending on
+the value of a boolean_value_expression.
+
+search_condition    ::=   boolean_value_expression
+
+//9 Additional common rules
+//9.1 Retrieval assignment (p417)
+//9.2 Store assignment (p422)
+//9.3 Data types of results of aggregations (p427)
+//9.4 Subject routine determination (p430)
+//9.5 Type precedence list determination (p431)
+//9.6 Host parameter mode determination (p434)
+//9.7 Type name determination (p436)
+//9.8 Determination of identical values (p438)
+//9.9 Equality operations (p440)
+//9.10 Grouping operations (p443)
+//9.11 Multiset element grouping operations (p445)
+//9.12 Ordering operations (p447)
+//9.13 Collation determination (p449)
+//9.14 Execution of array-returning functions (p450)
+//9.15 Execution of multiset-returning functions (p453)
+//9.16 Data type identity (p454)
+//9.17 Determination of a from-sql function (p456)
+//9.18 Determination of a from-sql function for an overriding method
+(p457)
+//9.19 Determination of a to-sql function (p458)
+//9.20 Determination of a to-sql function for an overriding method
+(p459)
+//9.21 Generation of the next value of a sequence generator (p460)
+//9.22 Creation of a sequence generator (p461)
+//9.23 Altering a sequence generator (p463)
+//10 Additional common elements
+//10.1 interval_qualifier (p465)
+//Specify the precision of an interval data type.
+
+interval_qualifier    ::=
+         start_field TO end_field
+     | single_datetime_field
+
+start_field    ::=   non_second_primary_datetime_field ( left_paren
+interval_leading_field_precision right_paren )?
+
+end_field    ::=
+         non_second_primary_datetime_field
+     | SECOND ( left_paren interval_fractional_seconds_precision
+right_paren )?
+
+single_datetime_field    ::=
+         non_second_primary_datetime_field ( left_paren
+interval_leading_field_precision right_paren )?
+     | SECOND ( left_paren interval_leading_field_precision ( comma
+interval_fractional_seconds_precision )? right_paren )?
+
+primary_datetime_field    ::=
+         non_second_primary_datetime_field
+     | SECOND
+
+non_second_primary_datetime_field    ::=   YEAR | MONTH | DAY | HOUR |
+MINUTE
+
+interval_fractional_seconds_precision    ::=   unsigned_integer
+
+interval_leading_field_precision    ::=   unsigned_integer
+
+//10.2 language_clause (p469)
+//Specify a standard programming language.
+
+language_clause    ::=   LANGUAGE language_name
+
+language_name    ::=   ADA | C | COBOL | FORTRAN | MUMPS | PASCAL | PLI
+| SQL
+
+//Table 14 -- Standard programming languages
+
+//Language keyword    Relevant standard
+//ADA    ISO/IEC 8652
+//C    ISO/IEC 9899
+//COBOL    ISO 1989
+//FORTRAN    ISO 1539
+//MUMPS    ISO/IEC 11756
+//PASCAL    ISO/IEC 7185 and ISO/IEC 10206
+//PLI    ISO 6160
+//SQL    ISO/IEC 9075
+//10.3 path_specification (p471)
+//Specify an order for searching for an SQL-invoked routine.
+
+path_specification    ::=   PATH schema_name_list
+
+schema_name_list    ::=   schema_name ( comma schema_name )*
+
+//10.4 routine_invocation (p472)
+//Invoke an SQL-invoked routine.
+
+routine_invocation    ::=   routine_name SQL_argument_list
+
+routine_name    ::=   ( schema_name period )? qualified_identifier
+
+SQL_argument_list    ::=   left_paren ( SQL_argument ( comma
+SQL_argument )* )? right_paren
+
+SQL_argument    ::=
+         value_expression
+     | generalized_expression
+     | target_specification
+
+generalized_expression    ::=   value_expression AS
+path_resolved_user_defined_type_name
+
+//10.5 character_set_specification (p495)
+//Identify a character set.
+
+character_set_specification    ::=
+         standard_character_set_name
+     | implementation_defined_character_set_name
+     | user_defined_character_set_name
+
+standard_character_set_name    ::=   character_set_name
+
+implementation_defined_character_set_name    ::=   character_set_name
+
+user_defined_character_set_name    ::=   character_set_name
+
+//10.6 specific_routine_designator (p497)
+//Specify an SQL-invoked routine.
+
+specific_routine_designator    ::=
+         SPECIFIC routine_type specific_name
+             | routine_type member_name
+         ( FOR schema_resolved_user_defined_type_name )?
+
+routine_type    ::=
+         ROUTINE
+     | FUNCTION
+     | PROCEDURE
+     | ( INSTANCE | STATIC | CONSTRUCTOR )? METHOD
+
+member_name    ::=   member_name_alternatives data_type_list?
+
+member_name_alternatives    ::=   schema_qualified_routine_name |
+method_name
+
+data_type_list    ::=   left_paren ( data_type ( comma data_type )* )?
+right_paren
+
+//10.7 collate_clause (p500)
+//Specify a default collating sequence.
+
+collate_clause    ::=   COLLATE collation_name
+
+//10.8 constraint_name_definition and constraint_characteristics (p501)
+//Specify the name of a constraint and its characteristics.
+
+constraint_name_definition    ::=   CONSTRAINT constraint_name
+
+constraint_characteristics    ::=
+         constraint_check_time ( NOT? DEFERRABLE )?
+     | NOT? DEFERRABLE constraint_check_time?
+
+constraint_check_time    ::=   INITIALLY DEFERRED | INITIALLY IMMEDIATE
+
+//10.9 aggregate_function (p503)
+//Specify a value computed from a collection of rows.
+
+aggregate_function    ::=
+         COUNT left_paren asterisk right_paren filter_clause?
+     | general_set_function filter_clause?
+     | binary_set_function filter_clause?
+     | ordered_set_function filter_clause?
+
+general_set_function    ::=   set_function_type left_paren
+set_quantifier? value_expression right_paren
+
+set_function_type    ::=   computational_operation
+
+computational_operation    ::=
+         AVG | MAX | MIN | SUM
+     | EVERY | ANY | SOME
+     | COUNT
+     | STDDEV_POP | STDDEV_SAMP | VAR_SAMP | VAR_POP
+     | COLLECT | FUSION | INTERSECTION
+
+set_quantifier    ::=   DISTINCT | ALL
+
+filter_clause    ::=   FILTER left_paren WHERE search_condition
+right_paren
+
+binary_set_function    ::=   binary_set_function_type left_paren
+dependent_variable_expression comma independent_variable_expression
+right_paren
+
+binary_set_function_type    ::=
+         COVAR_POP | COVAR_SAMP | CORR | REGR_SLOPE
+     | REGR_INTERCEPT | REGR_COUNT | REGR_R2 | REGR_AVGX | REGR_AVGY
+     | REGR_SXX | REGR_SYY | REGR_SXY
+
+dependent_variable_expression    ::=   numeric_value_expression
+
+independent_variable_expression    ::=   numeric_value_expression
+
+ordered_set_function    ::=   hypothetical_set_function |
+inverse_distribution_function
+
+hypothetical_set_function    ::=   rank_function_type left_paren
+hypothetical_set_function_value_expression_list right_paren
+within_group_specification
+
+within_group_specification    ::=   WITHIN GROUP left_paren ORDER BY
+sort_specification_list right_paren
+
+hypothetical_set_function_value_expression_list    ::=
+value_expression ( comma value_expression )*
+
+inverse_distribution_function    ::=
+inverse_distribution_function_type left_paren
+inverse_distribution_function_argument right_paren
+within_group_specification
+
+inverse_distribution_function_argument    ::=   numeric_value_expression
+
+inverse_distribution_function_type    ::=   PERCENTILE_CONT |
+PERCENTILE_DISC
+
+//10.10 sort_specification_list (p515)
+//Specify a sort order.
+
+sort_specification_list    ::=   sort_specification ( comma
+sort_specification )*
+
+sort_specification    ::=   sort_key ordering_specification?
+null_ordering?
+
+sort_key    ::=   value_expression
+
+ordering_specification    ::=   ASC | DESC
+
+null_ordering    ::=   NULLS FIRST | NULLS LAST
+
+//11 Schema definition and manipulation
+//11.1 schema_definition (p517)
+//Define a schema.
+
+schema_definition    ::=   CREATE SCHEMA schema_name_clause
+schema_character_set_or_path? schema_element?
+
+schema_character_set_or_path    ::=
+         schema_character_set_specification
+     | schema_path_specification
+     | schema_character_set_specification schema_path_specification
+     | schema_path_specification schema_character_set_specification
+
+schema_name_clause    ::=
+         schema_name
+     | AUTHORIZATION schema_authorization_identifier
+     | schema_name AUTHORIZATION schema_authorization_identifier
+
+schema_authorization_identifier    ::=   authorization_identifier
+
+schema_character_set_specification    ::=   DEFAULT CHARACTER SET
+character_set_specification
+
+schema_path_specification    ::=   path_specification
+
+schema_element    ::=
+         table_definition
+     | view_definition
+     | domain_definition
+     | character_set_definition
+     | collation_definition
+     | transliteration_definition
+     | assertion_definition
+     | trigger_definition
+     | user_defined_type_definition
+     | user_defined_cast_definition
+     | user_defined_ordering_definition
+     | transform_definition
+     | schema_routine
+     | sequence_generator_definition
+     | grant_statement
+     | role_definition
+
+//11.2 drop_schema_statement (p520)
+//Destroy a schema.
+
+drop_schema_statement    ::=   DROP SCHEMA schema_name drop_behavior
+
+drop_behavior    ::=   CASCADE | RESTRICT
+
+//11.3 table_definition (p523)
+//Define a persistent base table, a created local temporary table, or a
+global temporary table.
+
+table_definition    ::=
+         CREATE table_scope? TABLE table_name table_contents_source
+         ( ON COMMIT table_commit_action ROWS )?
+
+table_contents_source    ::=
+         table_element_list
+     | OF path_resolved_user_defined_type_name subtable_clause?
+table_element_list?
+     | as_subquery_clause
+
+table_scope    ::=   global_or_local TEMPORARY
+
+global_or_local    ::=   GLOBAL | LOCAL
+
+table_commit_action    ::=   PRESERVE | DELETE
+
+table_element_list    ::=   left_paren table_element ( comma
+table_element )* right_paren
+
+table_element    ::=
+         column_definition
+     | table_constraint_definition
+     | like_clause
+     | self_referencing_column_specification
+     | column_options
+
+self_referencing_column_specification    ::=   REF IS
+self_referencing_column_name reference_generation
+
+reference_generation    ::=   SYSTEM GENERATED | USER GENERATED |
+DERIVED
+
+self_referencing_column_name    ::=   column_name
+
+column_options    ::=   column_name WITH OPTIONS column_option_list
+
+column_option_list    ::=   scope_clause? default_clause?
+column_constraint_definition?
+
+subtable_clause    ::=   UNDER supertable_clause
+
+supertable_clause    ::=   supertable_name
+
+supertable_name    ::=   table_name
+
+like_clause    ::=   LIKE table_name like_options?
+
+like_options    ::=   identity_option | column_default_option
+
+identity_option    ::=   INCLUDING IDENTITY | EXCLUDING IDENTITY
+
+column_default_option    ::=   INCLUDING DEFAULTS | EXCLUDING DEFAULTS
+
+as_subquery_clause    ::=   ( left_paren column_name_list right_paren )?
+AS subquery with_or_without_data
+
+with_or_without_data    ::=   WITH NO DATA | WITH DATA
+
+//11.4 column_definition (p534)
+//Define a column of a base table.
+
+column_definition    ::=
+         column_name ( data_type | domain_name )? reference_scope_check?
+         ( default_clause | identity_column_specification |
+generation_clause )?
+         column_constraint_definition? collate_clause?
+
+column_constraint_definition    ::=   constraint_name_definition?
+column_constraint constraint_characteristics?
+
+column_constraint    ::=
+         NOT NULL
+     | unique_specification
+     | references_specification
+     | check_constraint_definition
+
+reference_scope_check    ::=   REFERENCES ARE NOT? CHECKED ( ON DELETE
+reference_scope_check_action )?
+
+reference_scope_check_action    ::=   referential_action
+
+identity_column_specification    ::=
+         GENERATED ( ALWAYS | BY DEFAULT ) AS IDENTITY
+         ( left_paren common_sequence_generator_options right_paren )?
+
+generation_clause    ::=   generation_rule AS generation_expression
+
+generation_rule    ::=   GENERATED ALWAYS
+
+generation_expression    ::=   left_paren value_expression right_paren
+
+//11.5 default_clause (p539)
+//Specify the default for a column, domain, or attribute.
+
+default_clause    ::=   DEFAULT default_option
+
+default_option    ::=
+         literal
+     | datetime_value_function
+     | USER
+     | CURRENT_USER
+     | CURRENT_ROLE
+     | SESSION_USER
+     | SYSTEM_USER
+     | CURRENT_PATH
+     | implicitly_typed_value_specification
+
+//11.6 table_constraint_definition (p543)
+//Specify an integrity constraint.
+
+table_constraint_definition    ::=   constraint_name_definition?
+table_constraint constraint_characteristics?
+
+table_constraint    ::=
+         unique_constraint_definition
+     | referential_constraint_definition
+     | check_constraint_definition
+
+//11.7 unique_constraint_definition (p545)
+//Specify a uniqueness constraint for a table.
+
+unique_constraint_definition    ::=
+         unique_specification left_paren unique_column_list right_paren
+     | UNIQUE ( VALUE )
+
+unique_specification    ::=   UNIQUE | PRIMARY KEY
+
+unique_column_list    ::=   column_name_list
+
+//11.8 referential_constraint_definition (p547)
+//Specify a referential constraint.
+
+referential_constraint_definition    ::=   FOREIGN KEY left_paren
+referencing_columns right_paren references_specification
+
+references_specification    ::=   REFERENCES
+referenced_table_and_columns ( MATCH match_type )?
+referential_triggered_action?
+
+match_type    ::=   FULL | PARTIAL | SIMPLE
+
+referencing_columns    ::=   reference_column_list
+
+referenced_table_and_columns    ::=   table_name ( left_paren
+reference_column_list right_paren )?
+
+reference_column_list    ::=   column_name_list
+
+referential_triggered_action    ::=   update_rule delete_rule? |
+delete_rule update_rule?
+
+update_rule    ::=   ON UPDATE referential_action
+
+delete_rule    ::=   ON DELETE referential_action
+
+referential_action    ::=   CASCADE | SET NULL | SET DEFAULT | RESTRICT
+| NO ACTION
+
+//11.9 check_constraint_definition (p567)
+//Specify a condition for the SQL-data.
+
+check_constraint_definition    ::=   CHECK left_paren search_condition
+right_paren
+
+//11.10 alter_table_statement (p569)
+//Change the definition of a table.
+
+alter_table_statement    ::=   ALTER TABLE table_name alter_table_action
+
+alter_table_action    ::=
+         add_column_definition
+     | alter_column_definition
+     | drop_column_definition
+     | add_table_constraint_definition
+     | drop_table_constraint_definition
+
+//11.11 add_column_definition (p570)
+//Add a column to a table.
+
+add_column_definition    ::=   ADD COLUMN? column_definition
+
+//11.12 alter_column_definition (p572)
+//Change a column and its definition.
+
+alter_column_definition    ::=   ALTER COLUMN? column_name
+alter_column_action
+
+alter_column_action    ::=
+         set_column_default_clause
+     | drop_column_default_clause
+     | add_column_scope_clause
+     | drop_column_scope_clause
+     | alter_identity_column_specification
+
+//11.13 set_column_default_clause (p573)
+//Set the default clause for a column.
+
+set_column_default_clause    ::=   SET default_clause
+
+//11.14 drop_column_default_clause (p574)
+//Drop the default clause from a column.
+
+drop_column_default_clause    ::=   DROP DEFAULT
+
+//11.15 add_column_scope_clause (p575)
+//Add a non-empty scope for an existing column of data type REF in a
+base table.
+
+add_column_scope_clause    ::=   ADD scope_clause
+
+//11.16 drop_column_scope_clause (p576)
+//Drop the scope from an existing column of data type REF in a base
+table.
+
+drop_column_scope_clause    ::=   DROP SCOPE drop_behavior
+
+//11.17 alter_identity_column_specification (p578)
+//Change the options specified for an identity column.
+
+alter_identity_column_specification    ::=
+alter_identity_column_option ...
+
+alter_identity_column_option    ::=
+         alter_sequence_generator_restart_option
+     | SET basic_sequence_generator_option
+
+//11.18 drop_column_definition (p579)
+//Destroy a column of a base table.
+
+drop_column_definition    ::=   DROP COLUMN? column_name drop_behavior
+
+//11.19 add_table_constraint_definition (p581)
+//Add a constraint to a table.
+
+add_table_constraint_definition    ::=   ADD table_constraint_definition
+
+//11.20 drop_table_constraint_definition (p582)
+//Destroy a constraint on a table.
+
+drop_table_constraint_definition    ::=   DROP CONSTRAINT
+constraint_name drop_behavior
+
+//11.21 drop_table_statement (p585)
+//Destroy a table.
+
+drop_table_statement    ::=   DROP TABLE table_name drop_behavior
+
+//11.22 view_definition (p588)
+//Define a viewed table.
+
+view_definition    ::=
+         CREATE RECURSIVE? VIEW table_name view_specification AS
+query_expression
+         ( WITH levels_clause? CHECK OPTION )?
+
+view_specification    ::=   regular_view_specification |
+referenceable_view_specification
+
+regular_view_specification    ::=   ( left_paren view_column_list
+right_paren )?
+
+referenceable_view_specification    ::=   OF
+path_resolved_user_defined_type_name subview_clause? view_element_list?
+
+subview_clause    ::=   UNDER table_name
+
+view_element_list    ::=   left_paren view_element ( comma view_element
+)* right_paren
+
+view_element    ::=   self_referencing_column_specification |
+view_column_option
+
+view_column_option    ::=   column_name WITH OPTIONS scope_clause
+
+levels_clause    ::=   CASCADED | LOCAL
+
+view_column_list    ::=   column_name_list
+
+//11.23 drop_view_statement (p598)
+//Destroy a view.
+
+drop_view_statement    ::=   DROP VIEW table_name drop_behavior
+
+//11.24 domain_definition (p601)
+//Define a domain.
+
+domain_definition    ::=
+         CREATE DOMAIN domain_name AS? data_type
+         default_clause? domain_constraint? collate_clause?
+
+domain_constraint    ::=   constraint_name_definition?
+check_constraint_definition constraint_characteristics?
+
+//11.25 alter_domain_statement (p603)
+//Change a domain and its definition.
+
+alter_domain_statement    ::=   ALTER DOMAIN domain_name
+alter_domain_action
+
+alter_domain_action    ::=
+         set_domain_default_clause
+     | drop_domain_default_clause
+     | add_domain_constraint_definition
+     | drop_domain_constraint_definition
+
+//11.26 set_domain_default_clause (p604)
+//Set the default value in a domain.
+
+set_domain_default_clause    ::=   SET default_clause
+
+//11.27 drop_domain_default_clause (p605)
+//Remove the default clause of a domain.
+
+drop_domain_default_clause    ::=   DROP DEFAULT
+
+//11.28 add_domain_constraint_definition (p606)
+//Add a constraint to a domain.
+
+add_domain_constraint_definition    ::=   ADD domain_constraint
+
+//11.29 drop_domain_constraint_definition (p607)
+//Destroy a constraint on a domain.
+
+drop_domain_constraint_definition    ::=   DROP CONSTRAINT
+constraint_name
+
+//11.30 drop_domain_statement (p608)
+//Destroy a domain.
+
+drop_domain_statement    ::=   DROP DOMAIN domain_name drop_behavior
+
+//11.31 character_set_definition (p610)
+//Define a character set.
+
+character_set_definition    ::=
+         CREATE CHARACTER SET character_set_name AS?
+character_set_source collate_clause?
+
+character_set_source    ::=   GET character_set_specification
+
+//11.32 drop_character_set_statement (p612)
+//Destroy a character set.
+
+drop_character_set_statement    ::=   DROP CHARACTER SET
+character_set_name
+
+//11.33 collation_definition (p614)
+//Define a collating sequence.
+
+collation_definition    ::=
+         CREATE COLLATION collation_name FOR character_set_specification
+         FROM existing_collation_name pad_characteristic?
+
+existing_collation_name    ::=   collation_name
+
+pad_characteristic    ::=   NO PAD | PAD SPACE
+
+//11.34 drop_collation_statement (p616)
+//Destroy a collating sequence.
+
+drop_collation_statement    ::=   DROP COLLATION collation_name
+drop_behavior
+
+//11.35 transliteration_definition (p618)
+//Define a character transliteration.
+
+transliteration_definition    ::=
+         CREATE TRANSLATION transliteration_name FOR
+source_character_set_specification
+         TO target_character_set_specification FROM
+transliteration_source
+
+source_character_set_specification    ::=   character_set_specification
+
+target_character_set_specification    ::=   character_set_specification
+
+transliteration_source    ::=   existing_transliteration_name |
+transliteration_routine
+
+existing_transliteration_name    ::=   transliteration_name
+
+transliteration_routine    ::=   specific_routine_designator
+
+//11.36 drop_transliteration_statement (p621)
+//Destroy a character transliteration.
+
+drop_transliteration_statement    ::=   DROP TRANSLATION
+transliteration_name
+
+//11.37 assertion_definition (p623)
+//Specify an integrity constraint.
+
+assertion_definition    ::=
+         CREATE ASSERTION constraint_name CHECK left_paren
+search_condition right_paren constraint_characteristics?
+
+//11.38 drop_assertion_statement (p625)
+//Destroy an assertion.
+
+drop_assertion_statement    ::=   DROP ASSERTION constraint_name
+
+//11.39 trigger_definition (p627)
+//Define triggered SQL-statements.
+
+trigger_definition    ::=
+         CREATE TRIGGER trigger_name trigger_action_time trigger_event
+         ON table_name ( REFERENCING old_or_new_values_alias_list )?
+         triggered_action
+
+trigger_action_time    ::=   BEFORE | AFTER
+
+trigger_event    ::=   INSERT | DELETE | UPDATE ( OF trigger_column_list
+)?
+
+trigger_column_list    ::=   column_name_list
+
+triggered_action    ::=
+         ( FOR EACH ( ROW | STATEMENT ) )?
+         ( WHEN left_paren search_condition right_paren )?
+         triggered_SQL_statement
+
+triggered_SQL_statement    ::=
+         SQL_procedure_statement
+     | BEGIN ATOMIC ( SQL_procedure_statement semicolon )* END
+
+old_or_new_values_alias_list    ::=   old_or_new_values_alias ...
+
+old_or_new_values_alias    ::=
+         OLD ROW? AS? old_values_correlation_name
+     | NEW ROW? AS? new_values_correlation_name
+     | OLD TABLE AS? old_values_table_alias
+     | NEW TABLE AS? new_values_table_alias
+
+old_values_table_alias    ::=   identifier
+
+new_values_table_alias    ::=   identifier
+
+old_values_correlation_name    ::=   correlation_name
+
+new_values_correlation_name    ::=   correlation_name
+
+//11.40 drop_trigger_statement (p631)
+//Destroy a trigger.
+
+drop_trigger_statement    ::=   DROP TRIGGER trigger_name
+
+//11.41 user_defined_type_definition (p632)
+//Define a user-defined type.
+
+user_defined_type_definition    ::=   CREATE TYPE user_defined_type_body
+
+user_defined_type_body    ::=
+         schema_resolved_user_defined_type_name subtype_clause?
+         ( AS representation )? user_defined_type_option_list?
+method_specification_list?
+
+user_defined_type_option_list    ::=   user_defined_type_option
+user_defined_type_option?
+
+user_defined_type_option    ::=
+         instantiable_clause
+     | finality
+     | reference_type_specification
+     | ref_cast_option
+     | cast_option
+
+subtype_clause    ::=
+         UNDER supertype_name
+
+supertype_name    ::=
+         path_resolved_user_defined_type_name
+
+representation    ::=   predefined_type | member_list
+
+member_list    ::=   left_paren member ( comma member )* right_paren
+
+member    ::=   attribute_definition
+
+instantiable_clause    ::=   INSTANTIABLE | NOT INSTANTIABLE
+
+finality    ::=   FINAL | NOT FINAL
+
+reference_type_specification    ::=
+         user_defined_representation
+     | derived_representation
+     | system_generated_representation
+
+user_defined_representation    ::=   REF USING predefined_type
+
+derived_representation    ::=   REF FROM list_of_attributes
+
+system_generated_representation    ::=   REF IS SYSTEM GENERATED
+
+ref_cast_option    ::=   cast_to_ref? cast_to_type?
+
+cast_to_ref    ::=   CAST left_paren SOURCE AS REF right_paren WITH
+cast_to_ref_identifier
+
+cast_to_ref_identifier    ::=   identifier
+
+cast_to_type    ::=   CAST left_paren REF AS SOURCE right_paren WITH
+cast_to_type_identifier
+
+cast_to_type_identifier    ::=   identifier
+
+list_of_attributes    ::=   left_paren attribute_name ( comma
+attribute_name )* right_paren
+
+cast_option    ::=   cast_to_distinct? cast_to_source?
+
+cast_to_distinct    ::=
+         CAST left_paren SOURCE AS DISTINCT right_paren
+         WITH cast_to_distinct_identifier
+
+cast_to_distinct_identifier    ::=   identifier
+
+cast_to_source    ::=
+         CAST left_paren DISTINCT AS SOURCE right_paren
+         WITH cast_to_source_identifier
+
+cast_to_source_identifier    ::=   identifier
+
+method_specification_list    ::=   method_specification ( comma
+method_specification )*
+
+method_specification    ::=   original_method_specification |
+overriding_method_specification
+
+original_method_specification    ::=
+         partial_method_specification ( SELF AS RESULT )? ( SELF AS
+LOCATOR )? method_characteristics?
+
+overriding_method_specification    ::=   OVERRIDING
+partial_method_specification
+
+partial_method_specification    ::=
+         ( INSTANCE | STATIC | CONSTRUCTOR )? METHOD method_name
+SQL_parameter_declaration_list
+         returns_clause ( SPECIFIC specific_method_name )?
+
+specific_method_name    ::=   ( schema_name period )?
+qualified_identifier_
+
+method_characteristics    ::=   method_characteristic ...
+
+method_characteristic    ::=
+         language_clause
+     | parameter_style_clause
+     | deterministic_characteristic
+     | SQL_data_access_indication
+     | null_call_clause
+
+//11.42 attribute_definition (p648)
+//Define an attribute of a structured type.
+
+attribute_definition    ::=
+         attribute_name data_type reference_scope_check?
+attribute_default? collate_clause?
+
+attribute_default    ::=   default_clause
+
+//11.43 alter_type_statement (p650)
+//Change the definition of a user-defined type.
+
+alter_type_statement    ::= ALTER TYPE
+schema_resolved_user_defined_type_name alter_type_action
+
+alter_type_action    ::=
+         add_attribute_definition
+     | drop_attribute_definition
+     | add_original_method_specification
+     | add_overriding_method_specification
+     | drop_method_specification
+
+//11.44 add_attribute_definition (p651)
+//Add an attribute to a user-defined type.
+
+add_attribute_definition    ::=   ADD ATTRIBUTE attribute_definition
+
+//11.45 drop_attribute_definition (p653)
+//Destroy an attribute of a user-defined type.
+
+drop_attribute_definition    ::=   DROP ATTRIBUTE attribute_name
+RESTRICT
+
+//11.46 add_original_method_specification (p655)
+//Add an original method specification to a user-defined type.
+
+add_original_method_specification    ::=   ADD
+original_method_specification
+
+//11.47 add_overriding_method_specification (p661)
+//Add an overriding method specification to a user-defined type.
+
+add_overriding_method_specification    ::=   ADD
+overriding_method_specification
+
+//11.48 drop_method_specification (p666)
+//Remove a method specification from a user-defined type.
+
+drop_method_specification    ::=   DROP
+specific_method_specification_designator RESTRICT
+
+specific_method_specification_designator    ::=   ( INSTANCE | STATIC |
+CONSTRUCTOR )? METHOD method_name data_type_list
+
+//11.49 drop_data_type_statement (p670)
+//Destroy a user-defined type.
+
+drop_data_type_statement    ::=   DROP TYPE
+schema_resolved_user_defined_type_name drop_behavior
+
+//11.50 SQL_invoked_routine (p673)
+//Define an SQL-invoked routine.
+
+SQL_invoked_routine    ::=   schema_routine
+
+schema_routine    ::=   schema_procedure | schema_function
+
+schema_procedure    ::=   CREATE SQL_invoked_procedure
+
+schema_function    ::=   CREATE SQL_invoked_function
+
+SQL_invoked_procedure    ::=
+         PROCEDURE schema_qualified_routine_name
+SQL_parameter_declaration_list routine_characteristics routine_body
+
+SQL_invoked_function    ::=
+         ( function_specification | method_specification_designator )
+routine_body
+
+SQL_parameter_declaration_list    ::=
+         left_paren ( SQL_parameter_declaration ( comma
+SQL_parameter_declaration )* )? right_paren
+
+SQL_parameter_declaration    ::=    parameter_mode? SQL_parameter_name?
+parameter_type RESULT?
+
+parameter_mode    ::=   IN | OUT | INOUT
+
+parameter_type    ::=   data_type locator_indication?
+
+locator_indication    ::=   AS LOCATOR
+
+function_specification    ::=
+         FUNCTION schema_qualified_routine_name
+         SQL_parameter_declaration_list returns_clause
+routine_characteristics dispatch_clause?
+
+method_specification_designator    ::=
+         SPECIFIC METHOD specific_method_name
+     | ( INSTANCE | STATIC | CONSTRUCTOR )? METHOD method_name
+SQL_parameter_declaration_list
+          returns_clause? FOR schema_resolved_user_defined_type_name
+
+routine_characteristics    ::=    routine_characteristic?
+
+routine_characteristic    ::=
+         language_clause
+     | parameter_style_clause
+     | SPECIFIC specific_name
+     | deterministic_characteristic
+     | SQL_data_access_indication
+     | null_call_clause
+     | dynamic_result_sets_characteristic
+     | savepoint_level_indication
+
+savepoint_level_indication    ::=   NEW SAVEPOINT LEVEL | OLD SAVEPOINT
+LEVEL
+
+dynamic_result_sets_characteristic    ::=   DYNAMIC RESULT SETS
+maximum_dynamic_result_sets
+
+parameter_style_clause    ::=   PARAMETER STYLE parameter_style
+
+dispatch_clause    ::=   STATIC DISPATCH
+
+returns_clause    ::=   RETURNS returns_type
+
+returns_type    ::=
+         returns_data_type result_cast?
+     | returns_table_type
+
+returns_table_type    ::=   TABLE table_function_column_list
+
+table_function_column_list    ::=
+         left_paren
+         table_function_column_list_element ( comma
+table_function_column_list_element )*
+         right_paren
+
+table_function_column_list_element    ::=   column_name data_type
+
+result_cast    ::=   CAST FROM result_cast_from_type
+
+result_cast_from_type    ::=   data_type  locator_indication?
+
+returns_data_type    ::=   data_type  locator_indication?
+
+routine_body    ::=
+         SQL_routine_spec
+     | external_body_reference
+
+SQL_routine_spec    ::=    rights_clause? SQL_routine_body
+
+rights_clause    ::=   SQL SECURITY INVOKER | SQL SECURITY DEFINER
+
+SQL_routine_body    ::=   SQL_procedure_statement
+
+external_body_reference    ::=
+         EXTERNAL ( NAME external_routine_name )?
+parameter_style_clause?
+         transform_group_specification? external_security_clause?
+
+external_security_clause    ::=
+         EXTERNAL SECURITY DEFINER
+     | EXTERNAL SECURITY INVOKER
+     | EXTERNAL SECURITY IMPLEMENTATION DEFINED
+
+parameter_style    ::=   SQL | GENERAL
+
+deterministic_characteristic    ::=   DETERMINISTIC | NOT DETERMINISTIC
+
+SQL_data_access_indication    ::=
+         NO SQL
+     | CONTAINS SQL
+     | READS SQL DATA
+     | MODIFIES SQL DATA
+
+null_call_clause    ::=
+         RETURNS NULL ON NULL INPUT
+     | CALLED ON NULL INPUT
+
+maximum_dynamic_result_sets    ::=   unsigned_integer
+
+transform_group_specification    ::=   TRANSFORM GROUP (
+single_group_specification | multiple_group_specification )
+
+single_group_specification    ::=   group_name
+
+multiple_group_specification    ::=   group_specification ( comma
+group_specification )*
+
+group_specification    ::=   group_name FOR TYPE
+path_resolved_user_defined_type_name
+
+//11.51 alter_routine_statement (p698)
+//Alter a characteristic of an SQL-invoked routine.
+
+alter_routine_statement    ::=   ALTER specific_routine_designator
+alter_routine_characteristics alter_routine_behavior
+
+alter_routine_characteristics    ::=   alter_routine_characteristic ...
+
+alter_routine_characteristic    ::=
+         language_clause
+     | parameter_style_clause
+     | SQL_data_access_indication
+     | null_call_clause
+     | dynamic_result_sets_characteristic
+     | NAME external_routine_name
+
+alter_routine_behavior    ::=   RESTRICT
+
+//11.52 drop_routine_statement (p701)
+//Destroy an SQL-invoked routine.
+
+drop_routine_statement    ::=   DROP specific_routine_designator
+drop_behavior
+
+//11.53 user_defined_cast_definition (p703)
+//Define a user-defined cast.
+
+user_defined_cast_definition    ::=
+         CREATE CAST left_paren source_data_type AS target_data_type
+right_paren
+         WITH cast_function ( AS ASSIGNMENT )?
+
+cast_function    ::=   specific_routine_designator
+
+source_data_type    ::=   data_type
+
+target_data_type    ::=   data_type
+
+//11.54 drop_user_defined_cast_statement (p705)
+//Destroy a user-defined cast.
+
+drop_user_defined_cast_statement    ::=
+         DROP CAST left_paren source_data_type AS target_data_type
+right_paren drop_behavior
+
+//11.55 user_defined_ordering_definition (p707)
+//Define a user-defined ordering for a user-defined type.
+
+user_defined_ordering_definition    ::=
+         CREATE ORDERING FOR schema_resolved_user_defined_type_name
+ordering_form
+
+ordering_form    ::=   equals_ordering_form | full_ordering_form
+
+equals_ordering_form    ::=   EQUALS ONLY BY ordering_category
+
+full_ordering_form    ::=   ORDER FULL BY ordering_category
+
+ordering_category    ::=   relative_category | map_category |
+state_category
+
+relative_category    ::=   RELATIVE WITH relative_function_specification
+
+map_category    ::=   MAP WITH map_function_specification
+
+state_category    ::=   STATE  specific_name?
+
+relative_function_specification    ::=   specific_routine_designator
+
+map_function_specification    ::=   specific_routine_designator
+
+//11.56 drop_user_defined_ordering_statement (p710)
+//Destroy a user-defined ordering method.
+
+drop_user_defined_ordering_statement    ::=
+         DROP ORDERING FOR schema_resolved_user_defined_type_name
+drop_behavior
+
+//11.57 transform_definition (p712)
+//Define one or more transform functions for a user-defined type.
+
+transform_definition    ::=   CREATE ( TRANSFORM | TRANSFORMS ) FOR
+schema_resolved_user_defined_type_name transform_group ...
+
+transform_group    ::=   group_name left_paren transform_element_list
+right_paren
+
+group_name    ::=   identifier
+
+transform_element_list    ::=   transform_element ( comma
+transform_element )?
+
+transform_element    ::=   to_sql | from_sql
+
+to_sql    ::=   TO SQL WITH to_sql_function
+
+from_sql    ::=   FROM SQL WITH from_sql_function
+
+to_sql_function    ::=   specific_routine_designator
+
+from_sql_function    ::=   specific_routine_designator
+
+//11.58 alter_transform_statement (p715)
+//Change the definition of one or more transform groups.
+
+alter_transform_statement    ::=
+         ALTER ( TRANSFORM | TRANSFORMS ) FOR
+schema_resolved_user_defined_type_name alter_group ...
+
+alter_group    ::=   group_name left_paren alter_transform_action_list
+right_paren
+
+alter_transform_action_list    ::=   alter_transform_action ( comma
+alter_transform_action )*
+
+alter_transform_action    ::=   add_transform_element_list |
+drop_transform_element_list
+
+//11.59 add_transform_element_list (p717)
+//Add a transform element (to_sql and/or from_sql) to an existing
+transform group.
+
+add_transform_element_list    ::=   ADD left_paren
+transform_element_list right_paren
+
+//11.60 drop_transform_element_list (p719)
+//Remove a transform element (to_sql and/or from_sql) from a transform
+group.
+
+drop_transform_element_list    ::=   DROP left_paren transform_kind (
+comma transform_kind )? drop_behavior right_paren
+
+transform_kind    ::=   TO SQL | FROM SQL
+
+//11.61 drop_transform_statement (p721)
+//Remove one or more transform functions associated with a transform.
+
+drop_transform_statement    ::=
+         DROP ( TRANSFORM | TRANSFORMS ) transforms_to_be_dropped FOR
+schema_resolved_user_defined_type_name drop_behavior
+
+transforms_to_be_dropped    ::=   ALL | transform_group_element
+
+transform_group_element    ::=   group_name
+
+//11.62 sequence_generator_definition (p724)
+//Define an external sequence generator.
+
+sequence_generator_definition    ::=   CREATE SEQUENCE
+sequence_generator_name  sequence_generator_options?
+
+sequence_generator_options    ::=   sequence_generator_option ...
+
+sequence_generator_option    ::=   sequence_generator_data_type_option |
+common_sequence_generator_options
+
+common_sequence_generator_options    ::=
+common_sequence_generator_option ...
+
+common_sequence_generator_option    ::=
+sequence_generator_start_with_option | basic_sequence_generator_option
+
+basic_sequence_generator_option    ::=
+         sequence_generator_increment_by_option
+     | sequence_generator_maxvalue_option
+     | sequence_generator_minvalue_option
+     | sequence_generator_cycle_option
+
+sequence_generator_data_type_option    ::=   AS data_type
+
+sequence_generator_start_with_option    ::=   START WITH
+sequence_generator_start_value
+
+sequence_generator_start_value    ::=   signed_numeric_literal
+
+sequence_generator_increment_by_option    ::=   INCREMENT BY
+sequence_generator_increment
+
+sequence_generator_increment    ::=   signed_numeric_literal
+
+sequence_generator_maxvalue_option    ::=
+         MAXVALUE sequence_generator_max_value
+     | NO MAXVALUE
+
+sequence_generator_max_value    ::=   signed_numeric_literal
+
+sequence_generator_minvalue_option    ::=   MINVALUE
+sequence_generator_min_value | NO MINVALUE
+
+sequence_generator_min_value    ::=   signed_numeric_literal
+
+sequence_generator_cycle_option    ::=   CYCLE | NO CYCLE
+
+//11.63 alter_sequence_generator_statement (p726)
+//Change the definition of an external sequence generator.
+
+alter_sequence_generator_statement    ::=
+         ALTER SEQUENCE sequence_generator_name
+alter_sequence_generator_options
+
+alter_sequence_generator_options    ::=
+alter_sequence_generator_option ...
+
+alter_sequence_generator_option    ::=
+         alter_sequence_generator_restart_option
+     | basic_sequence_generator_option
+
+alter_sequence_generator_restart_option    ::=   RESTART WITH
+sequence_generator_restart_value
+
+sequence_generator_restart_value    ::=   signed_numeric_literal
+
+//11.64 drop_sequence_generator_statement (p727)
+//Destroy an external sequence generator.
+
+drop_sequence_generator_statement    ::=   DROP SEQUENCE
+sequence_generator_name drop_behavior
+
+//12 Access control
+//12.1 grant_statement (p729)
+//Define privileges and role authorizations.
+
+grant_statement    ::=   grant_privilege_statement |
+grant_role_statement
+
+//12.2 grant_privilege_statement (p734)
+//Define privileges.
+
+grant_privilege_statement    ::=
+         GRANT privileges TO grantee ( comma grantee )*
+         ( WITH HIERARCHY OPTION )? ( WITH GRANT OPTION )? ( GRANTED BY
+grantor )?
+
+//12.3 privileges (p737)
+//Specify privileges.
+
+privileges    ::=   object_privileges ON object_name
+
+object_name    ::=
+          TABLE? table_name
+     | DOMAIN domain_name
+     | COLLATION collation_name
+     | CHARACTER SET character_set_name
+     | TRANSLATION transliteration_name
+     | TYPE schema_resolved_user_defined_type_name
+     | SEQUENCE sequence_generator_name
+     | specific_routine_designator
+
+object_privileges    ::=
+         ALL PRIVILEGES
+     | action ( comma action )*
+
+action    ::=
+         SELECT
+     | SELECT left_paren privilege_column_list right_paren
+     | SELECT left_paren privilege_method_list right_paren
+     | DELETE
+     | INSERT ( left_paren privilege_column_list right_paren )?
+     | UPDATE ( left_paren privilege_column_list right_paren )?
+     | REFERENCES ( left_paren privilege_column_list right_paren )?
+     | USAGE
+     | TRIGGER
+     | UNDER
+     | EXECUTE
+
+privilege_method_list    ::=   specific_routine_designator ( comma
+specific_routine_designator )*
+
+privilege_column_list    ::=   column_name_list
+
+grantee    ::=   PUBLIC | authorization_identifier
+
+grantor    ::=   CURRENT_USER | CURRENT_ROLE
+
+//12.4 role_definition (p741)
+//Define a role.
+
+role_definition    ::=   CREATE ROLE role_name ( WITH ADMIN grantor )?
+
+//12.5 grant_role_statement (p742)
+//Define role authorizations.
+
+grant_role_statement    ::=
+         GRANT role_granted ( comma role_granted )*
+         TO grantee ( comma grantee )* ( WITH ADMIN OPTION )? ( GRANTED
+BY grantor )?
+
+role_granted    ::=   role_name
+
+//12.6 drop_role_statement (p744)
+//Destroy a role.
+
+drop_role_statement    ::=   DROP ROLE role_name
+
+//12.7 revoke_statement (p745)
+//Destroy privileges and role authorizations.
+
+revoke_statement    ::=
+         revoke_privilege_statement
+     | revoke_role_statement
+
+revoke_privilege_statement    ::=
+         REVOKE  revoke_option_extension? privileges FROM grantee (
+comma grantee )*
+         ( GRANTED BY grantor )? drop_behavior
+
+revoke_option_extension    ::=   GRANT OPTION FOR | HIERARCHY OPTION FOR
+
+revoke_role_statement    ::=
+         REVOKE ( ADMIN OPTION FOR )? role_revoked ( comma role_revoked
+)*
+         FROM grantee ( comma grantee )* ( GRANTED BY grantor )?
+drop_behavior
+
+role_revoked    ::=   role_name
+
+//13 SQL-client modules
+//13.1 SQL_client_module_definition (p763)
+//Define an SQL-client module.
+
+SQL_client_module_definition    ::=
+         module_name_clause language_clause module_authorization_clause
+          module_path_specification?
+          module_transform_group_specification?
+          module_collation?
+          temporary_table_declaration?
+         module_contents
+
+module_authorization_clause    ::=
+         SCHEMA schema_name
+     | AUTHORIZATION module_authorization_identifier ( FOR STATIC ( ONLY
+| AND DYNAMIC ) )?
+     | SCHEMA schema_name AUTHORIZATION module_authorization_identifier
+( FOR STATIC ( ONLY | AND DYNAMIC ) )?
+
+module_authorization_identifier    ::=   authorization_identifier
+
+module_path_specification    ::=   path_specification
+
+module_transform_group_specification    ::=
+transform_group_specification
+
+module_collation    ::=   module_collation_specification ...
+
+module_collation_specification    ::=   COLLATION collation_name ( FOR
+character_set_specification_list )?
+
+//There was another definition character_set_specification_list in
+section 18.3. That was slightly different in format (simpler) but
+functionally equivalent. It is not clear why it was repeated. The
+alternative definition is now commented out.
+
+character_set_specification_list    ::=   character_set_specification (
+comma character_set_specification )*
+
+module_contents    ::=
+         declare_cursor
+     | dynamic_declare_cursor
+     | externally_invoked_procedure
+
+//13.2 module_name_clause (p768)
+//Name an SQL-client module.
+
+module_name_clause    ::=
+         MODULE  SQL_client_module_name?
+module_character_set_specification?
+
+module_character_set_specification    ::=   NAMES ARE
+character_set_specification
+
+//13.3 externally_invoked_procedure (p769)
+//Define an externally-invoked procedure.
+
+externally_invoked_procedure    ::=
+         PROCEDURE procedure_name host_parameter_declaration_list
+semicolon
+         SQL_procedure_statement semicolon
+
+host_parameter_declaration_list    ::=
+         left_paren host_parameter_declaration ( comma
+host_parameter_declaration )* right_paren
+
+host_parameter_declaration    ::=
+         host_parameter_name host_parameter_data_type
+     | status_parameter
+
+host_parameter_data_type    ::=   data_type  locator_indication?
+
+status_parameter    ::=   SQLSTATE
+
+//13.4 Calls to an externally_invoked_procedure (p772)
+//13.5 SQL_procedure_statement (p788)
+//Define all of the SQL-statements that are SQL_procedure_statements.
+
+SQL_procedure_statement    ::=   SQL_executable_statement
+
+SQL_executable_statement    ::=
+         SQL_schema_statement
+     | SQL_data_statement
+     | SQL_control_statement
+     | SQL_transaction_statement
+     | SQL_connection_statement
+     | SQL_session_statement
+     | SQL_diagnostics_statement
+     | SQL_dynamic_statement
+
+SQL_schema_statement    ::=
+         SQL_schema_definition_statement
+     | SQL_schema_manipulation_statement
+
+SQL_schema_definition_statement    ::=
+         schema_definition
+     | table_definition
+     | view_definition
+     | SQL_invoked_routine
+     | grant_statement
+     | role_definition
+     | domain_definition
+     | character_set_definition
+     | collation_definition
+     | transliteration_definition
+     | assertion_definition
+     | trigger_definition
+     | user_defined_type_definition
+     | user_defined_cast_definition
+     | user_defined_ordering_definition
+     | transform_definition
+     | sequence_generator_definition
+
+SQL_schema_manipulation_statement    ::=
+         drop_schema_statement
+     | alter_table_statement
+     | drop_table_statement
+     | drop_view_statement
+     | alter_routine_statement
+     | drop_routine_statement
+     | drop_user_defined_cast_statement
+     | revoke_statement
+     | drop_role_statement
+     | alter_domain_statement
+     | drop_domain_statement
+     | drop_character_set_statement
+     | drop_collation_statement
+     | drop_transliteration_statement
+     | drop_assertion_statement
+     | drop_trigger_statement
+     | alter_type_statement
+     | drop_data_type_statement
+     | drop_user_defined_ordering_statement
+     | alter_transform_statement
+     | drop_transform_statement | alter_sequence_generator_statement
+     | drop_sequence_generator_statement
+
+SQL_data_statement    ::=
+         open_statement
+     | fetch_statement
+     | close_statement
+     | select_statement__single_row
+     | free_locator_statement
+     | hold_locator_statement
+     | SQL_data_change_statement
+
+SQL_data_change_statement    ::=
+         delete_statement__positioned
+     | delete_statement__searched
+     | insert_statement
+     | update_statement__positioned
+     | update_statement__searched
+     | merge_statement
+
+SQL_control_statement    ::=
+         call_statement
+     | return_statement
+
+SQL_transaction_statement    ::=
+         start_transaction_statement
+     | set_transaction_statement
+     | set_constraints_mode_statement
+     | savepoint_statement
+     | release_savepoint_statement
+     | commit_statement
+     | rollback_statement
+
+SQL_connection_statement    ::=
+         connect_statement
+     | set_connection_statement
+     | disconnect_statement
+
+SQL_session_statement    ::=
+         set_session_user_identifier_statement
+     | set_role_statement
+     | set_local_time_zone_statement
+     | set_session_characteristics_statement
+     | set_catalog_statement
+     | set_schema_statement
+     | set_names_statement
+     | set_path_statement
+     | set_transform_group_statement
+     | set_session_collation_statement
+
+SQL_diagnostics_statement    ::=   get_diagnostics_statement
+
+SQL_dynamic_statement    ::=
+         system_descriptor_statement
+     | prepare_statement
+     | deallocate_prepared_statement
+     | describe_statement
+     | execute_statement
+     | execute_immediate_statement
+     | SQL_dynamic_data_statement
+
+SQL_dynamic_data_statement    ::=
+         allocate_cursor_statement
+     | dynamic_open_statement
+     | dynamic_fetch_statement
+     | dynamic_close_statement
+     | dynamic_delete_statement__positioned
+     | dynamic_update_statement__positioned
+
+system_descriptor_statement    ::=
+         allocate_descriptor_statement
+     | deallocate_descriptor_statement
+     | set_descriptor_statement
+     | get_descriptor_statement
+
+//13.6 Data type correspondences (p796)
+//Table 16 -- Data type correspondences for C
+
+//SQL Data Type    C Data Type
+//SQLSTATE    char, with length 6
+//CHARACTER (L)3    char, with length (L+1)*k1
+//CHARACTER VARYING (L)3    char, with length (L+1)*k1
+//CHARACTER LARGE OBJECT(L)
+//struct {
+//long hvn3_reserved
+//unsigned long hvn2_length
+//char3 hvn2_data[L];
+//} hvn2
+//BINARY LARGE OBJECT(L)
+// struct {
+//long hvn2_reserved
+//unsigned long hvn2_length
+//char hvn2_data[L];
+//} hvn2
+//NUMERIC(P,S)    None
+//DECIMAL(P,S)    None
+//SMALLINT    pointer to short
+//INTEGER    pointer to long
+//BIGINT    pointer to long long
+//FLOAT(P)    None
+//REAL    pointer to float
+//DOUBLE PRECISION    pointer to double
+//BOOLEAN    pointer to long
+//DATE    None
+//TIME(T)    None
+//TIMESTAMP(T)    None
+//INTERVAL(Q)    None
+//user-defined type    None
+//REF    char, with length N
+//ROW    None
+//ARRAY    None
+//MULTISET    None
+//1 For character set UTF16, as well as other implementation-defined
+character sets in which a code unit occupies two octets, k is the length
+in units of C unsigned short of the character encoded using the greatest
+number of such units in the character set; for character set UTF32, as
+well as other implementation-defined character sets in which a code unit
+occupies four octets, k is four; for other character sets, k is the
+length in units of C char of the character encoded using the greatest
+number of such units in the character set.
+//2 hvn is the name of the host variable defined to correspond to the
+SQL data type
+//3 For character set UTF16, as well as other implementation-defined
+character sets in which a code unit occupies two octets, char or
+unsigned char should be replaced with unsigned short; for character set
+UTF32, as well as other implementation-defined character sets in which a
+code unit occupies four octets, char or unsigned char should be replaced
+with unsigned int. Otherwise, char or unsigned char should be used.
+
+//14 Data manipulation
+//14.1 declare_cursor (p807)
+//Define a cursor.
+
+declare_cursor    ::=
+         DECLARE cursor_name  cursor_sensitivity? cursor_scrollability?
+CURSOR
+         cursor_holdability? cursor_returnability? FOR
+cursor_specification
+
+cursor_sensitivity    ::=   SENSITIVE | INSENSITIVE | ASENSITIVE
+
+cursor_scrollability    ::=   SCROLL | NO SCROLL
+
+cursor_holdability    ::=   WITH HOLD | WITHOUT HOLD
+
+cursor_returnability    ::=   WITH RETURN | WITHOUT RETURN
+
+cursor_specification    ::=   query_expression  order_by_clause?
+updatability_clause?
+
+updatability_clause    ::=   FOR ( READ ONLY | UPDATE ( OF
+column_name_list )? )
+
+order_by_clause    ::=   ORDER BY sort_specification_list
+
+//14.2 open_statement (p813)
+//Open a cursor.
+
+open_statement    ::=   OPEN cursor_name
+
+//14.3 fetch_statement (p815)
+//Position a cursor on a specified row of a table and retrieve values
+from that row.
+
+fetch_statement    ::=
+         FETCH ( fetch_orientation? FROM )? cursor_name INTO
+fetch_target_list
+
+fetch_orientation    ::=
+         NEXT
+     | PRIOR
+     | FIRST
+     | LAST
+     | ( ABSOLUTE | RELATIVE ) simple_value_specification
+
+fetch_target_list    ::=   target_specification ( comma
+target_specification )*
+
+//14.4 close_statement (p820)
+//Close a cursor.
+
+close_statement    ::=   CLOSE cursor_name
+
+//14.5 select_statement__single_row (p822)
+//Retrieve values from a specified row of a table.
+
+select_statement__single_row    ::=
+         SELECT  set_quantifier? select_list INTO select_target_list
+table_expression
+
+select_target_list    ::=   target_specification ( comma
+target_specification )*
+
+//14.6 delete_statement__positioned (p826)
+//Delete a row of a table.
+
+delete_statement__positioned    ::=   DELETE FROM target_table WHERE
+CURRENT OF cursor_name
+
+target_table    ::=
+         table_name
+     | ONLY left_paren table_name right_paren
+
+//14.7 delete_statement__searched (p829)
+//Delete rows of a table.
+
+delete_statement__searched    ::=   DELETE FROM target_table ( WHERE
+search_condition )?
+
+//14.8 insert_statement (p832)
+//Create new rows in a table.
+
+insert_statement    ::=   INSERT INTO insertion_target
+insert_columns_and_source
+
+insertion_target    ::=   table_name
+
+insert_columns_and_source    ::=
+         from_subquery
+     | from_constructor
+     | from_default
+
+from_subquery    ::=   ( left_paren insert_column_list right_paren )?
+override_clause query_expression
+
+from_constructor    ::=
+         ( left_paren insert_column_list right_paren )  override_clause?
+contextually_typed_table_value_constructor
+
+override_clause    ::=   OVERRIDING USER VALUE | OVERRIDING SYSTEM VALUE
+
+from_default    ::=   DEFAULT VALUES
+
+insert_column_list    ::=   column_name_list
+
+//14.9 merge_statement (p837)
+//Conditionally update rows of a table, or insert new rows into a table,
+or both.
+
+merge_statement    ::=
+         MERGE INTO target_table ( AS? merge_correlation_name )?
+         USING table_reference ON search_condition
+merge_operation_specification
+
+merge_correlation_name    ::=   correlation_name
+
+merge_operation_specification    ::=   merge_when_clause ...
+
+merge_when_clause    ::=   merge_when_matched_clause |
+merge_when_not_matched_clause
+
+merge_when_matched_clause    ::=   WHEN MATCHED THEN
+merge_update_specification
+
+merge_when_not_matched_clause    ::=   WHEN NOT MATCHED THEN
+merge_insert_specification
+
+merge_update_specification    ::=   UPDATE SET set_clause_list
+
+merge_insert_specification    ::=
+         INSERT ( left_paren insert_column_list right_paren )?
+          override_clause? VALUES merge_insert_value_list
+
+merge_insert_value_list    ::=
+         left_paren merge_insert_value_element ( comma
+merge_insert_value_element )* right_paren
+
+merge_insert_value_element    ::=   value_expression |
+contextually_typed_value_specification
+
+//14.10 update_statement__positioned (p844)
+//Update a row of a table.
+
+update_statement__positioned    ::=   UPDATE target_table SET
+set_clause_list WHERE CURRENT OF cursor_name
+
+//14.11 update_statement__searched (p847)
+//Update rows of a table.
+
+update_statement__searched    ::=   UPDATE target_table SET
+set_clause_list ( WHERE search_condition )?
+
+//14.12 set_clause_list (p851)
+//Specify a list of updates.
+
+set_clause_list    ::=   set_clause ( comma set_clause )*
+
+set_clause    ::=
+         multiple_column_assignment
+     | set_target equals_operator update_source
+
+set_target    ::=   update_target | mutated_set_clause
+
+multiple_column_assignment    ::=   set_target_list equals_operator
+assigned_row
+
+set_target_list    ::=   left_paren set_target ( comma set_target )*
+right_paren
+
+assigned_row    ::=   contextually_typed_row_value_expression
+
+update_target    ::=
+         object_column
+     | object_column left_bracket_or_trigraph simple_value_specification
+right_bracket_or_trigraph
+
+object_column    ::=   column_name
+
+mutated_set_clause    ::=   mutated_target period method_name
+
+mutated_target    ::=   object_column | mutated_set_clause
+
+update_source    ::=   value_expression |
+contextually_typed_value_specification
+
+//14.13 temporary_table_declaration (p856)
+//Declare a declared local temporary table.
+
+temporary_table_declaration    ::=
+         DECLARE LOCAL TEMPORARY TABLE table_name table_element_list
+         ( ON COMMIT table_commit_action ROWS )?
+
+//14.14 free_locator_statement (p858)
+//Remove the association between a locator variable and the value that
+is represented by that locator.
+
+free_locator_statement    ::=   FREE LOCATOR locator_reference ( comma
+locator_reference )*
+
+locator_reference    ::=   host_parameter_name | embedded_variable_name
+
+//14.15 hold_locator_statement (p859)
+//Mark a locator variable as being holdable.
+
+hold_locator_statement    ::=   HOLD LOCATOR locator_reference ( comma
+locator_reference )*
+
+//14.16 Effect of deleting rows from base tables (p860)
+//14.17 Effect of deleting some rows from a derived table (p862)
+//14.18 Effect of deleting some rows from a viewed table (p864)
+//14.19 Effect of inserting tables into base tables (p865)
+//14.20 Effect of inserting a table into a derived table (p867)
+//14.21 Effect of inserting a table into a viewed table (p869)
+//14.22 Effect of replacing rows in base tables (p871)
+//14.23 Effect of replacing some rows in a derived table (p874)
+//14.24 Effect of replacing some rows in a viewed table (p877)
+//14.25 Execution of BEFORE triggers (p879)
+//14.26 Execution of AFTER triggers (p880)
+//14.27 Execution of triggers (p881)
+//15 Control statements
+//15.1 call_statement (p883)
+//Invoke an SQL-invoked routine.
+
+call_statement    ::=   CALL routine_invocation
+
+//15.2 return_statement (p884)
+//Return a value from an SQL function.
+
+return_statement    ::=   RETURN return_value
+
+return_value    ::=   value_expression | NULL
+
+//16 Transaction management
+//16.1 start_transaction_statement (p885)
+//Start an SQL-transaction and set its characteristics.
+
+start_transaction_statement    ::=   START TRANSACTION (
+transaction_mode ( comma transaction_mode )* )?
+
+transaction_mode    ::=   isolation_level | transaction_access_mode |
+diagnostics_size
+
+transaction_access_mode    ::=   READ ONLY | READ WRITE
+
+isolation_level    ::=   ISOLATION LEVEL level_of_isolation
+
+level_of_isolation    ::=   READ UNCOMMITTED | READ COMMITTED |
+REPEATABLE READ | SERIALIZABLE
+
+diagnostics_size    ::=   DIAGNOSTICS SIZE number_of_conditions
+
+number_of_conditions    ::=   simple_value_specification
+
+//16.2 set_transaction_statement (p888)
+//Set the characteristics of the next SQL-transaction for the SQL-agent.
+NOTE 402 - This statement has no effect on any SQL-transactions
+subsequent to the next SQL-transaction.
+
+set_transaction_statement    ::=   SET  LOCAL?
+transaction_characteristics
+
+transaction_characteristics    ::=   TRANSACTION transaction_mode (
+comma transaction_mode )*
+
+//16.3 set_constraints_mode_statement (p890)
+//If an SQL-transaction is currently active, then set the constraint
+mode for that SQL-transaction in the current SQL-session. If no
+SQL-transaction is currently active, then set the constraint mode for
+the next SQL-transaction in the current SQL-session for the SQL-agent.
+NOTE 404: This statement has no effect on any SQL-transactions
+subsequent to this SQL-transaction.
+
+set_constraints_mode_statement    ::=   SET CONSTRAINTS
+constraint_name_list ( DEFERRED | IMMEDIATE )
+
+constraint_name_list    ::=   ALL | constraint_name ( comma
+constraint_name )*
+
+//16.4 savepoint_statement (p892)
+//Establish a savepoint.
+
+savepoint_statement    ::=   SAVEPOINT savepoint_specifier
+
+savepoint_specifier    ::=   savepoint_name
+
+//16.5 release_savepoint_statement (p893)
+//Destroy a savepoint.
+
+release_savepoint_statement    ::=   RELEASE SAVEPOINT
+savepoint_specifier
+
+//16.6 commit_statement (p894)
+//Terminate the current SQL-transaction with commit.
+
+commit_statement    ::=   COMMIT WORK? ( AND NO? CHAIN )?
+
+//16.7 rollback_statement (p896)
+//Terminate the current SQL-transaction with rollback, or rollback all
+actions affecting SQL-data and/or schemas since the establishment of a
+savepoint.
+
+rollback_statement    ::=   ROLLBACK  WORK? ( AND NO? CHAIN )?
+savepoint_clause?
+
+savepoint_clause    ::=   TO SAVEPOINT savepoint_specifier
+
+//17 Connection management
+//17.1 connect_statement (p899)
+//Establish an SQL-session.
+
+connect_statement    ::=   CONNECT TO connection_target
+
+connection_target    ::=
+         SQL_server_name ( AS connection_name )? ( USER
+connection_user_name )?
+     | DEFAULT
+
+//17.2 set_connection_statement (p902)
+//Select an SQL-connection from the available SQL-connections.
+
+set_connection_statement    ::=   SET CONNECTION connection_object
+
+connection_object    ::=   DEFAULT | connection_name
+
+//17.3 disconnect_statement (p904)
+//Terminate an SQL-connection.
+
+disconnect_statement    ::=   DISCONNECT disconnect_object
+
+disconnect_object    ::=   connection_object | ALL | CURRENT
+
+//18 Session management
+//18.1 set_session_characteristics_statement (p907)
+//Set one or more characteristics for the current SQL-session.
+
+set_session_characteristics_statement    ::=   SET SESSION
+CHARACTERISTICS AS session_characteristic_list
+
+session_characteristic_list    ::=   session_characteristic ( comma
+session_characteristic )*
+
+session_characteristic    ::=   transaction_characteristics
+
+//18.2 set_session_user_identifier_statement (p908)
+//Set the SQL-session user identifier and the current user identifier of
+the current SQL-session context.
+
+set_session_user_identifier_statement    ::=   SET SESSION AUTHORIZATION
+value_specification
+
+//18.3 set_role_statement (p909)
+//Set the current role name for the current SQL-session context.
+
+set_role_statement    ::=   SET ROLE role_specification
+
+role_specification    ::=   value_specification | NONE
+
+//18.4 set_local_time_zone_statement (p911)
+//Set the default local time zone displacement for the current
+SQL-session.
+
+set_local_time_zone_statement    ::=   SET TIME ZONE set_time_zone_value
+
+set_time_zone_value    ::=   interval_value_expression | LOCAL
+
+//18.5 set_catalog_statement (p912)
+//Set the default catalog name for unqualified schema_names in
+preparable_statements that are prepared in the current SQL-session by an
+execute_immediate_statement or a prepare_statement and in
+direct_SQL_statements that are invoked directly.
+
+set_catalog_statement    ::=   SET catalog_name_characteristic
+
+catalog_name_characteristic    ::=   CATALOG value_specification
+
+//18.6 set_schema_statement (p913)
+//Set the default schema name for unqualified schema_qualified_names in
+preparable_statements that are prepared in the current SQL-session by an
+execute_immediate_statement or a prepare_statement and in
+direct_SQL_statements that are invoked directly.
+
+set_schema_statement    ::=   SET schema_name_characteristic
+
+schema_name_characteristic    ::=   SCHEMA value_specification
+
+//18.7 set_names_statement (p915)
+//Set the default character set name for character_string_literals in
+preparable_statements that are prepared in the current SQL-session by an
+execute_immediate_statement or a prepare_statement and in
+direct_SQL_statements that are invoked directly.
+
+set_names_statement    ::=   SET character_set_name_characteristic
+
+character_set_name_characteristic    ::=   NAMES value_specification
+
+//18.8 set_path_statement (p916)
+//Set the SQL-path used to determine the subject routine of
+routine_invocations with unqualified routine_names in
+preparable_statements that are prepared in the current SQL-session by an
+execute_immediate_statement or a prepare_statement and in
+direct_SQL_statements, respectively, that are invoked directly. The
+SQL-path remains the current SQL-path of the SQLsession until another
+SQL-path is successfully set.
+
+set_path_statement    ::=   SET SQL_path_characteristic
+
+SQL_path_characteristic    ::=   PATH value_specification
+
+//18.9 set_transform_group_statement (p917)
+//Set the group name that identifies the group of transform functions
+for mapping values of userdefined types to predefined data types.
+
+set_transform_group_statement    ::=   SET
+transform_group_characteristic
+
+transform_group_characteristic    ::=
+         DEFAULT TRANSFORM GROUP value_specification
+     | TRANSFORM GROUP FOR TYPE path_resolved_user_defined_type_name
+value_specification
+
+//18.10 set_session_collation_statement (p918)
+//Set the SQL-session collation of the SQL-session for one or more
+character sets. An SQL-session collation remains effective until another
+SQL-session collation for the same character set is successfully set.
+
+set_session_collation_statement    ::=
+         SET COLLATION collation_specification ( FOR
+character_set_specification_list )?
+     | SET NO COLLATION ( FOR character_set_specification_list )?
+collation_specification    ::=   value_specification
+
+//19 Dynamic SQL
+//19.1 Description of SQL descriptor areas (p921)
+//19.2 allocate_descriptor_statement (p931)
+//Allocate an SQL descriptor area.
+
+allocate_descriptor_statement    ::=   ALLOCATE  SQL? DESCRIPTOR
+descriptor_name ( WITH MAX occurrences )?
+
+occurrences    ::=   simple_value_specification
+
+//19.3 deallocate_descriptor_statement (p933)
+//Deallocate an SQL descriptor area.
+
+deallocate_descriptor_statement    ::=   DEALLOCATE  SQL? DESCRIPTOR
+descriptor_name
+
+//19.4 get_descriptor_statement (p934)
+//Get information from an SQL descriptor area.
+
+get_descriptor_statement    ::=   GET  SQL? DESCRIPTOR descriptor_name
+get_descriptor_information
+
+get_descriptor_information    ::=
+         get_header_information ( comma get_header_information )*
+     | VALUE item_number get_item_information ( comma
+get_item_information )*
+
+get_header_information    ::=   simple_target_specification_1
+equals_operator header_item_name
+
+header_item_name    ::=   COUNT | KEY_TYPE | DYNAMIC_FUNCTION |
+DYNAMIC_FUNCTION_CODE | TOP_LEVEL_COUNT
+
+get_item_information    ::=   simple_target_specification_2
+equals_operator descriptor_item_name
+
+//The rule for item_number was repeated verbatim in section 19.5. That
+rule is now omitted.
+
+item_number    ::=   simple_value_specification
+
+simple_target_specification_1    ::=   simple_target_specification
+
+simple_target_specification_2    ::=   simple_target_specification
+
+descriptor_item_name    ::=
+         CARDINALITY
+     | CHARACTER_SET_CATALOG
+     | CHARACTER_SET_NAME
+     | CHARACTER_SET_SCHEMA
+     | COLLATION_CATALOG
+     | COLLATION_NAME
+     | COLLATION_SCHEMA
+     | DATA
+     | DATETIME_INTERVAL_CODE
+     | DATETIME_INTERVAL_PRECISION
+     | DEGREE
+     | INDICATOR
+     | KEY_MEMBER
+     | LENGTH
+     | LEVEL
+     | NAME
+     | NULLABLE
+     | OCTET_LENGTH
+     | PARAMETER_MODE
+     | PARAMETER_ORDINAL_POSITION
+     | PARAMETER_SPECIFIC_CATALOG
+     | PARAMETER_SPECIFIC_NAME
+     | PARAMETER_SPECIFIC_SCHEMA
+     | PRECISION
+     | RETURNED_CARDINALITY
+     | RETURNED_LENGTH
+     | RETURNED_OCTET_LENGTH
+     | SCALE
+     | SCOPE_CATALOG
+     | SCOPE_NAME
+     | SCOPE_SCHEMA
+     | TYPE
+     | UNNAMED
+     | USER_DEFINED_TYPE_CATALOG
+     | USER_DEFINED_TYPE_NAME
+     | USER_DEFINED_TYPE_SCHEMA
+     | USER_DEFINED_TYPE_CODE
+
+//19.5 set_descriptor_statement (p937)
+//Set information in an SQL descriptor area.
+
+set_descriptor_statement    ::=   SET  SQL? DESCRIPTOR descriptor_name
+set_descriptor_information
+
+set_descriptor_information    ::=
+         set_header_information ( comma set_header_information )*
+     | VALUE item_number set_item_information ( comma
+set_item_information )*
+
+set_header_information    ::=   header_item_name equals_operator
+simple_value_specification_1
+
+set_item_information    ::=   descriptor_item_name equals_operator
+simple_value_specification_2
+
+simple_value_specification_1    ::=   simple_value_specification
+
+simple_value_specification_2    ::=   simple_value_specification
+//19.6 prepare_statement (p941)
+//Prepare a statement for execution.
+
+prepare_statement    ::=
+         PREPARE SQL_statement_name  attributes_specification? FROM
+SQL_statement_variable
+
+attributes_specification    ::=   ATTRIBUTES attributes_variable
+
+attributes_variable    ::=   simple_value_specification
+
+SQL_statement_variable    ::=   simple_value_specification
+
+preparable_statement    ::=
+         preparable_SQL_data_statement
+     | preparable_SQL_schema_statement
+     | preparable_SQL_transaction_statement
+     | preparable_SQL_control_statement
+     | preparable_SQL_session_statement
+     | preparable_implementation_defined_statement
+
+preparable_SQL_data_statement    ::=
+         delete_statement__searched
+     | dynamic_single_row_select_statement
+     | insert_statement
+     | dynamic_select_statement
+     | update_statement__searched
+     | merge_statement
+     | preparable_dynamic_delete_statement__positioned
+     | preparable_dynamic_update_statement__positioned
+
+preparable_SQL_schema_statement    ::=   SQL_schema_statement
+
+preparable_SQL_transaction_statement    ::=   SQL_transaction_statement
+
+preparable_SQL_control_statement    ::=   SQL_control_statement
+
+preparable_SQL_session_statement    ::=   SQL_session_statement
+
+dynamic_select_statement    ::=   cursor_specification
+
+preparable_implementation_defined_statement    ::=   //!! See the Syntax
+Rules.
+
+//19.7 cursor_attributes (p953)
+//Specify a list of cursor attributes.
+
+cursor_attributes    ::=   cursor_attribute ...
+
+cursor_attribute    ::=
+         cursor_sensitivity
+     | cursor_scrollability
+     | cursor_holdability
+     | cursor_returnability
+
+//19.8 deallocate_prepared_statement (p954)
+//Deallocate SQL-statements that have been prepared with a
+prepare_statement.
+
+deallocate_prepared_statement    ::=   DEALLOCATE PREPARE
+SQL_statement_name
+
+//19.9 describe_statement (p955)
+//Obtain information about the select_list columns or
+dynamic_parameter_specifications contained in a prepared statement or
+about the columns of the result set associated with a cursor.
+
+describe_statement    ::=   describe_input_statement |
+describe_output_statement
+
+describe_input_statement    ::=   DESCRIBE INPUT SQL_statement_name
+using_descriptor  nesting_option?
+
+describe_output_statement    ::=   DESCRIBE  OUTPUT? described_object
+using_descriptor  nesting_option?
+
+nesting_option    ::=   WITH NESTING | WITHOUT NESTING
+
+using_descriptor    ::=   USING  SQL? DESCRIPTOR descriptor_name
+
+described_object    ::=
+         SQL_statement_name
+     | CURSOR extended_cursor_name STRUCTURE
+
+//19.10 input_using_clause (p961)
+//Supply input values for an SQL_dynamic_statement.
+
+input_using_clause    ::=   using_arguments | using_input_descriptor
+
+using_arguments    ::=   USING using_argument ( comma using_argument )*
+
+using_argument    ::=   general_value_specification
+
+using_input_descriptor    ::=   using_descriptor
+
+//19.11 output_using_clause (p965)
+//Supply output variables for an SQL_dynamic_statement.
+
+output_using_clause    ::=   into_arguments | into_descriptor
+
+into_arguments    ::=   INTO into_argument ( comma into_argument )*
+
+into_argument    ::=   target_specification
+
+into_descriptor    ::=   INTO  SQL? DESCRIPTOR descriptor_name
+
+//19.12 execute_statement (p970)
+//Associate input SQL parameters and output targets with a prepared
+statement and execute the statement.
+
+execute_statement    ::=   EXECUTE SQL_statement_name
+result_using_clause?  parameter_using_clause?
+
+result_using_clause    ::=   output_using_clause
+
+parameter_using_clause    ::=   input_using_clause
+
+//19.13 execute_immediate_statement (p972)
+//Dynamically prepare and execute a preparable statement.
+
+execute_immediate_statement    ::=   EXECUTE IMMEDIATE
+SQL_statement_variable
+
+//19.14 dynamic_declare_cursor (p973)
+//Declare a cursor to be associated with a statement_name, which may in
+turn be associated with a cursor_specification.
+
+dynamic_declare_cursor    ::=
+         DECLARE cursor_name  cursor_sensitivity?  cursor_scrollability?
+CURSOR
+          cursor_holdability?  cursor_returnability? FOR statement_name
+
+//19.15 allocate_cursor_statement (p974)
+//Define a cursor based on a prepared statement for a
+cursor_specification or assign a cursor to the ordered set of result
+sets returned from an SQL-invoked procedure.
+
+allocate_cursor_statement    ::=   ALLOCATE extended_cursor_name
+cursor_intent
+
+cursor_intent    ::=   statement_cursor | result_set_cursor
+
+statement_cursor    ::=
+          cursor_sensitivity?  cursor_scrollability? CURSOR
+          cursor_holdability ?  cursor_returnability? FOR
+extended_statement_name
+
+result_set_cursor    ::=   FOR PROCEDURE specific_routine_designator
+
+//19.16 dynamic_open_statement (p976)
+//Associate input dynamic parameters with a cursor_specification and
+open the cursor.
+
+dynamic_open_statement    ::=   OPEN dynamic_cursor_name
+input_using_clause?
+
+//19.17 dynamic_fetch_statement (p977)
+//Fetch a row for a cursor declared with a dynamic_declare_cursor.
+
+dynamic_fetch_statement    ::=   FETCH ( fetch_orientation? FROM )?
+dynamic_cursor_name output_using_clause
+
+//19.18 dynamic_single_row_select_statement (p978)
+//Retrieve values from a dynamically-specified row of a table.
+
+dynamic_single_row_select_statement    ::=   query_specification
+
+//19.19 dynamic_close_statement (p979)
+//Close a cursor.
+
+dynamic_close_statement    ::=   CLOSE dynamic_cursor_name
+
+//19.20 dynamic_delete_statement__positioned (p980)
+//Delete a row of a table.
+
+dynamic_delete_statement__positioned    ::=   DELETE FROM target_table
+WHERE CURRENT OF dynamic_cursor_name
+
+//19.21 dynamic_update_statement__positioned (p982)
+//Update a row of a table.
+
+dynamic_update_statement__positioned    ::=
+         UPDATE target_table SET set_clause_list WHERE CURRENT OF
+dynamic_cursor_name
+
+//19.22 preparable_dynamic_delete_statement__positioned (p984)
+//Delete a row of a table through a dynamic cursor.
+
+preparable_dynamic_delete_statement__positioned    ::=
+         DELETE ( FROM target_table )? WHERE CURRENT OF  scope_option?
+cursor_name
+
+//19.23 preparable_dynamic_update_statement__positioned (p986)
+//Update a row of a table through a dynamic cursor.
+
+preparable_dynamic_update_statement__positioned    ::=
+         UPDATE  target_table? SET set_clause_list WHERE CURRENT OF
+scope_option? cursor_name
+
+//20 Embedded SQL
+//20.1 embedded_SQL_host_program (p989)
+//Specify an embedded_SQL_host_program.
+
+embedded_SQL_host_program    ::=
+         embedded_SQL_Ada_program
+     | embedded_SQL_C_program
+     | embedded_SQL_COBOL_program
+     | embedded_SQL_Fortran_program
+     | embedded_SQL_MUMPS_program
+     | embedded_SQL_Pascal_program
+     | embedded_SQL_PL_I_program
+
+embedded_SQL_statement    ::=   SQL_prefix statement_or_declaration
+SQL_terminator?
+
+statement_or_declaration    ::=
+         declare_cursor
+     | dynamic_declare_cursor
+     | temporary_table_declaration
+     | embedded_authorization_declaration
+     | embedded_path_specification
+     | embedded_transform_group_specification
+     | embedded_collation_specification
+     | embedded_exception_declaration
+     | handler_declaration
+     | SQL_procedure_statement
+
+SQL_prefix    ::=   EXEC SQL | ampersand SQL left_paren
+
+SQL_terminator    ::=   END-EXEC | semicolon | right_paren
+
+embedded_authorization_declaration    ::=   DECLARE
+embedded_authorization_clause
+
+embedded_authorization_clause    ::=
+         SCHEMA schema_name
+     | AUTHORIZATION embedded_authorization_identifier ( FOR STATIC (
+ONLY | AND DYNAMIC ) )?
+     | SCHEMA schema_name AUTHORIZATION
+embedded_authorization_identifier ( FOR STATIC ( ONLY | AND DYNAMIC ) )?
+
+embedded_authorization_identifier    ::=
+module_authorization_identifier
+
+embedded_path_specification    ::=   path_specification
+
+embedded_transform_group_specification    ::=
+transform_group_specification
+
+embedded_collation_specification    ::=   module_collation
+
+embedded_SQL_declare_section    ::=
+         embedded_SQL_begin_declare ( embedded_character_set_declaration
+)?  host_variable_definition? embedded_SQL_end_declare
+     | embedded_SQL_MUMPS_declare
+
+embedded_character_set_declaration    ::=   SQL NAMES ARE
+character_set_specification
+
+embedded_SQL_begin_declare    ::=   SQL_prefix BEGIN DECLARE SECTION
+SQL_terminator?
+
+embedded_SQL_end_declare    ::=   SQL_prefix END DECLARE SECTION
+SQL_terminator?
+
+embedded_SQL_MUMPS_declare    ::=
+         SQL_prefix BEGIN DECLARE SECTION
+embedded_character_set_declaration?
+          host_variable_definition? END DECLARE SECTION SQL_terminator
+
+host_variable_definition    ::=
+         Ada_variable_definition
+     | C_variable_definition
+     | COBOL_variable_definition
+     | Fortran_variable_definition
+     | MUMPS_variable_definition
+     | Pascal_variable_definition
+     | PL_I_variable_definition
+
+embedded_variable_name    ::=   colon host_identifier
+
+host_identifier    ::=
+         Ada_host_identifier
+     | C_host_identifier
+     | COBOL_host_identifier
+     | Fortran_host_identifier
+     | MUMPS_host_identifier
+     | Pascal_host_identifier
+     | PL_I_host_identifier
+
+//20.2 embedded_exception_declaration (p1001)
+//Specify the action to be taken when an SQL-statement causes a specific
+class of condition to be raised.
+
+embedded_exception_declaration    ::=   WHENEVER condition
+condition_action
+
+condition    ::=   SQL_condition
+
+SQL_condition    ::=
+         major_category
+     | SQLSTATE ( SQLSTATE_class_value ( ',' SQLSTATE_subclass_value )?
+)
+     | CONSTRAINT constraint_name
+
+major_category    ::=   SQLEXCEPTION | SQLWARNING | NOT FOUND
+
+SQLSTATE_class_value    ::=   SQLSTATE_char SQLSTATE_char //!! See the
+Syntax Rules.
+
+SQLSTATE_subclass_value    ::=   SQLSTATE_char SQLSTATE_char
+SQLSTATE_char //!! See the Syntax Rules.
+
+SQLSTATE_char    ::=   simple_Latin_upper_case_letter | digit
+
+condition_action    ::=   CONTINUE | go_to
+
+go_to    ::=   ( GOTO | GO TO ) goto_target
+
+goto_target    ::=
+         host_label_identifier
+     | unsigned_integer
+     | host_PL_I_label_variable
+
+host_label_identifier    ::=   //!! See the Syntax Rules.
+
+host_PL_I_label_variable    ::=   //!! See the Syntax Rules.
+
+//20.3 embedded_SQL_Ada_program (p1005)
+//Specify an embedded_SQL_Ada_program.
+
+embedded_SQL_Ada_program    ::=   //!! See the Syntax Rules.
+
+Ada_variable_definition    ::=
+         Ada_host_identifier ( comma Ada_host_identifier )* colon
+Ada_type_specification  Ada_initial_value?
+
+Ada_initial_value    ::=   Ada_assignment_operator
+character_representation ...
+
+Ada_assignment_operator    ::=   colon equals_operator
+
+Ada_host_identifier    ::=   //!! See the Syntax Rules.
+
+Ada_type_specification    ::=
+         Ada_qualified_type_specification
+     | Ada_unqualified_type_specification
+     | Ada_derived_type_specification
+
+Ada_qualified_type_specification    ::=
+         Interfaces.SQL period CHAR ( CHARACTER SET  IS?
+character_set_specification )?
+         left_paren  double_period length right_paren
+     | Interfaces.SQL period SMALLINT
+     | Interfaces.SQL period INT
+     | Interfaces.SQL period BIGINT
+     | Interfaces.SQL period REAL
+     | Interfaces.SQL period DOUBLE_PRECISION
+     | Interfaces.SQL period BOOLEAN
+     | Interfaces.SQL period SQLSTATE_TYPE
+     | Interfaces.SQL period INDICATOR_TYPE
+
+Ada_unqualified_type_specification    ::=
+         CHAR left_paren  double_period length right_paren
+     | SMALLINT
+     | INT
+     | BIGINT
+     | REAL
+     | DOUBLE_PRECISION
+     | BOOLEAN
+     | SQLSTATE_TYPE
+     | INDICATOR_TYPE
+
+Ada_derived_type_specification    ::=
+         Ada_CLOB_variable
+     | Ada_CLOB_locator_variable
+     | Ada_BLOB_variable
+     | Ada_BLOB_locator_variable
+     | Ada_user_defined_type_variable
+     | Ada_user_defined_type_locator_variable
+     | Ada_REF_variable
+     | Ada_array_locator_variable
+     | Ada_multiset_locator_variable
+
+Ada_CLOB_variable    ::=
+         SQL TYPE IS CLOB left_paren large_object_length right_paren (
+CHARACTER SET  IS? character_set_specification )?
+
+Ada_CLOB_locator_variable    ::=   SQL TYPE IS CLOB AS LOCATOR
+
+Ada_BLOB_variable    ::=   SQL TYPE IS BLOB left_paren
+large_object_length right_paren
+
+Ada_BLOB_locator_variable    ::=   SQL TYPE IS BLOB AS LOCATOR
+
+Ada_user_defined_type_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS predefined_type
+
+Ada_user_defined_type_locator_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS LOCATOR
+
+Ada_REF_variable    ::=   SQL TYPE IS reference_type
+
+Ada_array_locator_variable    ::=   SQL TYPE IS array_type AS LOCATOR
+
+Ada_multiset_locator_variable    ::=   SQL TYPE IS multiset_type AS
+LOCATOR
+
+//20.4 embedded_SQL_C_program (p1011)
+//Specify an embedded_SQL_C_program.
+
+embedded_SQL_C_program    ::=   //!! See the Syntax Rules.
+
+C_variable_definition    ::=    C_storage_class?  C_class_modifier?
+C_variable_specification semicolon
+
+C_variable_specification    ::=   C_numeric_variable |
+C_character_variable | C_derived_variable
+
+C_storage_class    ::=   auto | extern | static
+
+C_class_modifier    ::=   const | volatile
+
+//It is curious that the C types in SQL 2003 don't include the C
+keywords int or signed. It is slightly less surprising that the grammar
+doesn't include C99 keywords such as restrict.
+
+C_numeric_variable    ::=
+         ( long long | long | short | float | double ) C_host_identifier
+ C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )*
+
+C_character_variable    ::=
+         C_character_type ( CHARACTER SET  IS?
+character_set_specification )?
+         C_host_identifier C_array_specification  C_initial_value?
+         ( comma C_host_identifier C_array_specification
+C_initial_value? )*
+
+C_character_type    ::=   char | unsigned char | unsigned short
+
+C_array_specification    ::=   left_bracket length right_bracket
+
+C_host_identifier    ::=   //!! See the Syntax Rules.
+
+C_derived_variable    ::=
+         C_VARCHAR_variable
+     | C_NCHAR_variable
+     | C_NCHAR_VARYING_variable
+     | C_CLOB_variable
+     | C_NCLOB_variable
+     | C_BLOB_variable
+     | C_user_defined_type_variable
+     | C_CLOB_locator_variable
+     | C_BLOB_locator_variable
+     | C_array_locator_variable
+     | C_multiset_locator_variable
+     | C_user_defined_type_locator_variable
+     | C_REF_variable
+
+C_VARCHAR_variable    ::=
+         VARCHAR ( CHARACTER SET  IS? character_set_specification )?
+         C_host_identifier C_array_specification  C_initial_value?
+         ( comma C_host_identifier C_array_specification
+C_initial_value? )*
+
+C_NCHAR_variable    ::=
+         NCHAR ( CHARACTER SET  IS? character_set_specification )
+         C_host_identifier C_array_specification  C_initial_value?
+         ( comma C_host_identifier C_array_specification
+C_initial_value? )*
+
+C_NCHAR_VARYING_variable    ::=
+         NCHAR VARYING ( CHARACTER SET  IS? character_set_specification
+)*
+         C_host_identifier C_array_specification  C_initial_value?
+         ( comma C_host_identifier C_array_specification
+C_initial_value? )*
+
+C_CLOB_variable    ::=
+         SQL TYPE IS CLOB left_paren large_object_length right_paren
+         ( CHARACTER SET IS? character_set_specification )?
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )*
+
+C_NCLOB_variable    ::=
+         SQL TYPE IS NCLOB left_paren large_object_length right_paren
+         ( CHARACTER SET IS? character_set_specification )?
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )*
+
+C_user_defined_type_variable    ::=
+         SQL TYPE IS path_resolved_user_defined_type_name AS
+predefined_type
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )*
+
+C_BLOB_variable    ::=
+         SQL TYPE IS BLOB left_paren large_object_length right_paren
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )*
+
+C_CLOB_locator_variable    ::=
+         SQL TYPE IS CLOB AS LOCATOR
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )?
+
+C_BLOB_locator_variable    ::=
+         SQL TYPE IS BLOB AS LOCATOR
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )?
+
+C_array_locator_variable    ::=
+         SQL TYPE IS array_type AS LOCATOR
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )?
+
+C_multiset_locator_variable    ::=
+         SQL TYPE IS multiset_type AS LOCATOR
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )?
+
+C_user_defined_type_locator_variable    ::=
+         SQL TYPE IS
+         path_resolved_user_defined_type_name AS LOCATOR
+         C_host_identifier  C_initial_value?
+         ( comma C_host_identifier  C_initial_value? )*
+
+C_REF_variable    ::=   SQL TYPE IS reference_type
+
+C_initial_value    ::=   equals_operator character_representation ...
+
+//20.5 embedded_SQL_COBOL_program (p1019)
+//Specify an embedded_SQL_COBOL_program.
+
+embedded_SQL_COBOL_program    ::=   //!! See the Syntax Rules.
+
+COBOL_variable_definition    ::=
+         /*( 01 | 77 )*/ COBOL_host_identifier COBOL_type_specification
+          character_representation? period
+
+COBOL_host_identifier    ::=   //!! See the Syntax Rules.
+
+COBOL_type_specification    ::=
+         COBOL_character_type
+     | COBOL_national_character_type
+     | COBOL_numeric_type
+     | COBOL_integer_type
+     | COBOL_derived_type_specification
+
+COBOL_derived_type_specification    ::=
+         COBOL_CLOB_variable
+     | COBOL_NCLOB_variable
+     | COBOL_BLOB_variable
+     | COBOL_user_defined_type_variable
+     | COBOL_CLOB_locator_variable
+     | COBOL_BLOB_locator_variable
+     | COBOL_array_locator_variable
+     | COBOL_multiset_locator_variable
+     | COBOL_user_defined_type_locator_variable
+     | COBOL_REF_variable
+
+COBOL_character_type    ::=
+         ( CHARACTER SET  IS? character_set_specification )?
+         ( PIC | PICTURE )  IS? ( X ( left_paren length right_paren )?
+)*
+
+COBOL_national_character_type    ::=
+         ( CHARACTER SET  IS? character_set_specification )?
+         ( PIC | PICTURE )  IS? ( N  (left_paren length right_paren)? )*
+
+COBOL_CLOB_variable    ::=
+         ( USAGE  IS? )?
+         SQL TYPE IS CLOB left_paren large_object_length right_paren
+         ( CHARACTER SET  IS? character_set_specification )?
+
+COBOL_NCLOB_variable    ::=
+         ( USAGE  IS? )?
+         SQL TYPE IS NCLOB left_paren large_object_length right_paren
+         ( CHARACTER SET  IS? character_set_specification )?
+
+COBOL_BLOB_variable    ::=
+         ( USAGE  IS? )?
+         SQL TYPE IS BLOB left_paren large_object_length right_paren
+
+COBOL_user_defined_type_variable    ::=
+        ( USAGE  IS? )? SQL TYPE IS path_resolved_user_defined_type_name
+AS predefined_type
+
+COBOL_CLOB_locator_variable    ::=
+         ( USAGE  IS? )? SQL TYPE IS CLOB AS LOCATOR
+
+COBOL_BLOB_locator_variable    ::=
+         ( USAGE  IS? )? SQL TYPE IS BLOB AS LOCATOR
+
+COBOL_array_locator_variable    ::=
+     ( USAGE  IS? )? SQL TYPE IS array_type AS LOCATOR
+
+COBOL_multiset_locator_variable    ::=
+     ( USAGE  IS? )? SQL TYPE IS multiset_type AS LOCATOR
+
+COBOL_user_defined_type_locator_variable    ::=
+     ( USAGE  IS? )? SQL TYPE IS path_resolved_user_defined_type_name AS
+LOCATOR
+
+COBOL_REF_variable    ::=   ( USAGE  IS? )? SQL TYPE IS reference_type
+
+COBOL_numeric_type    ::=
+         ( PIC | PICTURE ) IS? S COBOL_nines_specification ( USAGE  IS?
+)? DISPLAY SIGN LEADING SEPARATE
+
+COBOL_nines_specification    ::=
+         COBOL_nines ( V  COBOL_nines? )?
+     | V COBOL_nines
+
+COBOL_integer_type    ::=   COBOL_binary_integer
+
+COBOL_binary_integer    ::=   ( PIC | PICTURE ) IS? S COBOL_nines (
+USAGE  IS? )? BINARY
+
+COBOL_nines    ::=   ( /*9*/ ( left_paren length right_paren )? )*
+
+//20.6 embedded_SQL_Fortran_program (p1025)
+//Specify an embedded_SQL_Fortran_program.
+
+embedded_SQL_Fortran_program    ::=   //!! See the Syntax Rules.
+
+Fortran_variable_definition    ::=
+         Fortran_type_specification Fortran_host_identifier ( comma
+Fortran_host_identifier )*
+
+Fortran_host_identifier    ::=   //!! See the Syntax Rules.
+
+Fortran_type_specification    ::=
+         CHARACTER  asterisk length? ( CHARACTER SET IS?
+character_set_specification )?
+     | CHARACTER KIND '=' n  asterisk length? ( CHARACTER SET IS?
+character_set_specification )?
+     | INTEGER
+     | REAL
+     | DOUBLE PRECISION
+     | LOGICAL
+     | Fortran_derived_type_specification
+
+Fortran_derived_type_specification    ::=
+         Fortran_CLOB_variable
+     | Fortran_BLOB_variable
+     | Fortran_user_defined_type_variable
+     | Fortran_CLOB_locator_variable
+     | Fortran_BLOB_locator_variable
+     | Fortran_user_defined_type_locator_variable
+     | Fortran_array_locator_variable
+     | Fortran_multiset_locator_variable
+     | Fortran_REF_variable
+
+Fortran_CLOB_variable    ::=
+         SQL TYPE IS CLOB left_paren large_object_length right_paren
+         ( CHARACTER SET IS? character_set_specification )?
+
+Fortran_BLOB_variable    ::=
+         SQL TYPE IS BLOB left_paren large_object_length right_paren
+
+Fortran_user_defined_type_variable    ::=
+         SQL TYPE IS path_resolved_user_defined_type_name AS
+predefined_type
+
+Fortran_CLOB_locator_variable    ::=   SQL TYPE IS CLOB AS LOCATOR
+
+Fortran_BLOB_locator_variable    ::=   SQL TYPE IS BLOB AS LOCATOR
+
+Fortran_user_defined_type_locator_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS LOCATOR
+
+Fortran_array_locator_variable    ::=   SQL TYPE IS array_type AS
+LOCATOR
+
+Fortran_multiset_locator_variable    ::=   SQL TYPE IS multiset_type AS
+LOCATOR
+
+Fortran_REF_variable    ::=   SQL TYPE IS reference_type
+
+//20.7 embedded_SQL_MUMPS_program (p1030)
+//Specify an embedded_SQL_MUMPS_program.
+
+embedded_SQL_MUMPS_program    ::=   //!! See the Syntax Rules.
+
+MUMPS_variable_definition    ::=
+         MUMPS_numeric_variable semicolon
+     | MUMPS_character_variable semicolon
+     | MUMPS_derived_type_specification semicolon
+
+MUMPS_character_variable    ::=
+         VARCHAR MUMPS_host_identifier MUMPS_length_specification
+         ( comma MUMPS_host_identifier MUMPS_length_specification )*
+
+MUMPS_host_identifier    ::=   //!! See the Syntax Rules.
+
+MUMPS_length_specification    ::=   left_paren length right_paren
+
+MUMPS_numeric_variable    ::=   MUMPS_type_specification
+MUMPS_host_identifier ( comma MUMPS_host_identifier )*
+
+MUMPS_type_specification    ::=
+         INT
+     | DEC ( left_paren precision  ( comma scale )? right_paren )?
+     | REAL
+
+MUMPS_derived_type_specification    ::=
+         MUMPS_CLOB_variable
+     | MUMPS_BLOB_variable
+     | MUMPS_user_defined_type_variable
+     | MUMPS_CLOB_locator_variable
+     | MUMPS_BLOB_locator_variable
+     | MUMPS_user_defined_type_locator_variable
+     | MUMPS_array_locator_variable
+     | MUMPS_multiset_locator_variable
+     | MUMPS_REF_variable
+
+MUMPS_CLOB_variable    ::=
+         SQL TYPE IS CLOB left_paren large_object_length right_paren
+         ( CHARACTER SET  IS? character_set_specification )?
+
+MUMPS_BLOB_variable    ::=   SQL TYPE IS BLOB left_paren
+large_object_length right_paren
+
+MUMPS_user_defined_type_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS predefined_type
+
+MUMPS_CLOB_locator_variable    ::=   SQL TYPE IS CLOB AS LOCATOR
+
+MUMPS_BLOB_locator_variable    ::=   SQL TYPE IS BLOB AS LOCATOR
+
+MUMPS_user_defined_type_locator_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS LOCATOR
+
+MUMPS_array_locator_variable    ::=   SQL TYPE IS array_type AS LOCATOR
+
+MUMPS_multiset_locator_variable    ::=   SQL TYPE IS multiset_type AS
+LOCATOR
+
+MUMPS_REF_variable    ::=   SQL TYPE IS reference_type
+
+//20.8 embedded_SQL_Pascal_program (p1035)
+//Specify an embedded_SQL_Pascal_program.
+
+embedded_SQL_Pascal_program    ::=   //!! See the Syntax Rules.
+
+Pascal_variable_definition    ::=
+         Pascal_host_identifier ( comma Pascal_host_identifier )* colon
+Pascal_type_specification semicolon
+
+Pascal_host_identifier    ::=   //!! See the Syntax Rules.
+
+Pascal_type_specification    ::=
+         PACKED ARRAY left_bracket /*1*/ double_period length
+right_bracket OF CHAR
+         ( CHARACTER SET  IS? character_set_specification )?
+     | INTEGER
+     | REAL
+     | CHAR ( CHARACTER SET IS? character_set_specification )?
+     | BOOLEAN
+     | Pascal_derived_type_specification
+
+Pascal_derived_type_specification    ::=
+         Pascal_CLOB_variable
+     | Pascal_BLOB_variable
+     | Pascal_user_defined_type_variable
+     | Pascal_CLOB_locator_variable
+     | Pascal_BLOB_locator_variable
+     | Pascal_user_defined_type_locator_variable
+     | Pascal_array_locator_variable
+     | Pascal_multiset_locator_variable
+     | Pascal_REF_variable
+
+Pascal_CLOB_variable    ::=
+         SQL TYPE IS CLOB left_paren large_object_length right_paren
+         ( CHARACTER SET  IS? character_set_specification )?
+
+Pascal_BLOB_variable    ::=   SQL TYPE IS BLOB left_paren
+large_object_length right_paren
+
+Pascal_CLOB_locator_variable    ::=   SQL TYPE IS CLOB AS LOCATOR
+
+Pascal_user_defined_type_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS predefined_type
+
+Pascal_BLOB_locator_variable    ::=   SQL TYPE IS BLOB AS LOCATOR
+
+Pascal_user_defined_type_locator_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS LOCATOR
+
+Pascal_array_locator_variable    ::=   SQL TYPE IS array_type AS LOCATOR
+
+Pascal_multiset_locator_variable    ::=   SQL TYPE IS multiset_type AS
+LOCATOR
+
+Pascal_REF_variable    ::=   SQL TYPE IS reference_type
+
+//20.9 embedded_SQL_PL_I_program (p1040)
+//Specify an embedded_SQL_PL_I_program.
+
+embedded_SQL_PL_I_program    ::=   //!! See the Syntax Rules.
+
+PL_I_variable_definition    ::=
+         ( DCL | DECLARE ) ( PL_I_host_identifier
+     | left_paren PL_I_host_identifier ( comma PL_I_host_identifier )*
+right_paren )
+         PL_I_type_specification  character_representation? semicolon
+
+PL_I_host_identifier    ::=   //!! See the Syntax Rules.
+
+PL_I_type_specification    ::=
+         ( CHAR | CHARACTER )  VARYING? left_paren length right_paren (
+CHARACTER SET  IS? character_set_specification )?
+     | PL_I_type_fixed_decimal left_paren precision  comma scale?
+right_paren
+     | PL_I_type_fixed_binary ( left_paren precision right_paren )?
+     | PL_I_type_float_binary left_paren precision right_paren
+     | PL_I_derived_type_specification
+
+PL_I_derived_type_specification    ::=
+         PL_I_CLOB_variable
+     | PL_I_BLOB_variable
+     | PL_I_user_defined_type_variable
+     | PL_I_CLOB_locator_variable
+     | PL_I_BLOB_locator_variable
+     | PL_I_user_defined_type_locator_variable
+     | PL_I_array_locator_variable
+     | PL_I_multiset_locator_variable
+     | PL_I_REF_variable
+
+PL_I_CLOB_variable    ::=
+         SQL TYPE IS CLOB left_paren large_object_length right_paren
+         ( CHARACTER SET  IS? character_set_specification )?
+
+PL_I_BLOB_variable    ::=   SQL TYPE IS BLOB left_paren
+large_object_length right_paren
+
+PL_I_user_defined_type_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS predefined_type
+
+PL_I_CLOB_locator_variable    ::=   SQL TYPE IS CLOB AS LOCATOR
+
+PL_I_BLOB_locator_variable    ::=   SQL TYPE IS BLOB AS LOCATOR
+
+PL_I_user_defined_type_locator_variable    ::=   SQL TYPE IS
+path_resolved_user_defined_type_name AS LOCATOR
+
+PL_I_array_locator_variable    ::=   SQL TYPE IS array_type AS LOCATOR
+
+PL_I_multiset_locator_variable    ::=   SQL TYPE IS multiset_type AS
+LOCATOR
+
+PL_I_REF_variable    ::=   SQL TYPE IS reference_type
+
+PL_I_type_fixed_decimal    ::=
+         ( DEC | DECIMAL ) FIXED
+     | FIXED ( DEC | DECIMAL )
+
+PL_I_type_fixed_binary    ::=
+         ( BIN | BINARY ) FIXED
+     | FIXED ( BIN | BINARY )
+
+PL_I_type_float_binary    ::=
+         ( BIN | BINARY ) FLOAT
+     | FLOAT ( BIN | BINARY )
+
+direct_implementation_defined_statement    ::=   //!! See the Syntax
+Rules.
+
+//21.2 direct_select_statement__multiple_rows (p1051)
+//Specify a statement to retrieve multiple rows from a specified table.
+
+direct_select_statement__multiple_rows    ::=   cursor_specification
+
+//22 Diagnostics management
+//22.1 get_diagnostics_statement (p1053)
+//Get exception or completion condition information from a diagnostics
+area.
+
+get_diagnostics_statement    ::=   GET DIAGNOSTICS
+SQL_diagnostics_information
+
+SQL_diagnostics_information    ::=   statement_information |
+condition_information
+
+statement_information    ::=   statement_information_item ( comma
+statement_information_item )*
+
+statement_information_item    ::=   simple_target_specification
+equals_operator statement_information_item_name
+
+statement_information_item_name    ::=
+         NUMBER
+     | MORE
+     | COMMAND_FUNCTION
+     | COMMAND_FUNCTION_CODE
+     | DYNAMIC_FUNCTION
+     | DYNAMIC_FUNCTION_CODE
+     | ROW_COUNT
+     | TRANSACTIONS_COMMITTED
+     | TRANSACTIONS_ROLLED_BACK
+     | TRANSACTION_ACTIVE
+
+condition_information    ::=
+         ( EXCEPTION | CONDITION ) condition_number
+condition_information_item ( comma condition_information_item )*
+
+condition_information_item    ::=   simple_target_specification
+equals_operator condition_information_item_name
+
+condition_information_item_name    ::=
+         CATALOG_NAME
+     | CLASS_ORIGIN
+     | COLUMN_NAME
+     | CONDITION_NUMBER
+     | CONNECTION_NAME
+     | CONSTRAINT_CATALOG
+     | CONSTRAINT_NAME
+     | CONSTRAINT_SCHEMA
+     | CURSOR_NAME
+     | MESSAGE_LENGTH
+     | MESSAGE_OCTET_LENGTH
+     | MESSAGE_TEXT
+     | PARAMETER_MODE
+     | PARAMETER_NAME
+     | PARAMETER_ORDINAL_POSITION
+     | RETURNED_SQLSTATE
+     | ROUTINE_CATALOG
+     | ROUTINE_NAME
+     | ROUTINE_SCHEMA
+     | SCHEMA_NAME
+     | SERVER_NAME
+     | SPECIFIC_NAME
+     | SUBCLASS_ORIGIN
+     | TABLE_NAME
+     | TRIGGER_CATALOG
+     | TRIGGER_NAME
+     | TRIGGER_SCHEMA
+
+condition_number    ::=   simple_value_specification
+
+// Tokens
+
+//reserved_word
+ADD ::= "ADD"
+ALL ::= "ALL"
+ALLOCATE ::= "ALLOCATE"
+ALTER ::= "ALTER"
+AND ::= "AND"
+ANY ::= "ANY"
+ARE ::= "ARE"
+ARRAY ::= "ARRAY"
+AS ::= "AS"
+ASENSITIVE ::= "ASENSITIVE"
+ASYMMETRIC ::= "ASYMMETRIC"
+AT ::= "AT"
+ATOMIC ::= "ATOMIC"
+AUTHORIZATION ::= "AUTHORIZATION"
+BEGIN ::= "BEGIN"
+BETWEEN ::= "BETWEEN"
+BIGINT ::= "BIGINT"
+BINARY ::= "BINARY"
+BLOB ::= "BLOB"
+BOOLEAN ::= "BOOLEAN"
+BOTH ::= "BOTH"
+BY ::= "BY"
+CALL ::= "CALL"
+CALLED ::= "CALLED"
+CASCADED ::= "CASCADED"
+CASE ::= "CASE"
+CAST ::= "CAST"
+CHAR ::= "CHAR"
+CHARACTER ::= "CHARACTER"
+CHECK ::= "CHECK"
+CLOB ::= "CLOB"
+CLOSE ::= "CLOSE"
+COLLATE ::= "COLLATE"
+COLUMN ::= "COLUMN"
+COMMIT ::= "COMMIT"
+CONNECT ::= "CONNECT"
+CONSTRAINT ::= "CONSTRAINT"
+CONTINUE ::= "CONTINUE"
+CORRESPONDING ::= "CORRESPONDING"
+CREATE ::= "CREATE"
+CROSS ::= "CROSS"
+CUBE ::= "CUBE"
+CURRENT ::= "CURRENT"
+CURRENT_DATE ::= "CURRENT_DATE"
+CURRENT_DEFAULT_TRANSFORM_GROUP ::= "CURRENT_DEFAULT_TRANSFORM_GROUP"
+CURRENT_PATH ::= "CURRENT_PATH"
+CURRENT_ROLE ::= "CURRENT_ROLE"
+CURRENT_TIME ::= "CURRENT_TIME"
+CURRENT_TIMESTAMP ::= "CURRENT_TIMESTAMP"
+CURRENT_TRANSFORM_GROUP_FOR_TYPE ::= "CURRENT_TRANSFORM_GROUP_FOR_TYPE"
+CURRENT_USER ::= "CURRENT_USER"
+CURSOR ::= "CURSOR"
+CYCLE ::= "CYCLE"
+DATE ::= "DATE"
+DAY ::= "DAY"
+DEALLOCATE ::= "DEALLOCATE"
+DEC ::= "DEC"
+DECIMAL ::= "DECIMAL"
+DECLARE ::= "DECLARE"
+DEFAULT ::= "DEFAULT"
+DELETE ::= "DELETE"
+DEREF ::= "DEREF"
+DESCRIBE ::= "DESCRIBE"
+DETERMINISTIC ::= "DETERMINISTIC"
+DISCONNECT ::= "DISCONNECT"
+DISTINCT ::= "DISTINCT"
+DOUBLE ::= "DOUBLE"
+DROP ::= "DROP"
+DYNAMIC ::= "DYNAMIC"
+EACH ::= "EACH"
+ELEMENT ::= "ELEMENT"
+ELSE ::= "ELSE"
+END ::= "END"
+END-EXEC ::= "END-EXEC"
+ESCAPE ::= "ESCAPE"
+EXCEPT ::= "EXCEPT"
+EXEC ::= "EXEC"
+EXECUTE ::= "EXECUTE"
+EXISTS ::= "EXISTS"
+EXTERNAL ::= "EXTERNAL"
+FALSE ::= "FALSE"
+FETCH ::= "FETCH"
+FILTER ::= "FILTER"
+FLOAT ::= "FLOAT"
+FOR ::= "FOR"
+FOREIGN ::= "FOREIGN"
+FREE ::= "FREE"
+FROM ::= "FROM"
+FULL ::= "FULL"
+FUNCTION ::= "FUNCTION"
+GET ::= "GET"
+GLOBAL ::= "GLOBAL"
+GRANT ::= "GRANT"
+GROUP ::= "GROUP"
+GROUPING ::= "GROUPING"
+HAVING ::= "HAVING"
+HOLD ::= "HOLD"
+HOUR ::= "HOUR"
+IDENTITY ::= "IDENTITY"
+IMMEDIATE ::= "IMMEDIATE"
+IN ::= "IN"
+INDICATOR ::= "INDICATOR"
+INNER ::= "INNER"
+INOUT ::= "INOUT"
+INPUT ::= "INPUT"
+INSENSITIVE ::= "INSENSITIVE"
+INSERT ::= "INSERT"
+INT ::= "INT"
+INTEGER ::= "INTEGER"
+INTERSECT ::= "INTERSECT"
+INTERVAL ::= "INTERVAL"
+INTO ::= "INTO"
+IS ::= "IS"
+ISOLATION ::= "ISOLATION"
+JOIN ::= "JOIN"
+LANGUAGE ::= "LANGUAGE"
+LARGE ::= "LARGE"
+LATERAL ::= "LATERAL"
+LEADING ::= "LEADING"
+LEFT ::= "LEFT"
+LIKE ::= "LIKE"
+LOCAL ::= "LOCAL"
+LOCALTIME ::= "LOCALTIME"
+LOCALTIMESTAMP ::= "LOCALTIMESTAMP"
+MATCH ::= "MATCH"
+MEMBER ::= "MEMBER"
+MERGE ::= "MERGE"
+METHOD ::= "METHOD"
+MINUTE ::= "MINUTE"
+MODIFIES ::= "MODIFIES"
+MODULE ::= "MODULE"
+MONTH ::= "MONTH"
+MULTISET ::= "MULTISET"
+NATIONAL ::= "NATIONAL"
+NATURAL ::= "NATURAL"
+NCHAR ::= "NCHAR"
+NCLOB ::= "NCLOB"
+NEW ::= "NEW"
+NO ::= "NO"
+NONE ::= "NONE"
+NOT ::= "NOT"
+NULL ::= "NULL"
+NUMERIC ::= "NUMERIC"
+OF ::= "OF"
+OLD ::= "OLD"
+ON ::= "ON"
+ONLY ::= "ONLY"
+OPEN ::= "OPEN"
+OR ::= "OR"
+ORDER ::= "ORDER"
+OUT ::= "OUT"
+OUTER ::= "OUTER"
+OUTPUT ::= "OUTPUT"
+OVER ::= "OVER"
+OVERLAPS ::= "OVERLAPS"
+PARAMETER ::= "PARAMETER"
+PARTITION ::= "PARTITION"
+PRECISION ::= "PRECISION"
+PREPARE ::= "PREPARE"
+PRIMARY ::= "PRIMARY"
+PROCEDURE ::= "PROCEDURE"
+RANGE ::= "RANGE"
+READS ::= "READS"
+REAL ::= "REAL"
+RECURSIVE ::= "RECURSIVE"
+REF ::= "REF"
+REFERENCES ::= "REFERENCES"
+REFERENCING ::= "REFERENCING"
+REGR_AVGX ::= "REGR_AVGX"
+REGR_AVGY ::= "REGR_AVGY"
+REGR_COUNT ::= "REGR_COUNT"
+REGR_INTERCEPT ::= "REGR_INTERCEPT"
+REGR_R2 ::= "REGR_R2"
+REGR_SLOPE ::= "REGR_SLOPE"
+REGR_SXX ::= "REGR_SXX"
+REGR_SXY ::= "REGR_SXY"
+REGR_SYY ::= "REGR_SYY"
+RELEASE ::= "RELEASE"
+RESULT ::= "RESULT"
+RETURN ::= "RETURN"
+RETURNS ::= "RETURNS"
+REVOKE ::= "REVOKE"
+RIGHT ::= "RIGHT"
+ROLLBACK ::= "ROLLBACK"
+ROLLUP ::= "ROLLUP"
+ROW ::= "ROW"
+ROWS ::= "ROWS"
+SAVEPOINT ::= "SAVEPOINT"
+SCROLL ::= "SCROLL"
+SEARCH ::= "SEARCH"
+SECOND ::= "SECOND"
+SELECT ::= "SELECT"
+SENSITIVE ::= "SENSITIVE"
+SESSION_USER ::= "SESSION_USER"
+SET ::= "SET"
+SIMILAR ::= "SIMILAR"
+SMALLINT ::= "SMALLINT"
+SOME ::= "SOME"
+SPECIFIC ::= "SPECIFIC"
+SPECIFICTYPE ::= "SPECIFICTYPE"
+SQL ::= "SQL"
+SQLEXCEPTION ::= "SQLEXCEPTION"
+SQLSTATE ::= "SQLSTATE"
+SQLWARNING ::= "SQLWARNING"
+START ::= "START"
+STATIC ::= "STATIC"
+SUBMULTISET ::= "SUBMULTISET"
+SYMMETRIC ::= "SYMMETRIC"
+SYSTEM ::= "SYSTEM"
+SYSTEM_USER ::= "SYSTEM_USER"
+TABLE ::= "TABLE"
+THEN ::= "THEN"
+TIME ::= "TIME"
+TIMESTAMP ::= "TIMESTAMP"
+TIMEZONE_HOUR ::= "TIMEZONE_HOUR"
+TIMEZONE_MINUTE ::= "TIMEZONE_MINUTE"
+TO ::= "TO"
+TRAILING ::= "TRAILING"
+TRANSLATION ::= "TRANSLATION"
+TREAT ::= "TREAT"
+TRIGGER ::= "TRIGGER"
+TRUE ::= "TRUE"
+UESCAPE ::= "UESCAPE"
+UNION ::= "UNION"
+UNIQUE ::= "UNIQUE"
+UNKNOWN ::= "UNKNOWN"
+UNNEST ::= "UNNEST"
+UPDATE ::= "UPDATE"
+UPPER ::= "UPPER"
+USER ::= "USER"
+USING ::= "USING"
+VALUE ::= "VALUE"
+VALUES ::= "VALUES"
+VAR_POP ::= "VAR_POP"
+VAR_SAMP ::= "VAR_SAMP"
+VARCHAR ::= "VARCHAR"
+VARYING ::= "VARYING"
+WHEN ::= "WHEN"
+WHENEVER ::= "WHENEVER"
+WHERE ::= "WHERE"
+WIDTH_BUCKET ::= "WIDTH_BUCKET"
+WINDOW ::= "WINDOW"
+WITH ::= "WITH"
+WITHIN ::= "WITHIN"
+WITHOUT ::= "WITHOUT"
+YEAR ::= "YEAR"
+
+//non_reserved_word
+A ::= "A*"
+ABS ::= "ABS*"
+ABSOLUTE ::= "ABSOLUTE*"
+ACTION ::= "ACTION*"
+ADA ::= "ADA*"
+ADMIN ::= "ADMIN*"
+AFTER ::= "AFTER*"
+ALWAYS ::= "ALWAYS*"
+ASC ::= "ASC*"
+ASSERTION ::= "ASSERTION*"
+ASSIGNMENT ::= "ASSIGNMENT*"
+ATTRIBUTE ::= "ATTRIBUTE*"
+ATTRIBUTES ::= "ATTRIBUTES*"
+AVG ::= "AVG*"
+BEFORE ::= "BEFORE*"
+BERNOULLI ::= "BERNOULLI*"
+BREADTH ::= "BREADTH*"
+C ::= "C*"
+CARDINALITY ::= "CARDINALITY*"
+CASCADE ::= "CASCADE*"
+CATALOG ::= "CATALOG*"
+CATALOG_NAME ::= "CATALOG_NAME*"
+CEIL ::= "CEIL*"
+CEILING ::= "CEILING*"
+CHAIN ::= "CHAIN*"
+CHARACTERISTICS ::= "CHARACTERISTICS*"
+CHARACTERS ::= "CHARACTERS*"
+CHARACTER_LENGTH ::= "CHARACTER_LENGTH*"
+CHARACTER_SET_CATALOG ::= "CHARACTER_SET_CATALOG*"
+CHARACTER_SET_NAME ::= "CHARACTER_SET_NAME*"
+CHARACTER_SET_SCHEMA ::= "CHARACTER_SET_SCHEMA*"
+CHAR_LENGTH ::= "CHAR_LENGTH*"
+CHECKED ::= "CHECKED*"
+CLASS_ORIGIN ::= "CLASS_ORIGIN*"
+COALESCE ::= "COALESCE*"
+COBOL ::= "COBOL*"
+CODE_UNITS ::= "CODE_UNITS*"
+COLLATION ::= "COLLATION*"
+COLLATION_CATALOG ::= "COLLATION_CATALOG*"
+COLLATION_NAME ::= "COLLATION_NAME*"
+COLLATION_SCHEMA ::= "COLLATION_SCHEMA*"
+COLLECT ::= "COLLECT*"
+COLUMN_NAME ::= "COLUMN_NAME*"
+COMMAND_FUNCTION ::= "COMMAND_FUNCTION*"
+COMMAND_FUNCTION_CODE ::= "COMMAND_FUNCTION_CODE*"
+COMMITTED ::= "COMMITTED*"
+CONDITION ::= "CONDITION*"
+CONDITION_NUMBER ::= "CONDITION_NUMBER*"
+CONNECTION_NAME ::= "CONNECTION_NAME*"
+CONSTRAINTS ::= "CONSTRAINTS*"
+CONSTRAINT_CATALOG ::= "CONSTRAINT_CATALOG*"
+CONSTRAINT_NAME ::= "CONSTRAINT_NAME*"
+CONSTRAINT_SCHEMA ::= "CONSTRAINT_SCHEMA*"
+CONSTRUCTORS ::= "CONSTRUCTORS*"
+CONTAINS ::= "CONTAINS*"
+CONVERT ::= "CONVERT*"
+CORR ::= "CORR*"
+COUNT ::= "COUNT*"
+COVAR_POP ::= "COVAR_POP*"
+COVAR_SAMP ::= "COVAR_SAMP*"
+CUME_DIST ::= "CUME_DIST*"
+CURRENT_COLLATION ::= "CURRENT_COLLATION*"
+CURSOR_NAME ::= "CURSOR_NAME*"
+DATA ::= "DATA*"
+DATETIME_INTERVAL_CODE ::= "DATETIME_INTERVAL_CODE*"
+DATETIME_INTERVAL_PRECISION ::= "DATETIME_INTERVAL_PRECISION*"
+DEFAULTS ::= "DEFAULTS*"
+DEFERRABLE ::= "DEFERRABLE*"
+DEFERRED ::= "DEFERRED*"
+DEFINED ::= "DEFINED*"
+DEFINER ::= "DEFINER*"
+DEGREE ::= "DEGREE*"
+DENSE_RANK ::= "DENSE_RANK*"
+DEPTH ::= "DEPTH*"
+DERIVED ::= "DERIVED*"
+DESC ::= "DESC*"
+DESCRIPTOR ::= "DESCRIPTOR*"
+DIAGNOSTICS ::= "DIAGNOSTICS*"
+DISPATCH ::= "DISPATCH*"
+DOMAIN ::= "DOMAIN*"
+DYNAMIC_FUNCTION ::= "DYNAMIC_FUNCTION*"
+DYNAMIC_FUNCTION_CODE ::= "DYNAMIC_FUNCTION_CODE*"
+EQUALS ::= "EQUALS*"
+EVERY ::= "EVERY*"
+EXCEPTION ::= "EXCEPTION*"
+EXCLUDE ::= "EXCLUDE*"
+EXCLUDING ::= "EXCLUDING*"
+EXP ::= "EXP*"
+EXTRACT ::= "EXTRACT*"
+FINAL ::= "FINAL*"
+FIRST ::= "FIRST*"
+FLOOR ::= "FLOOR*"
+FOLLOWING ::= "FOLLOWING*"
+FORTRAN ::= "FORTRAN*"
+FOUND ::= "FOUND*"
+FUSION ::= "FUSION*"
+G ::= "G*"
+GENERAL ::= "GENERAL*"
+GO ::= "GO*"
+GOTO ::= "GOTO*"
+GRANTED ::= "GRANTED*"
+HIERARCHY ::= "HIERARCHY*"
+IMPLEMENTATION ::= "IMPLEMENTATION*"
+INCLUDING ::= "INCLUDING*"
+INCREMENT ::= "INCREMENT*"
+INITIALLY ::= "INITIALLY*"
+INSTANCE ::= "INSTANCE*"
+INSTANTIABLE ::= "INSTANTIABLE*"
+INTERSECTION ::= "INTERSECTION*"
+INVOKER ::= "INVOKER*"
+ISOLATION ::= "ISOLATION*"
+K ::= "K*"
+KEY ::= "KEY*"
+KEY_MEMBER ::= "KEY_MEMBER*"
+KEY_TYPE ::= "KEY_TYPE*"
+LAST ::= "LAST*"
+LENGTH ::= "LENGTH*"
+LEVEL ::= "LEVEL*"
+LN ::= "LN*"
+LOCATOR ::= "LOCATOR*"
+LOWER ::= "LOWER*"
+M ::= "M*"
+MAP ::= "MAP*"
+MATCHED ::= "MATCHED*"
+MAX ::= "MAX*"
+MAXVALUE ::= "MAXVALUE*"
+MESSAGE_LENGTH ::= "MESSAGE_LENGTH*"
+MESSAGE_OCTET_LENGTH ::= "MESSAGE_OCTET_LENGTH*"
+MESSAGE_TEXT ::= "MESSAGE_TEXT*"
+MIN ::= "MIN*"
+MINVALUE ::= "MINVALUE*"
+MOD ::= "MOD*"
+MORE ::= "MORE*"
+MUMPS ::= "MUMPS*"
+NAME ::= "NAME*"
+NAMES ::= "NAMES*"
+NESTING ::= "NESTING*"
+NEXT ::= "NEXT*"
+NORMALIZE ::= "NORMALIZE*"
+NORMALIZED ::= "NORMALIZED*"
+NULLABLE ::= "NULLABLE*"
+NULLIF ::= "NULLIF*"
+NULLS ::= "NULLS*"
+NUMBER ::= "NUMBER*"
+OBJECT ::= "OBJECT*"
+OCTETS ::= "OCTETS*"
+OCTET_LENGTH ::= "OCTET_LENGTH*"
+OPTION ::= "OPTION*"
+OPTIONS ::= "OPTIONS*"
+ORDERING ::= "ORDERING*"
+ORDINALITY ::= "ORDINALITY*"
+OTHERS ::= "OTHERS*"
+OVERLAY ::= "OVERLAY*"
+OVERRIDING ::= "OVERRIDING*"
+PAD ::= "PAD*"
+PARAMETER_MODE ::= "PARAMETER_MODE*"
+PARAMETER_NAME ::= "PARAMETER_NAME*"
+PARAMETER_ORDINAL_POSITION ::= "PARAMETER_ORDINAL_POSITION*"
+PARAMETER_SPECIFIC_CATALOG ::= "PARAMETER_SPECIFIC_CATALOG*"
+PARAMETER_SPECIFIC_NAME ::= "PARAMETER_SPECIFIC_NAME*"
+PARAMETER_SPECIFIC_SCHEMA ::= "PARAMETER_SPECIFIC_SCHEMA*"
+PARTIAL ::= "PARTIAL*"
+PASCAL ::= "PASCAL*"
+PATH ::= "PATH*"
+PERCENTILE_CONT ::= "PERCENTILE_CONT*"
+PERCENTILE_DISC ::= "PERCENTILE_DISC*"
+PERCENT_RANK ::= "PERCENT_RANK*"
+PLACING ::= "PLACING*"
+PLI ::= "PLI*"
+POSITION ::= "POSITION*"
+POWER ::= "POWER*"
+PRECEDING ::= "PRECEDING*"
+PRESERVE ::= "PRESERVE*"
+PRIOR ::= "PRIOR*"
+PRIVILEGES ::= "PRIVILEGES*"
+PUBLIC ::= "PUBLIC*"
+RANK ::= "RANK*"
+READ ::= "READ*"
+RELATIVE ::= "RELATIVE*"
+REPEATABLE ::= "REPEATABLE*"
+RESTART ::= "RESTART*"
+RETURNED_CARDINALITY ::= "RETURNED_CARDINALITY*"
+RETURNED_LENGTH ::= "RETURNED_LENGTH*"
+RETURNED_OCTET_LENGTH ::= "RETURNED_OCTET_LENGTH*"
+RETURNED_SQLSTATE ::= "RETURNED_SQLSTATE*"
+ROLE ::= "ROLE*"
+ROUTINE ::= "ROUTINE*"
+ROUTINE_CATALOG ::= "ROUTINE_CATALOG*"
+ROUTINE_NAME ::= "ROUTINE_NAME*"
+ROUTINE_SCHEMA ::= "ROUTINE_SCHEMA*"
+ROW_COUNT ::= "ROW_COUNT*"
+ROW_NUMBER ::= "ROW_NUMBER*"
+SCALE ::= "SCALE*"
+SCHEMA ::= "SCHEMA*"
+SCHEMA_NAME ::= "SCHEMA_NAME*"
+SCOPE_CATALOG ::= "SCOPE_CATALOG*"
+SCOPE_NAME ::= "SCOPE_NAME*"
+SCOPE_SCHEMA ::= "SCOPE_SCHEMA*"
+SECTION ::= "SECTION*"
+SECURITY ::= "SECURITY*"
+SELF ::= "SELF*"
+SEQUENCE ::= "SEQUENCE*"
+SERIALIZABLE ::= "SERIALIZABLE*"
+SERVER_NAME ::= "SERVER_NAME*"
+SESSION ::= "SESSION*"
+SETS ::= "SETS*"
+SIMPLE ::= "SIMPLE*"
+SIZE ::= "SIZE*"
+SOURCE ::= "SOURCE*"
+SPACE ::= "SPACE*"
+SPECIFIC_NAME ::= "SPECIFIC_NAME*"
+SQRT ::= "SQRT*"
+STATE ::= "STATE*"
+STATEMENT ::= "STATEMENT*"
+STDDEV_POP ::= "STDDEV_POP*"
+STDDEV_SAMP ::= "STDDEV_SAMP*"
+STRUCTURE ::= "STRUCTURE*"
+STYLE ::= "STYLE*"
+SUBCLASS_ORIGIN ::= "SUBCLASS_ORIGIN*"
+SUBSTRING ::= "SUBSTRING*"
+SUM ::= "SUM*"
+TABLESAMPLE ::= "TABLESAMPLE*"
+TABLE_NAME ::= "TABLE_NAME*"
+TEMPORARY ::= "TEMPORARY*"
+TIES ::= "TIES*"
+TOP_LEVEL_COUNT ::= "TOP_LEVEL_COUNT*"
+TRANSACTION ::= "TRANSACTION*"
+TRANSACTIONS_COMMITTED ::= "TRANSACTIONS_COMMITTED*"
+TRANSACTIONS_ROLLED_BACK ::= "TRANSACTIONS_ROLLED_BACK*"
+TRANSACTION_ACTIVE ::= "TRANSACTION_ACTIVE*"
+TRANSFORM ::= "TRANSFORM*"
+TRANSFORMS ::= "TRANSFORMS*"
+TRANSLATE ::= "TRANSLATE*"
+TRIGGER_CATALOG ::= "TRIGGER_CATALOG*"
+TRIGGER_NAME ::= "TRIGGER_NAME*"
+TRIGGER_SCHEMA ::= "TRIGGER_SCHEMA*"
+TRIM ::= "TRIM*"
+TYPE ::= "TYPE*"
+UNBOUNDED ::= "UNBOUNDED*"
+UNCOMMITTED ::= "UNCOMMITTED*"
+UNDER ::= "UNDER*"
+UNNAMED ::= "UNNAMED*"
+USAGE ::= "USAGE*"
+USER_DEFINED_TYPE_CATALOG ::= "USER_DEFINED_TYPE_CATALOG*"
+USER_DEFINED_TYPE_CODE ::= "USER_DEFINED_TYPE_CODE*"
+USER_DEFINED_TYPE_NAME ::= "USER_DEFINED_TYPE_NAME*"
+USER_DEFINED_TYPE_SCHEMA ::= "USER_DEFINED_TYPE_SCHEMA*"
+VIEW ::= "VIEW*"
+WORK ::= "WORK*"
+WRITE ::= "WRITE*"
+ZONE ::= "ZONE*"

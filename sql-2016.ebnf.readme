@@ -1,14 +1,12 @@
-How to use sql-2003-2.ebnf
-==========================
-This file was extracted manually from sql-2003-2.bnf by Domingo Alvarez Duarte.
+How to use sql-2016.ebnf
+========================
+This file was created manually by Domingo Alvarez Duarte.
 Many thanx Domingo!
 
-It is the latter file as pure ebnf, i.e. with the original markup stripped.
-
-The corresponding XHTML + SVG file is sql-2003-2-railway-diagrams.xhtml.
+The corresponding XHTML + SVG file is sql-2016-railway-diagrams.xhtml.
 
 The grammar can be rendered as railroad diagrams on the website https://www.bottlecaps.de/rr/ui.
-Just copy it into the Edit Grammar tab, and click View Diagram. Then wait a moment :-).
+Just copy it into the Edit Grammar tab, and click View Diagram. Then wait a good minute or so :-).
 
 Domingo notes:
 1. Non reserved words appear with * as suffix, ex: SUBSTRING -> SUBSTRING*.

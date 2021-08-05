@@ -3,7 +3,7 @@ How to use sql-2016.ebnf
 This file was created manually by Domingo Alvarez Duarte.
 Many thanx Domingo!
 
-The corresponding XHTML + SVG file is sql-2016-railway-diagrams.xhtml.
+The corresponding XHTML + SVG file is sql-2016-railroad-diagrams.xhtml.
 
 The grammar can be rendered as railroad diagrams on the website https://www.bottlecaps.de/rr/ui.
 Just copy it into the Edit Grammar tab, and click View Diagram. Then wait a good minute or so :-).
@@ -11,6 +11,6 @@ Just copy it into the Edit Grammar tab, and click View Diagram. Then wait a good
 Domingo notes:
 1. Non reserved words appear with * as suffix, ex: SUBSTRING -> SUBSTRING*.
 
-2. You can navigate through the railway's grammar by clicking the rectangular boxes.
+2. You can navigate through the railroad's grammar by clicking the rectangular boxes.
 
 Finally, you can download the rendered railroad as either XHTML + SVG or HTML + PNG.

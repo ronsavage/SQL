@@ -5,7 +5,7 @@ Many thanx Domingo!
 
 It is the latter file as pure ebnf, i.e. with the original markup stripped.
 
-The corresponding XHTML + SVG file is sql-2003-2-railway-diagrams.xhtml.
+The corresponding XHTML + SVG file is sql-2003-2-railroad-diagrams.xhtml.
 
 The grammar can be rendered as railroad diagrams on the website https://www.bottlecaps.de/rr/ui.
 Just copy it into the Edit Grammar tab, and click View Diagram. Then wait a moment :-).
@@ -13,6 +13,6 @@ Just copy it into the Edit Grammar tab, and click View Diagram. Then wait a mome
 Domingo notes:
 1. Non reserved words appear with * as suffix, ex: SUBSTRING -> SUBSTRING*.
 
-2. You can navigate through the railway's grammar by clicking the rectangular boxes.
+2. You can navigate through the railroad's grammar by clicking the rectangular boxes.
 
 Finally, you can download the rendered railroad as either XHTML + SVG or HTML + PNG.
